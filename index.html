@@ -70,6 +70,91 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-安卓反混淆软件探索-deobf" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/" class="article-date">
+  <time datetime="2020-03-19T13:48:03.000Z" itemprop="datePublished">2020-03-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/">安卓反混淆软件探索-deobf</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我们的大创项目其实是分两方面进行的，一方面，我们从代码混淆的角度比较各种软件对安卓程序的加固能力；另一方面，我们着重针对OLLVM进行反混淆测试。OLLVM集成了代码混淆的几种最基本的方法：控制流平坦化，虚假控制流，指令替代等三种方式；其中控制流平坦化和虚假控制流可以混淆各个基本块之间的执行顺序，使得程序的执行流程更难读懂，但是它们有一个致命的攻破方法——符号执行。这不仅成为了每一位资深逆向人员必备的技能，而且也逐渐被开发成了自动化反混淆工具。目前市面上开源的自动化反混淆工具很少，有一款是针对安卓应用的simplify，网址如下： <a href="https://github.com/CalebFenton/simplify" target="_blank" rel="noopener">https://github.com/CalebFenton/simplify</a> ，另外我在github上面搜寻了OLLVM的反混淆软件，排除大部分无用的项目，最终只发现了这两个有实际价值的项目。</p>
+<h4 id="ollvm-de-fla"><a href="#ollvm-de-fla" class="headerlink" title="ollvm_de_fla"></a>ollvm_de_fla</h4><p>针对控制流平坦化的反混淆工具，不足之处就是只适用于带thumb2指令的ios macho格式文件，因此它的平台普适性不高，应用范围极其窄。 该项目于两年前便停止更新。链接如下： <a href="https://github.com/sfwishes/ollvm_de_fla" target="_blank" rel="noopener">https://github.com/sfwishes/ollvm_de_fla</a> 。</p>
+<h4 id="deobf"><a href="#deobf" class="headerlink" title="deobf"></a>deobf</h4><p>deobf主要也是针对控制流平坦化这种主流的代码混淆方式。相比ollvm_de_fla，deobf的优势多很多。首先，这是一个新兴项目，创建于大约四个月前，在四天前还曾发布了重大更新。另外，这个项目适用于linux和windows等大众平台，可以不限于thumb指令的使用，有着广泛的应用前景。在项目的说明文档中，很清楚的说明了项目的拷贝方法，安装方法和运行参数。<strong>不仅可以反混淆一般的so文件，也可以针对性的处理抖音的libcms.so文件。</strong></p>
+<p>但是这个项目依然有着自己的不足，只适用于python3.7版本，更低级的版本不能兼容。</p>
+<p>链接如下： <a href="https://github.com/maiyao1988/deobf" target="_blank" rel="noopener">https://github.com/maiyao1988/deobf</a> </p>
+<h2 id="下载与安装"><a href="#下载与安装" class="headerlink" title="下载与安装"></a>下载与安装</h2><p>由于deobf需要python3.7环境支持，所以需要下载python3.7，在linux下默认的环境没有python3.7，升级步骤可以参考一篇不错的文章： <a href="https://blog.csdn.net/u014775723/article/details/85213793" target="_blank" rel="noopener">https://blog.csdn.net/u014775723/article/details/85213793</a> 。后来在windows下也安装了一个，按照项目链接<a href="https://github.com/maiyao1988/deobf" target="_blank" rel="noopener">https://github.com/maiyao1988/deobf</a> 下第二步的详细做法完成即可。但是这里建议把32位和64位的keystone都下下来（当然32位的比较重要）。如果运行报错很有可能是dll的原因，两个dll混搭着用应该就没有问题。</p>
+<h2 id="deobf反混淆原理初探"><a href="#deobf反混淆原理初探" class="headerlink" title="deobf反混淆原理初探"></a>deobf反混淆原理初探</h2><h4 id="基于OLLVM的反混淆框架的实现"><a href="#基于OLLVM的反混淆框架的实现" class="headerlink" title="基于OLLVM的反混淆框架的实现"></a>基于OLLVM的反混淆框架的实现</h4><p>一般的反混淆软件都会有以下几个模块:</p>
+<p>1）<strong>基本块识别模块</strong> ：识别出有用块和无用块。经 OLLVM 控制流平展化混 淆的程序中会增加很多无用的基本块以混淆程序逻辑，这就 需要设计有效的基本块识别算法，找出有用的基本块和无用 的基本块。</p>
+<p> 2）<strong>与程序执行流程相关模块</strong> ：确定有用块之间的前后关系，得到真实有效的程序执行路径，因为混淆程序中的很多基本块跳转逻辑并不是程序的实际执行流程。 一般采用符号执行技术。</p>
+<p>3）<strong>指令修复模块</strong> ：修复二进制程序。在使用 NOP 指令填充无用基本块 后，为使程序正常运行，我们需要对跳转指令的跳转偏移量 进行修正；同时，还需要将 cmov 条件传送指令改写成相应 的条件跳转指令，并在其后添加一条 jmp 指令，使其跳向另 一分支。 </p>
+<p><em>参考文献</em></p>
+<p><em>[1]肖顺陶,周安民,刘亮,贾鹏,刘露平.基于符号执行的OLLVM反混淆框架[J/OL].计算机应用:1-6[2020-03-22].<a href="http://kns.cnki.net/kcms/detail/51.1307.TP.20180319.1531.012.html" target="_blank" rel="noopener">http://kns.cnki.net/kcms/detail/51.1307.TP.20180319.1531.012.html</a>.</em></p>
+<p><em>[2]肖顺陶,周安民,刘亮,贾鹏,刘露平.基于符号执行的底层虚拟机混淆器反混淆框架[J].计算机应用,2018,38(06):1745-1750.</em></p>
+<h4 id="通过IDA调试确定基本块的前后关系"><a href="#通过IDA调试确定基本块的前后关系" class="headerlink" title="通过IDA调试确定基本块的前后关系"></a>通过IDA调试确定基本块的前后关系</h4><p>这是deobf的一个突出特点，它是根据一个IDA-python脚本直接对软件执行调试，通过这里确定程序的执行流程。脚本链接如下： <strong><a href="https://github.com/maiyao1988/IDAScripts/blob/master/trace.py" target="_blank" rel="noopener">https://github.com/maiyao1988/IDAScripts/blob/master/trace.py</a></strong> 。</p>
+<p>这也就意味着，和传统采用的符号执行不同，<strong>deobf不需要虚拟执行的结果，而是实打实的进行了调试。但是这样的确定就是不能抗动态调试。万一一个程序加入了很多的动态调试函数，那么讲给deobf的运行效果带来很大的挑战。</strong></p>
+<h2 id="deobf反混淆效果"><a href="#deobf反混淆效果" class="headerlink" title="deobf反混淆效果"></a>deobf反混淆效果</h2><h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p>由于deobf的软件的基本框架和上述论文中的反混淆框架在思路上完全一致，除了确定基本块以外其他方面的实现方案上大致相同，因此在这里先引用一下论文中有关混淆效果的数据，如下：</p>
+<p><img src="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/image-20200322231048178.png" alt="image-20200322231048178"></p>
+<p><img src="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/image-20200322231036631.png" alt="image-20200322231036631"></p>
+<h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><p>为了验证OLLVM的反混淆效果是否真的和论文一致，我使用项目中提供给测试使用的so文件进行混淆，这个项目运用了</p>
+<p>ida查看混淆后的控制流图，十分复杂庞大：</p>
+<p><img src="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/image-20200320000323204.png" alt="image-20200320000323204"></p>
+<p>而反编译后的伪C代码如下，十分复杂，出现多个嵌套的while循环和if分支语句：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> __fastcall <span class="title">JNI_OnLoad</span><span class="params">(<span class="keyword">int</span> a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> v1; <span class="comment">// r0</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> v2; <span class="comment">// r6</span></span><br><span class="line">  <span class="keyword">int</span> v3; <span class="comment">// r11</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> v4; <span class="comment">// r5</span></span><br><span class="line">  <span class="keyword">bool</span> v5; <span class="comment">// zf</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// r0</span></span><br><span class="line">  <span class="keyword">int</span> result; <span class="comment">// r0</span></span><br><span class="line">  <span class="keyword">int</span> v8; <span class="comment">// [sp+8h] [bp-30h]</span></span><br><span class="line">  <span class="keyword">int</span> v9; <span class="comment">// [sp+Ch] [bp-2Ch]</span></span><br><span class="line">  <span class="keyword">int</span> v10; <span class="comment">// [sp+10h] [bp-28h]</span></span><br><span class="line">  <span class="keyword">int</span> v11; <span class="comment">// [sp+14h] [bp-24h]</span></span><br><span class="line">  <span class="keyword">int</span> v12; <span class="comment">// [sp+18h] [bp-20h]</span></span><br><span class="line"></span><br><span class="line">  v10 = <span class="number">0</span>;</span><br><span class="line">  v1 = (*(<span class="keyword">int</span> (**)(<span class="keyword">void</span>))(*(_DWORD *)a1 + <span class="number">24</span>))();</span><br><span class="line">  v2 = <span class="number">189500648</span>;</span><br><span class="line">  v8 = v1;</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">LABEL_3:</span><br><span class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      v3 = v1;</span><br><span class="line">      v4 = v2;</span><br><span class="line">      <span class="keyword">if</span> ( v2 &gt; <span class="number">941059666</span> )</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">if</span> ( v2 &gt; <span class="number">-526232813</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span> ( v2 == <span class="number">-526232812</span> )</span><br><span class="line">        &#123;</span><br><span class="line">LABEL_2:</span><br><span class="line">          v2 = <span class="number">1535406375</span>;</span><br><span class="line">          v1 = <span class="number">-1</span>;</span><br><span class="line">          <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ( v2 == <span class="number">189500648</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v2 = <span class="number">2058077166</span>;</span><br><span class="line">          <span class="keyword">if</span> ( v8 )</span><br><span class="line">            v2 = <span class="number">1482189424</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        v2 = <span class="number">1535406375</span>;</span><br><span class="line">        v1 = <span class="number">65540</span>;</span><br><span class="line">        <span class="keyword">if</span> ( v4 == <span class="number">-1125020146</span> )</span><br><span class="line">          <span class="keyword">continue</span>;</span><br><span class="line">        v5 = v4 == <span class="number">-724953770</span>;</span><br><span class="line">LABEL_10:</span><br><span class="line">        v1 = v3;</span><br><span class="line">        v2 = v4;</span><br><span class="line">        <span class="keyword">if</span> ( v5 )</span><br><span class="line">          <span class="keyword">goto</span> LABEL_2;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( v2 &lt;= <span class="number">1535406374</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v2 == <span class="number">941059667</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        v11 = (*(<span class="keyword">int</span> (__fastcall **)(<span class="keyword">int</span>, <span class="keyword">const</span> <span class="keyword">char</span> *))(*(_DWORD *)v9 + <span class="number">24</span>))(v9, <span class="string">"com/douyu/lib/http/JniMakeUrl"</span>);</span><br><span class="line">        <span class="keyword">for</span> ( i = <span class="number">1448204801</span>; ; i = <span class="number">1422645221</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v2 = <span class="number">-1125020146</span>;</span><br><span class="line">          <span class="keyword">if</span> ( i &gt; <span class="number">1398646745</span> )</span><br><span class="line">            <span class="keyword">goto</span> LABEL_36;</span><br><span class="line">LABEL_33:</span><br><span class="line">          <span class="keyword">while</span> ( i == <span class="number">193258894</span> )</span><br><span class="line">          &#123;</span><br><span class="line">            v5 = (*(<span class="keyword">int</span> (__fastcall **)(<span class="keyword">int</span>, <span class="keyword">int</span>, <span class="keyword">char</span> **, <span class="keyword">signed</span> <span class="keyword">int</span>))(*(_DWORD *)v9 + <span class="number">860</span>))(v9, v11, off_45004, <span class="number">7</span>) == <span class="number">0</span>;</span><br><span class="line">            i = <span class="number">-686378191</span>;</span><br><span class="line">            <span class="keyword">if</span> ( !v5 )</span><br><span class="line">              i = <span class="number">-986576434</span>;</span><br><span class="line">            <span class="keyword">if</span> ( i &gt; <span class="number">1398646745</span> )</span><br><span class="line">            &#123;</span><br><span class="line">LABEL_36:</span><br><span class="line">              <span class="keyword">while</span> ( <span class="number">2</span> )</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="keyword">while</span> ( i == <span class="number">1448204801</span> )</span><br><span class="line">                &#123;</span><br><span class="line">                  i = <span class="number">193258894</span>;</span><br><span class="line">                  <span class="keyword">if</span> ( !v11 )</span><br><span class="line">                    i = <span class="number">1398646746</span>;</span><br><span class="line">                  <span class="keyword">if</span> ( i &lt;= <span class="number">1398646745</span> )</span><br><span class="line">                    <span class="keyword">goto</span> LABEL_33;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> ( i == <span class="number">1398646746</span> )</span><br><span class="line">                &#123;</span><br><span class="line">LABEL_32:</span><br><span class="line">                  i = <span class="number">1422645221</span>;</span><br><span class="line">                  v2 = <span class="number">-724953770</span>;</span><br><span class="line">                  <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">if</span> ( i == <span class="number">1422645221</span> )</span><br><span class="line">              &#123;</span><br><span class="line">                v1 = v3;</span><br><span class="line">                <span class="keyword">goto</span> LABEL_3;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">LABEL_47:</span><br><span class="line">                ;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">if</span> ( i == <span class="number">-986576434</span> )</span><br><span class="line">            <span class="keyword">goto</span> LABEL_32;</span><br><span class="line">          <span class="keyword">if</span> ( i != <span class="number">-686378191</span> )</span><br><span class="line">            <span class="keyword">goto</span> LABEL_47;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      v5 = v2 == <span class="number">1482189424</span>;</span><br><span class="line">      <span class="keyword">goto</span> LABEL_10;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( v2 != <span class="number">2058077166</span> )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    v2 = <span class="number">941059667</span>;</span><br><span class="line">    v9 = v10;</span><br><span class="line">    <span class="keyword">if</span> ( !v10 )</span><br><span class="line">      v2 = <span class="number">-526232812</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( v2 != <span class="number">1535406375</span> )</span><br><span class="line">    <span class="keyword">goto</span> LABEL_3;</span><br><span class="line">  result = _stack_chk_guard - v12;</span><br><span class="line">  <span class="keyword">if</span> ( _stack_chk_guard == v12 )</span><br><span class="line">    result = v3;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行如下反混淆指令，反混淆其中的JNI_Onload函数：</p>
+<p><code>python deobf.py libmakeurl2.4.9.so url.so ins-url.trc 0x0000342C 0x00003668 1</code></p>
+<p>以下是对各个参数的注释：</p>
+<p>待处理的混淆文件：libmakeurl2.4.9.so</p>
+<p>反混淆后输出的文件：url.so</p>
+<p> 通过ida调试时产生的目标函数的跟踪文件（可以跟踪关键指令或函数） ：ins-url.trc</p>
+<p>混淆代码段起始部分偏移：0x0000342C（JNI_Onload函数开头）</p>
+<p>混淆代码段结束部分偏移：0x00003668（JNI_Onload函数结尾）</p>
+<p>目标函数是否是thumb：是</p>
+<p>反混淆后的控制流图，程序执行流程变得十分清晰：</p>
+<p><img src="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/image-20200320000158559.png" alt="image-20200320000158559"></p>
+<p>反混淆后的函数也变得简短易懂：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> __fastcall <span class="title">JNI_OnLoad</span><span class="params">(<span class="keyword">int</span> a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> v1; <span class="comment">// r11</span></span><br><span class="line">  <span class="keyword">int</span> v2; <span class="comment">// ST0C_4</span></span><br><span class="line">  <span class="keyword">int</span> result; <span class="comment">// r0</span></span><br><span class="line">  <span class="keyword">int</span> v4; <span class="comment">// [sp+10h] [bp-28h]</span></span><br><span class="line">  <span class="keyword">int</span> v5; <span class="comment">// [sp+14h] [bp-24h]</span></span><br><span class="line">  <span class="keyword">int</span> v6; <span class="comment">// [sp+18h] [bp-20h]</span></span><br><span class="line"></span><br><span class="line">  v4 = <span class="number">0</span>;</span><br><span class="line">  (*(<span class="keyword">void</span> (**)(<span class="keyword">void</span>))(*(_DWORD *)a1 + <span class="number">24</span>))();</span><br><span class="line">  v2 = v4;</span><br><span class="line">  v5 = (*(<span class="keyword">int</span> (__fastcall **)(<span class="keyword">int</span>))(*(_DWORD *)v4 + <span class="number">24</span>))(v4);</span><br><span class="line">  (*(<span class="keyword">int</span> (__fastcall **)(<span class="keyword">int</span>, <span class="keyword">int</span>, <span class="keyword">char</span> **, <span class="keyword">signed</span> <span class="keyword">int</span>))(*(_DWORD *)v2 + <span class="number">860</span>))(v2, v5, off_45004, <span class="number">7</span>);</span><br><span class="line">  result = _stack_chk_guard - v6;</span><br><span class="line">  <span class="keyword">if</span> ( _stack_chk_guard == v6 )</span><br><span class="line">    result = v1;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他OLLVM反混淆软件常用技术"><a href="#其他OLLVM反混淆软件常用技术" class="headerlink" title="其他OLLVM反混淆软件常用技术"></a>其他OLLVM反混淆软件常用技术</h2><h4 id="符号执行"><a href="#符号执行" class="headerlink" title="符号执行"></a>符号执行</h4><p>deobf的反混淆主要借助与符号执行技术，符号执行技术的核心思想是使用符号值来表示程序的输入数据，并将程序的运算过程逐指令或逐语句地转换为数学表达式，在CFG的基础上生成符号执行树，并为每一条路径建立一系列以输入数据为变量的符号表达式。在符号执行过程中，每当遇到判断与跳转语句时，deobf便会将当前执行路径的路径约束收集到该路径的约束集合中。通过使用约束求解器对约束集合进行求解，可以得到该条路径的可达性：如果约束求解的结果有解，表示该条路径可达，否则表示该条路径不可达，在时间与计算资源足够的理想情况下，符号执行能够遍历目标程序的所有路径并判断其可达性。</p>
+<p>其中，路径约束是指程序分支指令中与输入符号相关的分支条件的取值，是一系列不具有量词的布尔型公式。而路径约束集合则被用来存储每一条程序路径上收集到的约束，用“与”操作进行连接。</p>
+<p>借用软件安全课程的图片，对于下图示例程序1：</p>
+<p><img src="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/image-20200319232030997.png" alt="image-20200319232030997"></p>
+<p>首先画出控制流图，切割基本块。然后计算得函数外部的输入变量数为2，我们只需要设置两个输入变量X,Y。程序中的所有都用与X,Y相关的式子代替。</p>
+<p><img src="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/image-20200319233648011.png" alt="image-20200319233648011"></p>
+<p>然后进入函数顺序执行第2-4行，不出现分叉，在第五行代码时，由于是判断语句，符号执行树出现分支，满足分支条件的作为左子树，不满足的作为右子树，左右子树又继续根据路径约束进一步细化，出现更多分支。最终扩展出的符号执行树如图：</p>
+<p><img src="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/image-20200319233036906.png" alt="image-20200319233036906"></p>
+<p>最后，通过将X、Y变量代入，计算叶子节点的约束集合是否为真，则可以知道哪些路径是可达的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/" data-id="ck837ka7m0000zouchpjv3cu3" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/project/" rel="tag">project</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="w-记一次安卓代码加固研究过程" class="article article-type-w" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/03/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B/" class="article-date">
@@ -140,7 +225,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/03/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B/" data-id="ck7t6idfu0008k8ucaz3tfaa7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/03/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B/" data-id="ck837ka91000bzouc220x0uaa" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/project/" rel="tag">project</a></li></ul>
@@ -193,7 +278,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/03/05/%E4%B8%80%E4%B8%AA%E5%B1%80%E5%A4%96%E4%BA%BA%E5%AF%B9227%E4%BA%8B%E4%BB%B6%E7%9A%84%E8%AE%A4%E8%AF%86/" data-id="ck7t6idfb0000k8uc9p2d4p4b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/03/05/%E4%B8%80%E4%B8%AA%E5%B1%80%E5%A4%96%E4%BA%BA%E5%AF%B9227%E4%BA%8B%E4%BB%B6%E7%9A%84%E8%AE%A4%E8%AF%86/" data-id="ck837ka8t0009zouc5p3scpnq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/diary/" rel="tag">diary</a></li></ul>
@@ -251,7 +336,8 @@
 <p> Emulator: emulator: ERROR: FfmpegRecorder.cpp:267: Could not open [C:\Users?????.android\avd\Nexus_5_API_27.avd\tmp.webm]: Invalid argument </p>
 </blockquote>
 <p>这些问号就是中文字符</p>
-<h4 id="关于Android-Studio的吐槽"><a href="#关于Android-Studio的吐槽" class="headerlink" title="关于Android Studio的吐槽"></a>关于Android Studio的吐槽</h4><p>1.拜托虚拟机不要默认装C盘好嘛，我刚刚清出的一点空间，开了三个虚拟机，结果全满了，占了我C盘一般的空间！解决方法： <a href="https://blog.csdn.net/geekqian/article/details/60145357" target="_blank" rel="noopener">https://blog.csdn.net/geekqian/article/details/60145357</a> </p>
+<h4 id="Android-Studio平台的一些问题"><a href="#Android-Studio平台的一些问题" class="headerlink" title="Android Studio平台的一些问题"></a>Android Studio平台的一些问题</h4><p>1.虚拟机默认装C盘，我刚刚清出的一点空间，开了三个虚拟机，结果全满了，占了我C盘一半的空间！解决方法： <a href="https://blog.csdn.net/geekqian/article/details/60145357" target="_blank" rel="noopener">https://blog.csdn.net/geekqian/article/details/60145357</a> </p>
+<p>2.新版的Android Studio找不到DDMS, 如果只是需要查看文件，可以在View-&gt;Tools WIndows下选Device File Explorer.</p>
 <h4 id="LogCat过滤关键词"><a href="#LogCat过滤关键词" class="headerlink" title="LogCat过滤关键词"></a>LogCat过滤关键词</h4><p>1.关键错误：FATAL EXCEPTION</p>
 <h4 id="空指针问题"><a href="#空指针问题" class="headerlink" title="空指针问题"></a>空指针问题</h4><p>在水平方向上运行安卓没问题，竖直方向运行安卓的时候程序终止，明显是布局的问题。LogCat报错如下：</p>
 <blockquote>
@@ -263,7 +349,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/03/01/%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E5%9D%91%E6%B4%BC%E6%B4%BC(%E6%8C%81%E6%9B%B4%E4%B8%AD)/" data-id="ck7t6idfk0003k8uc3ft8gbx5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/03/01/%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E5%9D%91%E6%B4%BC%E6%B4%BC(%E6%8C%81%E6%9B%B4%E4%B8%AD)/" data-id="ck837ka7t0001zouc82y9f3gh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/study/" rel="tag">study</a></li></ul>
@@ -321,7 +407,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/" data-id="ck7t6idfp0005k8uc805y9e6f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/" data-id="ck837ka8x000azouccbv8ai5f" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/project/" rel="tag">project</a></li></ul>
@@ -457,7 +543,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/" data-id="ck7t6idfh0001k8ucgw835c0c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/" data-id="ck837ka8m0006zouccxhz0en5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/competition/" rel="tag">competition</a></li></ul>
@@ -508,7 +594,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/15/about-me/" data-id="ck7t6idfm0004k8ucc31hdpuo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/15/about-me/" data-id="ck837ka8p0007zouc2g5eaz29" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/diary/" rel="tag">diary</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/introduction/" rel="tag">introduction</a></li></ul>
@@ -543,7 +629,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/competition/" style="font-size: 10px;">competition</a> <a href="/tags/diary/" style="font-size: 20px;">diary</a> <a href="/tags/introduction/" style="font-size: 10px;">introduction</a> <a href="/tags/project/" style="font-size: 20px;">project</a> <a href="/tags/study/" style="font-size: 10px;">study</a>
+      <a href="/tags/competition/" style="font-size: 10px;">competition</a> <a href="/tags/diary/" style="font-size: 15px;">diary</a> <a href="/tags/introduction/" style="font-size: 10px;">introduction</a> <a href="/tags/project/" style="font-size: 20px;">project</a> <a href="/tags/study/" style="font-size: 10px;">study</a>
     </div>
   </div>
 
@@ -565,6 +651,10 @@
       <ul>
         
           <li>
+            <a href="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/">安卓反混淆软件探索-deobf</a>
+          </li>
+        
+          <li>
             <a href="/2020/03/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B/">记一次安卓代码加固软件的测试过程</a>
           </li>
         
@@ -578,10 +668,6 @@
         
           <li>
             <a href="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/">对音频缓存加密的探讨</a>
-          </li>
-        
-          <li>
-            <a href="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/">ACTF新人赛密码学部分wp</a>
           </li>
         
       </ul>
