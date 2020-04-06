@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>lz77编码选做实验过程笔记 | life-extension&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="多媒体原理与系统设计选做实验编码算法完善过程先把LZ77算法的伪代码拷贝下来  1.else分支需要补充的代码是else分支的处理代码。由于数据结构是固定的，因此只能输入0，0和next_char的三元组信息。如果要设计更复杂的实现算法和数据结果的话，可以把0省略，以实现更大程度的压缩。 先看看if分支的代码有没有可以借鉴的地方： 1234567swprintf(code, 125, L&quot;(%d,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lz77编码选做实验过程笔记">
+<meta property="og:url" content="http://yoursite.com/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="life-extension&#39;s blogs">
+<meta property="og:description" content="多媒体原理与系统设计选做实验编码算法完善过程先把LZ77算法的伪代码拷贝下来  1.else分支需要补充的代码是else分支的处理代码。由于数据结构是固定的，因此只能输入0，0和next_char的三元组信息。如果要设计更复杂的实现算法和数据结果的话，可以把0省略，以实现更大程度的压缩。 先看看if分支的代码有没有可以借鉴的地方： 1234567swprintf(code, 125, L&quot;(%d,">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403190150298.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403211706525.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403212041843.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403212319194.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403213722664.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403213826058.png">
+<meta property="article:published_time" content="2020-04-03T13:54:13.000Z">
+<meta property="article:modified_time" content="2020-04-03T13:59:08.588Z">
+<meta property="article:author" content="life-extension">
+<meta property="article:tag" content="study">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403190150298.png">
+  
+    <link rel="alternate" href="/atom.xml" title="life-extension&#39;s blogs" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">life-extension&#39;s blogs</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">chaser of light</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="w-lz77编码选做实验过程笔记" class="article article-type-w" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2020-04-03T13:54:13.000Z" itemprop="datePublished">2020-04-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      lz77编码选做实验过程笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="多媒体原理与系统设计选做实验"><a href="#多媒体原理与系统设计选做实验" class="headerlink" title="多媒体原理与系统设计选做实验"></a>多媒体原理与系统设计选做实验</h1><h3 id="编码算法完善过程"><a href="#编码算法完善过程" class="headerlink" title="编码算法完善过程"></a>编码算法完善过程</h3><p>先把LZ77算法的伪代码拷贝下来</p>
+<p><img src="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403190150298.png" alt="image-20200403190150298"></p>
+<h4 id="1-else分支"><a href="#1-else分支" class="headerlink" title="1.else分支"></a>1.else分支</h4><p>需要补充的代码是else分支的处理代码。由于数据结构是固定的，因此只能输入0，0和next_char的三元组信息。如果要设计更复杂的实现算法和数据结果的话，可以把0省略，以实现更大程度的压缩。</p>
+<p>先看看if分支的代码有没有可以借鉴的地方：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">swprintf(code, <span class="number">125</span>, <span class="string">L"(%d,%d,%lc)"</span>, offset, length, source[pointer+length] );<span class="comment">//输出三元组，需要借鉴保留，因为不匹配，length=0和offset=0必定满足</span></span><br><span class="line">			cpy_len = wcslen(code);<span class="comment">//计算新增编码长度，借鉴保留</span></span><br><span class="line">			</span><br><span class="line">			wcscpy_s(codes + code_size,cpy_len+<span class="number">1</span>, code);<span class="comment">//应该是用于展示的，借鉴保留</span></span><br><span class="line"></span><br><span class="line">			pointer = pointer + length + <span class="number">1</span>;<span class="comment">//指针移动，但是length=0，只需要借鉴保留</span></span><br><span class="line">			code_size+= cpy_len;<span class="comment">//更新总编码长度，借鉴保留</span></span><br></pre></td></tr></table></figure>
+
+<p>于是就得到如下代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//没有发现匹配字符串时，输入0，0和next_char信息</span></span><br><span class="line">			<span class="comment">//******************************************************************</span></span><br><span class="line">			<span class="comment">//**                 此处需要你补全代码</span></span><br><span class="line">			<span class="comment">//******************************************************************</span></span><br><span class="line">			<span class="comment">//开始你的代码</span></span><br><span class="line">			swprintf(code, <span class="number">125</span>, <span class="string">L"(%d,%d,%lc)"</span>, offset, length, source[pointer + length]);<span class="comment">//输出三元组</span></span><br><span class="line">			cpy_len = wcslen(code);</span><br><span class="line"></span><br><span class="line">			wcscpy_s(codes + code_size, cpy_len + <span class="number">1</span>, code);</span><br><span class="line"></span><br><span class="line">			pointer = pointer + length + <span class="number">1</span>;</span><br><span class="line">			code_size += cpy_len;</span><br><span class="line">			<span class="comment">//结束你的代码</span></span><br><span class="line">			<span class="comment">//******************************************************************</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-报文尾部"><a href="#2-报文尾部" class="headerlink" title="2.报文尾部"></a>2.报文尾部</h4><p>先看看如何判断是到了报文尾部。按照一般的情况，可能需要记录报文的长度或者剩余报文的字数，如果当前指针偏移达到报文长度或者剩余报文长度为0的话，就意味着到了报文结尾。也可以通过某种特殊符号记录报文末尾。</p>
+<p>观察代码，找到了程序相关变量：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//source明文，winsize窗口大小,codes编码后文字</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lz77_coder</span><span class="params">(WCHAR* source, <span class="keyword">int</span> win_size, WCHAR* codes)</span></span></span><br><span class="line"><span class="function"></span>&#123;		</span><br><span class="line">	<span class="keyword">size_t</span> source_len = wcslen(source);<span class="comment">//计算原文字符串长度</span></span><br></pre></td></tr></table></figure>
+
+<p>那么如果win_size_real为0，就意味着到达了报文末尾了。可以补全相关代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//达到报文末尾时，退出编码循环</span></span><br><span class="line"><span class="comment">//******************************************************************</span></span><br><span class="line"><span class="comment">//**                 此处需要你补全代码</span></span><br><span class="line"><span class="comment">//******************************************************************</span></span><br><span class="line"><span class="comment">//开始你的代码</span></span><br><span class="line"><span class="keyword">if</span> (source_len &lt;= pointer)<span class="comment">//把常量写左边，以防写错比较符号</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//结束你的代码</span></span><br><span class="line"><span class="comment">//******************************************************************</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="解码算法完善过程"><a href="#解码算法完善过程" class="headerlink" title="解码算法完善过程"></a>解码算法完善过程</h3><p>解码算法没有相应的伪代码，但是可以参照编码算法来完善。</p>
+<p>首先了解源程序每个循环的作用和如何解析三元组找到offset的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//每个循环都解析一个编码，结构为：(offset,length,next_char)，最后一个编码的右边可能缺少next_char和)</span></span><br><span class="line"><span class="comment">//找到offset</span></span><br><span class="line">		<span class="keyword">while</span>(codes[idx] != <span class="string">','</span>)<span class="comment">//三元组的第一元，读到逗号为止</span></span><br><span class="line">		&#123;</span><br><span class="line">			idx++;</span><br><span class="line">		&#125;</span><br><span class="line">		token_sz = idx - start_idx;<span class="comment">//忽略逗号的长度，正好把两个逗号长度抵消</span></span><br><span class="line">		copy_str1_to_str0(token, codes+start_idx, token_sz);<span class="comment">//把offset取出来</span></span><br><span class="line">		offset = _wtoi(token);<span class="comment">//把内容是数字的字符串转换整型数字</span></span><br><span class="line">		idx++;<span class="comment">//忽略逗号</span></span><br></pre></td></tr></table></figure>
+
+<p>于是可以轻松补充出找到length的代码:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//找到length</span></span><br><span class="line"><span class="comment">//******************************************************************</span></span><br><span class="line"><span class="comment">//**                 此处需要你补全代码</span></span><br><span class="line"><span class="comment">//******************************************************************</span></span><br><span class="line"><span class="comment">//开始你的代码</span></span><br><span class="line">idx++;<span class="comment">//目前的位置是逗号，往后走一位</span></span><br><span class="line">start_idx = idx;</span><br><span class="line"></span><br><span class="line"><span class="comment">//找到offset</span></span><br><span class="line"><span class="keyword">while</span> (codes[idx] != <span class="string">','</span>)</span><br><span class="line">&#123;</span><br><span class="line">	idx++;</span><br><span class="line">&#125;</span><br><span class="line">token_sz = idx - start_idx;<span class="comment">//忽略逗号的长度，也是刚好抵消</span></span><br><span class="line">copy_str1_to_str0(token, codes + start_idx, token_sz);</span><br><span class="line">length = _wtoi(token);<span class="comment">//把内容是数字的字符串转换整型数字</span></span><br><span class="line">idx++;<span class="comment">//忽略逗号</span></span><br><span class="line"><span class="comment">//结束你的代码</span></span><br><span class="line"><span class="comment">//******************************************************************</span></span><br></pre></td></tr></table></figure>
+
+<p>考虑到最后一个编码的右边可能缺少next_char和)，找到next_char的代码需要出现一些分支判断。而且next_char不是数字，本身是一个字符，所以这部分代码需要修改:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//找到next_char</span></span><br><span class="line"><span class="comment">//******************************************************************</span></span><br><span class="line"><span class="comment">//**                 此处需要你补全代码</span></span><br><span class="line"><span class="comment">//******************************************************************</span></span><br><span class="line"><span class="comment">//开始你的代码</span></span><br><span class="line">idx++;<span class="comment">//目前的位置是逗号，往后走一位</span></span><br><span class="line">start_idx = idx;</span><br><span class="line"></span><br><span class="line"><span class="comment">//判断是否是最后一个编码</span></span><br><span class="line"><span class="keyword">if</span> (idx &gt;= codes_len)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//最后一个编码了</span></span><br><span class="line">	next_char = <span class="string">'\0'</span>;<span class="comment">//结束符,反正都是要附加上去的，加上结束符刚好</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">	next_char = codes[idx];<span class="comment">//这就是next_char</span></span><br><span class="line">	idx += <span class="number">2</span>;<span class="comment">//加一是右括号，加二才可能到达左括号</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//结束你的代码</span></span><br><span class="line"><span class="comment">//******************************************************************</span></span><br></pre></td></tr></table></figure>
+
+<p>然后补全解码时输出匹配字符串和最后一个附加的next_char字符的代码，我看到next_char已经输出了，那么接下来最主要的就是根据length和offset找到匹配字符串，然后把匹配字符串按字符一个个附加到解码字符串后面：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; length; i++)<span class="comment">//这里已经在length的循环里面了</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//******************************************************************</span></span><br><span class="line">	<span class="comment">//**                 此处需要你补全代码</span></span><br><span class="line">	<span class="comment">//******************************************************************</span></span><br><span class="line">	<span class="comment">//开始你的代码</span></span><br><span class="line">	decodes[decodes_idx++] = decodes[(decodes_idx++) - offset];</span><br><span class="line">	<span class="comment">//结束你的代码</span></span><br><span class="line">	<span class="comment">//******************************************************************	</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="调试与运行"><a href="#调试与运行" class="headerlink" title="调试与运行"></a>调试与运行</h3><p>一开始的时候，编码算法和原文对比是没有问题的，但是解码的时候出现了问题：</p>
+<p><img src="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403211706525.png" alt="image-20200403211706525"></p>
+<p>明显所有的nextchar都被读成了右括号。后来发现原来是自己的代码里面重复了一次id++。</p>
+<p><img src="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403212041843.png" alt="image-20200403212041843"></p>
+<p>把其中一处删掉，更改后寻找next_char代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">start_idx = idx;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//判断是否是最后一个编码</span></span><br><span class="line">		<span class="keyword">if</span> (idx &gt;= codes_len)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//最后一个编码了</span></span><br><span class="line">			next_char = <span class="string">'\0'</span>;<span class="comment">//结束符,反正都是要附加上去的，加上结束符刚好</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			next_char = codes[idx];<span class="comment">//这就是next_char</span></span><br><span class="line">			idx += <span class="number">2</span>;<span class="comment">//加一是右括号，加二才可能到达左括号</span></span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再次运行，还是稍微有一些问题：</p>
+<p><img src="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403212319194.png" alt="image-20200403212319194"></p>
+<p>观察丢失字符的特性，可以发现重复的字符串的字符完全丢失，只有输出next_char的部分是完全正确的。</p>
+<p>那么就可能是寻找offset的代码或者输出的相关代码出现问题。</p>
+<p>找到输出相应代码：</p>
+<p><code>decodes[decodes_idx++] = decodes[(decodes_idx++) - offset];</code></p>
+<p>发现我的一句代码里面出现了两次i++，这样就导致一次寻常指针往后走了两个位置。重新修改这段代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当offset和length不为0时，输出匹配字符串和最后一个附加的next_char字符</span></span><br><span class="line">			start_idx = decodes_idx;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; length; i++)<span class="comment">//这里已经在length的循环里面了</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">//******************************************************************</span></span><br><span class="line">				<span class="comment">//**                 此处需要你补全代码</span></span><br><span class="line">				<span class="comment">//******************************************************************</span></span><br><span class="line">				<span class="comment">//开始你的代码</span></span><br><span class="line">				decodes[decodes_idx++] = decodes[(decodes_idx) - offset];</span><br><span class="line">				<span class="comment">//结束你的代码</span></span><br><span class="line">				<span class="comment">//******************************************************************	</span></span><br><span class="line">			&#125;</span><br><span class="line">			decodes[decodes_idx++] = next_char;</span><br></pre></td></tr></table></figure>
+
+<p>但是这一部分的失误不可能导致字符串整个丢失，那么获取length的算法肯定也存在一些问题。结果我发现了和上面一样的问题。</p>
+<p><img src="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403213722664.png" alt="image-20200403213722664"></p>
+<p>还是删除最下面的idx，于是运行成功：</p>
+<p><img src="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403213826058.png" alt="image-20200403213826058"></p>
+<h3 id="感受"><a href="#感受" class="headerlink" title="感受"></a>感受</h3><p>通过选做实验完善课程项目的编程其实真的是一种很棒的教学形式。就如同在科研团队或者工作中，一个大项目被分成若干的部分，每个人完成其中一小部分。这需要项目参与者的相互配合，交流并了解对方代码的含义。要使用统一的变量和接口函数，以免在代码衔接过程中产生bug，使得软件出现功能的不符合或者安全脆弱点。当然，为了验证程序的重要性，调试和测试阶段也是不可免的。</p>
+<p>这次编程过程，出现了很多的小问题，特别是相同的错误在两段代码里都出现了，所以体现出自己在补充代码时可能会考虑没有这么全面，但是通过代码测试和代码审计，最终把所有错误纠正了，也熟悉了一次lz77编解码的相关知识，这个过程本身就是很值得的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/" data-id="ck8oidtld0001csuc3i5oay71" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/study/" rel="tag">study</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">极光实验室战队考核密码学部分考察点与题解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/auroralab/" rel="tag">auroralab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/competition/" rel="tag">competition</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary/" rel="tag">diary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exploration/" rel="tag">exploration</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/introduction/" rel="tag">introduction</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/project/" rel="tag">project</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/study/" rel="tag">study</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/auroralab/" style="font-size: 15px;">auroralab</a> <a href="/tags/competition/" style="font-size: 15px;">competition</a> <a href="/tags/diary/" style="font-size: 15px;">diary</a> <a href="/tags/exploration/" style="font-size: 10px;">exploration</a> <a href="/tags/introduction/" style="font-size: 10px;">introduction</a> <a href="/tags/project/" style="font-size: 20px;">project</a> <a href="/tags/study/" style="font-size: 15px;">study</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/">lz77编码选做实验过程笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/">极光实验室战队考核密码学部分考察点与题解</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/Coppersmith%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%B0%8F%E7%BB%93/">Coppersmith攻击方式小结</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/">安卓反混淆软件探索-deobf</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B/">记一次安卓代码加固软件的测试过程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 life-extension<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

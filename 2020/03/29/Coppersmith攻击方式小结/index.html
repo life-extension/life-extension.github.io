@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Coppersmith攻击方式小结 | life-extension&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这周本打算对各个方向有所了解，但进度并不是很如意，方向也有点分散。中间因为有点疲惫松懈了两天，后面有了精神以后首先写好了所有作业，然后做了几道CTF密码学题目，然后跟着就开始系统的小结一些密码学攻击方式，再接着就看起了密码学和人工智能安全相关的论文。论文还没细看，几道题目比较老套也没有什么太有新意的地方。但是毕竟立下了flag要一周写一篇文章，那么就只能把网上学习到的对Coppersmith的攻击">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Coppersmith攻击方式小结">
+<meta property="og:url" content="http://yoursite.com/2020/03/29/Coppersmith%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%B0%8F%E7%BB%93/index.html">
+<meta property="og:site_name" content="life-extension&#39;s blogs">
+<meta property="og:description" content="这周本打算对各个方向有所了解，但进度并不是很如意，方向也有点分散。中间因为有点疲惫松懈了两天，后面有了精神以后首先写好了所有作业，然后做了几道CTF密码学题目，然后跟着就开始系统的小结一些密码学攻击方式，再接着就看起了密码学和人工智能安全相关的论文。论文还没细看，几道题目比较老套也没有什么太有新意的地方。但是毕竟立下了flag要一周写一篇文章，那么就只能把网上学习到的对Coppersmith的攻击">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-29T14:54:22.000Z">
+<meta property="article:modified_time" content="2020-04-03T14:19:58.196Z">
+<meta property="article:author" content="life-extension">
+<meta property="article:tag" content="exploration">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="life-extension&#39;s blogs" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">life-extension&#39;s blogs</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">chaser of light</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Coppersmith攻击方式小结" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/29/Coppersmith%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%B0%8F%E7%BB%93/" class="article-date">
+  <time datetime="2020-03-29T14:54:22.000Z" itemprop="datePublished">2020-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Coppersmith攻击方式小结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><em>这周本打算对各个方向有所了解，但进度并不是很如意，方向也有点分散。中间因为有点疲惫松懈了两天，后面有了精神以后首先写好了所有作业，然后做了几道CTF密码学题目，然后跟着就开始系统的小结一些密码学攻击方式，再接着就看起了密码学和人工智能安全相关的论文。论文还没细看，几道题目比较老套也没有什么太有新意的地方。但是毕竟立下了flag要一周写一篇文章，那么就只能把网上学习到的对Coppersmith的攻击方式完整地总结一下了。</em></p>
+<h1 id="CopperSmith攻击"><a href="#CopperSmith攻击" class="headerlink" title="CopperSmith攻击"></a>CopperSmith攻击</h1><p>CopperSmith攻击的种类真的很多，所以总是觉得自己归纳的不够彻底</p>
+<h4 id="一道新的例题——p的高位和地位泄露"><a href="#一道新的例题——p的高位和地位泄露" class="headerlink" title="一道新的例题——p的高位和地位泄露"></a>一道新的例题——p的高位和地位泄露</h4><h3 id="Securinets-CTF-Quals-2020-Destruction"><a href="#Securinets-CTF-Quals-2020-Destruction" class="headerlink" title="Securinets CTF Quals 2020 - Destruction"></a><em>Securinets CTF Quals 2020 - Destruction</em></h3><p>题目中提及MSB寓意即最高比特位，LSB即最低比特位，根据铜匠攻击即可,sage脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">size = <span class="number">512</span></span><br><span class="line">sizep=<span class="number">256</span></span><br><span class="line">knownbits= <span class="number">134</span></span><br><span class="line">N=<span class="number">14086160291425342283520344380411983364812792954622400251334758082442316624175006850950987254617679940795136231914925367368535278968830499182004816257654049</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#we need to define an polynomial == 0 (mod p) that gives us the missing part (x)</span></span><br><span class="line"><span class="comment"># f_p(x) = x*2**(knownbits/2) + p_msb + p_lsb</span></span><br><span class="line"><span class="comment"># it's not monic so we need to divide by 2**(knownbits/2)</span></span><br><span class="line"><span class="comment"># set R = 2**(knownbits/2) and invert it modulo N</span></span><br><span class="line"></span><br><span class="line">R = <span class="number">2</span>**(knownbits/<span class="number">2</span>)<span class="comment">#从第68位开始测试</span></span><br><span class="line">invR = inverse_mod(R,N)</span><br><span class="line"><span class="comment">#补齐两边</span></span><br><span class="line">p_msb = <span class="number">251000163339563476196</span> &lt;&lt; (sizep-knownbits/<span class="number">2</span><span class="number">-1</span>)</span><br><span class="line">p_lsb=int(<span class="string">'2567fcb8c35e6dc63'</span>,<span class="number">16</span>)</span><br><span class="line"><span class="comment">#setup coppersmith</span></span><br><span class="line">F.&lt;x&gt; = PolynomialRing(Zmod(N))</span><br><span class="line"><span class="comment">#define the poly in x modulo p</span></span><br><span class="line">f = x + (p_msb+p_lsb)*invR</span><br><span class="line"><span class="comment">#solve it</span></span><br><span class="line">x0 = f.small_roots(X=<span class="number">2</span>^(sizep-knownbits)<span class="number">-1</span>, beta=<span class="number">0.44</span>, epsilon=<span class="number">1</span>/<span class="number">64</span>)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> (<span class="string">"reconstructed p: &#123;:x&#125;"</span>.format(Integer(x0*R)+p_msb+p_lsb))</span><br></pre></td></tr></table></figure>
+
+<p>在这道题目中，p的高位和地位比特都被泄露，可以解出rsa明文。</p>
+<h4 id="引申与补充"><a href="#引申与补充" class="headerlink" title="引申与补充"></a>引申与补充</h4><p>除了上述例题所述的情况外，我目前至少见过四种coppersmith攻击模式。</p>
+<h4 id="2019强网杯-RSA-Coppersmith"><a href="#2019强网杯-RSA-Coppersmith" class="headerlink" title="2019强网杯-RSA-Coppersmith"></a><em>2019强网杯-RSA-Coppersmith</em></h4><p>1.challenge 1</p>
+<p><strong>已知明文的高位，是Stereotyped messages攻击 或 Lattice based attacks</strong> </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="comment">#输入n  </span></span><br><span class="line">e = <span class="number">3</span></span><br><span class="line">m = randrange(n)</span><br><span class="line">c = pow(m, e, n)</span><br><span class="line">beta = <span class="number">1</span></span><br><span class="line">epsilon = beta^<span class="number">2</span>/<span class="number">7</span></span><br><span class="line">nbits = n.nbits()</span><br><span class="line">kbits = floor(nbits*(beta^<span class="number">2</span>/e-epsilon))</span><br><span class="line">mbar = m &amp; (<span class="number">2</span>^nbits<span class="number">-2</span>^kbits)</span><br><span class="line">c = <span class="number">0x1f6f6a8e61f7b5ad8bef738f4376a96724192d8da1e3689dec7ce5d1df615e0910803317f9bafb6671ffe722e0292ce76cca399f2af1952dd31a61b37019da9cf27f82c3ecd4befc03c557efe1a5a29f9bb73c0239f62ed951955718ac0eaa3f60a4c415ef064ea33bbd61abe127c6fc808c0edb034c52c45bd20a219317fb75</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">print</span> <span class="string">"upper %d bits (of %d bits) is given"</span> % (nbits-kbits, nbits)</span><br><span class="line">PR.&lt;x&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">f = (mbar + x)^e - c </span><br><span class="line"><span class="keyword">print</span> m</span><br><span class="line"> </span><br><span class="line">x0 = f.small_roots(X=<span class="number">2</span>^kbits, beta=<span class="number">1</span>)[<span class="number">0</span>]  <span class="comment"># find root &lt; 2^kbits with factor = n1</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">print</span> mbar + x0</span><br></pre></td></tr></table></figure>
+
+<p>2.challenge 2</p>
+<p><strong>已知p的高位，Factoring with High Bits Known</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="number">0x5894f869d1aecee379e2cb60ff7314d18dbd383e0c9f32e7f7b4dc8bd47535d4f3512ce6a23b0251049346fede745d116ba8d27bcc4d7c18cfbd86c7d065841788fcd600d5b3ac5f6bb1e111f265994e550369ddd86e20f615606bf21169636d153b6dfee4472b5a3cb111d0779d02d9861cc724d389eb2c07a71a7b3941da7dL</span></span><br><span class="line">p_fake = <span class="number">0x5d33504b4e3bd2ffb628b5c447c4a7152a9f37dc4bcc8f376f64000fa96eb97c0af445e3b2c03926a4aa4542918c601000000000000000000000000000000000L</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">#pbits = 2048</span></span><br><span class="line">pbits = p_fake.nbits()</span><br><span class="line"><span class="comment">#kbits = 900</span></span><br><span class="line">kbits = <span class="number">128</span>  <span class="comment">#p失去的低位</span></span><br><span class="line">pbar = p_fake &amp; (<span class="number">2</span>^pbits<span class="number">-2</span>^kbits)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"upper %d bits (of %d bits) is given"</span> % (pbits-kbits, pbits)</span><br><span class="line"> </span><br><span class="line">PR.&lt;x&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">f = x + pbar</span><br><span class="line"> </span><br><span class="line">x0 = f.small_roots(X=<span class="number">2</span>^kbits, beta=<span class="number">0.4</span>)[<span class="number">0</span>]  <span class="comment"># find root &lt; 2^kbits with factor &gt;= n^0.3</span></span><br><span class="line">p= x0 + pbar</span><br><span class="line"><span class="keyword">print</span> p</span><br></pre></td></tr></table></figure>
+
+<p>3.challenge 3</p>
+<p><strong>已知私钥的512位的低位 Partial Key Exposure Attack(部分私钥暴露攻击)</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partial_p</span><span class="params">(p0, kbits, n)</span>:</span></span><br><span class="line">    PR.&lt;x&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">    nbits = n.nbits()</span><br><span class="line">    f = <span class="number">2</span>^kbits*x + p0 </span><br><span class="line">    f = f.monic()</span><br><span class="line">    roots = f.small_roots(X=<span class="number">2</span>^(nbits//<span class="number">2</span>-kbits), beta=<span class="number">0.3</span>)  <span class="comment"># find root &lt; 2^(nbits//2-kbits) with factor &gt;= n^0.3</span></span><br><span class="line">    <span class="keyword">if</span> roots:</span><br><span class="line">        x0 = roots[<span class="number">0</span>]</span><br><span class="line">        p = gcd(<span class="number">2</span>^kbits*x0 + p0, n)</span><br><span class="line">        <span class="keyword">return</span> ZZ(p)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_p</span><span class="params">(d0, kbits, e, n)</span>:</span></span><br><span class="line">    X = var(<span class="string">'X'</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> xrange(<span class="number">1</span>, e+<span class="number">1</span>):</span><br><span class="line">        results = solve_mod([e*d0*X - k*X*(n-X+<span class="number">1</span>) + k*n == X], <span class="number">2</span>^kbits)</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> results:</span><br><span class="line">            p0 = ZZ(x[<span class="number">0</span>])</span><br><span class="line">            p = partial_p(p0, kbits, n)</span><br><span class="line">            <span class="keyword">if</span> p:</span><br><span class="line">                <span class="keyword">return</span> p</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    n = <span class="number">0xd463feb999c9292e25acd7f98d49a13413df2c4e74820136e739281bb394a73f2d1e6b53066932f50a73310360e5a5c622507d8662dadaef860b3266222129fd645eb74a0207af9bd79a9794f4bd21f32841ce9e1700b0b049cfadb760993fcfc7c65eca63904aa197df306cad8720b1b228484629cf967d808c13f6caef94a9</span></span><br><span class="line">    e = <span class="number">3</span></span><br><span class="line">    d = <span class="number">0x603d033f2ef6c759aec839f132a45215fc8a635b757f3951a731fe60bc6729b3bcf819b57abfcaba3a93e9edef766c0d499cad3f7adb306bcf1645cfb63400e3</span></span><br><span class="line">    beta = <span class="number">0.5</span></span><br><span class="line">    epsilon = beta^<span class="number">2</span>/<span class="number">7</span></span><br><span class="line">    nbits = n.nbits()</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"nbits:%d:"</span>%(nbits) </span><br><span class="line">    <span class="comment">#kbits = floor(nbits*(beta^2+epsilon))</span></span><br><span class="line">    kbits = nbits - d.nbits()<span class="number">-1</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"kbits:%d"</span>%(kbits)</span><br><span class="line">    d0 = d &amp; (<span class="number">2</span>^kbits<span class="number">-1</span>)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"lower %d bits (of %d bits) is given"</span> % (kbits, nbits)</span><br><span class="line">    p = find_p(d0, kbits, e, n </span><br><span class="line">    <span class="keyword">print</span> <span class="string">"found p: %d"</span> % p</span><br><span class="line">    q = n//p</span><br><span class="line">    <span class="keyword">print</span> d</span><br><span class="line"><span class="keyword">print</span> inverse_mod(e, (p<span class="number">-1</span>)*(q<span class="number">-1</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="私钥泄露"><a href="#私钥泄露" class="headerlink" title="私钥泄露"></a><em>私钥泄露</em></h4><p>这部分学习的是在<a href="https://ctftime.org/tasks/?tags=crypto&hidden-tags=crypto" target="_blank" rel="noopener">网上</a>看到的一道题目的一篇<a href="https://github.com/p4-team/ctf/tree/master/2019-09-21-dragonctf/rsachained" target="_blank" rel="noopener">wp</a>写的，都说密钥时现代密码的弱点，所以rsa私钥部分泄露原来也可以导致对rsa的铜匠攻击！这部分的方程倒不难推算，因此我也出了一道和私钥泄露有关的题目,<a href="../极光实验室战队考核密码学部分考察点与题解">题解</a>也在博客里。这里把sage脚本也放出来吧。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">e=<span class="number">863</span></span><br><span class="line">n = <span class="number">100518394843898371534434468452366727877002363101196571557097132988734353726584916462381290904798733002716305256677572628142627545744681541293793069726231800754314572981168235829239563613754713724345581918566947492170647540708428013292098065584617876680109166595710006367308500341766024651457023537770009981295726110940010220082434490215229951191714998895277291076151298363584672162765486380515325199053994651202708865071379999942193926154807059329464291992287421875356468218685095369057734586073271903432589401520355996027480658214090147502829069822606753125953586123331154015992246394834867237734405963056883227552074835515815968441</span></span><br><span class="line">c=<span class="number">86032824638305503499105979004374728344861493802341583733786447138684660694449673826205271902766363026345759436852747743967254218765160248630402258125202844303276381357264903281385470521070161164325276902001627351570675438339067652784355957225763207341000628151024518554862922220201109512940053316358078220681816224518400117972877854801506805929902506832781106133167532327833813179558969694268634413548545525533605595649634856393268111552838570383386406869870266457914799472663817890880697043874427042958587244568923338441053981863674366842769379075373006984522023718553749977766836594738859315852333132093474709715377682153430675891</span></span><br><span class="line">d0=<span class="number">8429433927120666131169351623736961178529851960373209550653840828920672665447032524933438956407503522388445988812739437427277858013428300926608147855795349674824173869269407061090165202002106353884034590344852857623737262477675587193006629765892565228448265429521617733861051151345083787592170864896543517637252788111</span></span><br><span class="line"></span><br><span class="line">d = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">0</span>,e):</span><br><span class="line">    <span class="keyword">print</span> k</span><br><span class="line">    X = var(<span class="string">'X'</span>)</span><br><span class="line">    results = solve_mod([e*d0*X - k*(n*X-X*X-n+X) == X], <span class="number">2</span>**<span class="number">1050</span>)</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> results:</span><br><span class="line">        p0 = ZZ(x[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">if</span> is_prime(p0) <span class="keyword">and</span> gcd(n,p0)!=<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">print</span> p0</span><br><span class="line">            q0 = n//p0</span><br><span class="line">            phi=(q0<span class="number">-1</span>)*(p0<span class="number">-1</span>)</span><br><span class="line">            d = inverse_mod(e,phi)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">if</span>(d!=<span class="number">0</span>):</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"><span class="keyword">print</span> d</span><br><span class="line">m = pow(c,d,n)</span><br><span class="line"><span class="keyword">print</span> m</span><br></pre></td></tr></table></figure>
+
+<h4 id="其他题目"><a href="#其他题目" class="headerlink" title="其他题目"></a><em>其他题目</em></h4><p>除此以外，印象中还存在另外一些coppersmith题目，印象中我把所有解方程有关的题目都当成coppersmith了。我新人赛的时候也心血来潮自创了一题，打算放到校赛用。反正最基础的办法就是：<strong>找齐足够的方程，代入消元求解。</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/29/Coppersmith%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%B0%8F%E7%BB%93/" data-id="ck8oidtl60000csuc86mq8r9c" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/exploration/" rel="tag">exploration</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          极光实验室战队考核密码学部分考察点与题解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">安卓反混淆软件探索-deobf</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/auroralab/" rel="tag">auroralab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/competition/" rel="tag">competition</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary/" rel="tag">diary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exploration/" rel="tag">exploration</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/introduction/" rel="tag">introduction</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/project/" rel="tag">project</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/study/" rel="tag">study</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/auroralab/" style="font-size: 15px;">auroralab</a> <a href="/tags/competition/" style="font-size: 15px;">competition</a> <a href="/tags/diary/" style="font-size: 15px;">diary</a> <a href="/tags/exploration/" style="font-size: 10px;">exploration</a> <a href="/tags/introduction/" style="font-size: 10px;">introduction</a> <a href="/tags/project/" style="font-size: 20px;">project</a> <a href="/tags/study/" style="font-size: 15px;">study</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/">lz77编码选做实验过程笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/">极光实验室战队考核密码学部分考察点与题解</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/Coppersmith%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%B0%8F%E7%BB%93/">Coppersmith攻击方式小结</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/">安卓反混淆软件探索-deobf</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B/">记一次安卓代码加固软件的测试过程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 life-extension<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

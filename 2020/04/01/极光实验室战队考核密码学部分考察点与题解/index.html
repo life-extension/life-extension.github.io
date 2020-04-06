@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>极光实验室战队考核密码学部分考察点与题解 | life-extension&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="实验室战队考核新人赛题目点评与WP题目 出题思路由于是战队考核，这次的题目应出得相对综合，也更考验同学们的知识面和对各方面加密的理解和把握能力。同时，题目应当结合密码学的实际应用，有生动的背景和场景。 出题前，我在网上做了两三道rsa和aes的题目，觉得出题点还是比较单一，于是联想了一下之前做过的一些印象深刻的密码学题目，于是我想到了把密码学实验和aes，rsa结合起来，出一次改进版的中间人攻击，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="极光实验室战队考核密码学部分考察点与题解">
+<meta property="og:url" content="http://yoursite.com/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/index.html">
+<meta property="og:site_name" content="life-extension&#39;s blogs">
+<meta property="og:description" content="实验室战队考核新人赛题目点评与WP题目 出题思路由于是战队考核，这次的题目应出得相对综合，也更考验同学们的知识面和对各方面加密的理解和把握能力。同时，题目应当结合密码学的实际应用，有生动的背景和场景。 出题前，我在网上做了两三道rsa和aes的题目，觉得出题点还是比较单一，于是联想了一下之前做过的一些印象深刻的密码学题目，于是我想到了把密码学实验和aes，rsa结合起来，出一次改进版的中间人攻击，">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/image-20200404204929407.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/image-20200402112220312.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/.%5C%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3%5C7.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/1.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/2.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/image-20200402131956740.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/3.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/4.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/5.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/6.png">
+<meta property="article:published_time" content="2020-04-01T13:36:17.000Z">
+<meta property="article:modified_time" content="2020-04-06T13:24:26.766Z">
+<meta property="article:author" content="life-extension">
+<meta property="article:tag" content="project">
+<meta property="article:tag" content="competition">
+<meta property="article:tag" content="auroralab">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/image-20200404204929407.png">
+  
+    <link rel="alternate" href="/atom.xml" title="life-extension&#39;s blogs" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">life-extension&#39;s blogs</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">chaser of light</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-极光实验室战队考核密码学部分考察点与题解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/" class="article-date">
+  <time datetime="2020-04-01T13:36:17.000Z" itemprop="datePublished">2020-04-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      极光实验室战队考核密码学部分考察点与题解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="实验室战队考核新人赛题目点评与WP"><a href="#实验室战队考核新人赛题目点评与WP" class="headerlink" title="实验室战队考核新人赛题目点评与WP"></a>实验室战队考核新人赛题目点评与WP</h2><h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p><img src="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/image-20200404204929407.png" alt="image-20200404204929407"></p>
+<h4 id="出题思路"><a href="#出题思路" class="headerlink" title="出题思路"></a>出题思路</h4><p>由于是战队考核，这次的题目应出得相对综合，也更考验同学们的知识面和对各方面加密的理解和把握能力。同时，题目应当结合密码学的实际应用，有生动的背景和场景。</p>
+<p>出题前，我在网上做了两三道rsa和aes的题目，觉得出题点还是比较单一，于是联想了一下之前做过的一些印象深刻的密码学题目，于是我想到了把密码学实验和aes，rsa结合起来，出一次改进版的中间人攻击，作为密码学实验的补充。之所以要和aes，rsa结合，是因为通过混合密码通信的安全性更高，效率也更好。我们段老师的PPT是这么说的：</p>
+<p><img src="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/image-20200402112220312.png" alt="image-20200402112220312"></p>
+<p>但是，如果rsa加密过程中存在某些问题呢？假如rsa私钥部分泄露呢？那面对中间人的攻击，这种通信方法也难以保证它的安全性。见如下<a href="王小云,刘明洁.格密码学研究[J].密码学报,2014,1(01):13-27.">参考论文</a>:</p>
+<p><img src="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/.%5C%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3%5C7.png" alt="7"></p>
+<p>在题目环境中，我就让私钥最低位的一半比特泄露出来，这是足够解对称密码私钥的了。根据等式：<br>$$<br>e * d == 1 mod phi(N)<br>$$<br>我们引入常数k，使得:<br>$$<br>e * d - k * phi(N) == 1<br>$$<br>由于e模phi的逆：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d = gmpy2.invert(e,phi)</span><br></pre></td></tr></table></figure>
+
+<p>所以对于上述等式，有：</p>
+<p>$$<br>phi(N) &gt; d<br>$$</p>
+<p>那么就有：<br>$$<br>k&lt;e<br>$$<br>由于e一般在16位以下（题目中不超过1024），所以k是可爆破的。</p>
+<p>我们对等式两边都模上2的1050次方，并化简：<br>$$<br>(e * d - k * phi(N)) mod 2<strong>1050 == 1 mod 2</strong>1050<br>$$</p>
+<p>$$<br>((e mod 2<strong>1050) * (d mod 2</strong>1050) - k * phi(N) ) mod 2<strong>1050 == 1 mod 2</strong>1050<br>$$</p>
+<p>$$<br>(e * d0 - k<em>phi(N)) mod 2*</em>1050 == 1 mod 2**1050<br>$$</p>
+<p>$$<br>e * d0 - k<em>phi(N) == 1 mod 2*</em>1050<br>$$</p>
+<p>方程两边同乘q，并代入等式：<br>$$<br>phi(N)==(p-1)<em>(q-1)<br>$$<br>以及<br>$$<br>N==p<em>q<br>$$<br>可以得到：<br>$$<br>e</em>d0*p - k</em>(n<em>p-p</em>p-n+p) == p mod 2**1050<br>$$<br>所以只需要对k进行遍历，然后对每一个k通过sage解同余方程即可。</p>
+<p>获取了对称密码的私钥以后，消息明文便不难获取了。同时，和密码学实验一样，我们假设中间人有着足够的能力完成近乎实时的通信，在没有认证机制的DH通信协议中，他就可以冒充通信双方进行欺骗。<em>这里为了保证实时性，本来应该进行时间限制的，这样大家就只能通过python的pwntools工具来进行交互了。但是考虑到考点比较综合，任务量大，在12小时之内能写出这么多脚本的可能性不太大，所以就不限制时间了。</em></p>
+<h4 id="考察点"><a href="#考察点" class="headerlink" title="考察点"></a>考察点</h4><p>AES(CBC和ECB）加解密， 铜匠攻击，DH通信协议，中间人攻击，base64加解密</p>
+<h4 id="出题过程"><a href="#出题过程" class="headerlink" title="出题过程"></a>出题过程</h4><p>首先，还是建立两个文件，Arica.py和conversation.py，保存一些不想公布的变量值:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Arica.py</span></span><br><span class="line">key=<span class="string">b'grzu7KTaDuiiBVWL'</span></span><br><span class="line">flag=<span class="string">b'ACTF&#123;You_have_got_the_flag!That_is_impossible!&#125;'</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#conversation.py</span></span><br><span class="line">questions = [</span><br><span class="line">    <span class="string">b"Who are you?"</span>,</span><br><span class="line">    <span class="string">b"Oh my dear Brooke, I miss you so much!"</span>,</span><br><span class="line">    <span class="string">b"Brooke, I was so lonely during the outbreak of Novel coronavirus!"</span>,</span><br><span class="line">    <span class="string">b"Brooke, do you mind me asking you a few more question?"</span>,</span><br><span class="line">    <span class="string">b"What can I do for you?"</span>]</span><br><span class="line">answer = [</span><br><span class="line">    <span class="string">b"I'm Brooke."</span>,</span><br><span class="line">    <span class="string">b"I miss you too."</span>,</span><br><span class="line">    <span class="string">b"Me too! I wanna go out for dance!"</span>,</span><br><span class="line">    <span class="string">b"Not at all."</span>,</span><br><span class="line">    <span class="string">b"Nothing."</span>]</span><br><span class="line">fake_answer=<span class="string">b"I want to get my AES-key."</span></span><br><span class="line">saying_key=<span class="string">b"Here is the key: "</span></span><br></pre></td></tr></table></figure>
+
+<p>然后在windows上写了针对key的加密函数(aes-cbc)和针对flag的加密函数(泄露私钥的rsa函数)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#encryption.py</span></span><br><span class="line"><span class="keyword">from</span> Cryptodome.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> Arica <span class="keyword">import</span> key,flag</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> Cryptodome.Util.number <span class="keyword">import</span> (</span><br><span class="line">    bytes_to_long,</span><br><span class="line">    long_to_bytes,</span><br><span class="line">    str2long,</span><br><span class="line">    long2str,</span><br><span class="line">    getPrime</span><br><span class="line">)</span><br><span class="line"><span class="keyword">from</span> Cryptodome.Random.random <span class="keyword">import</span> (</span><br><span class="line">    getrandbits,</span><br><span class="line">    randint</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">p = <span class="number">217534615279223294476101434763509239207</span></span><br><span class="line">g = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt_flag</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> flag</span><br><span class="line">    aes = AES.new(key, AES.MODE_ECB)</span><br><span class="line">    flag = adaptmessage(flag)</span><br><span class="line">    c = aes.encrypt(flag)</span><br><span class="line">    print(<span class="string">"Here is the encrypted flag: "</span>+str(base64.b64encode(c)))</span><br><span class="line">    <span class="comment">#b'gTAmtDzEDIYdzs6j55csresodxpsKJlOVMOmzLq8/39Vm0lJZvnrGtPBW6IKUpML'</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt_key</span><span class="params">()</span>:</span></span><br><span class="line">    e = <span class="number">1667</span></span><br><span class="line">    p = getPrime(<span class="number">700</span>)</span><br><span class="line">    q = getPrime(<span class="number">1400</span>) </span><br><span class="line">    n = p*q</span><br><span class="line">    print(<span class="string">"""+------------------------------------------------------+</span></span><br><span class="line"><span class="string">|Attension! Through soical engineering, you got this: |</span></span><br><span class="line"><span class="string">+------------------------------------------------------+"""</span>)</span><br><span class="line">    phi = (p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">    d = gmpy2.invert(e,phi)</span><br><span class="line">    print(<span class="string">"n = "</span>+str(n))</span><br><span class="line">    <span class="comment">#print(d)</span></span><br><span class="line">    print(<span class="string">"Brooke's partial d: "</span>+ str(int(d) % (<span class="number">2</span>**<span class="number">1050</span>)))</span><br><span class="line">    enc = pow(bytes_to_long(key), e, n)</span><br><span class="line">    <span class="keyword">return</span> enc</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generateDH</span><span class="params">(exp)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> pow(g, exp, p)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">adaptmessage</span><span class="params">(message)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> message.ljust(<span class="number">16</span>-len(message)%<span class="number">16</span>+len(message), <span class="string">b"\x00"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">aricaSay</span><span class="params">(*args)</span>:</span></span><br><span class="line">    print(<span class="string">"""+-------------------+</span></span><br><span class="line"><span class="string">|    Arica said:    |</span></span><br><span class="line"><span class="string">+-------------------+"""</span>)</span><br><span class="line">    print(<span class="string">" "</span>.join(map(str,args)))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">brookeSay</span><span class="params">(*args)</span>:</span></span><br><span class="line">    print(<span class="string">"""+--------------------+</span></span><br><span class="line"><span class="string">|    Brooke said:    |</span></span><br><span class="line"><span class="string">+--------------------+"""</span>)</span><br><span class="line">    print(<span class="string">" "</span>.join(map(str,args)))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">say2arica</span><span class="params">(*args)</span>:</span></span><br><span class="line">    print(<span class="string">"""+---------------------+</span></span><br><span class="line"><span class="string">|    Say to Arica:    |</span></span><br><span class="line"><span class="string">+---------------------+</span></span><br><span class="line"><span class="string">"""</span>+ <span class="string">" "</span>.join(map(str,args)), end=<span class="string">""</span>)</span><br><span class="line">    <span class="keyword">return</span> input()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">say2brooke</span><span class="params">(*args)</span>:</span></span><br><span class="line">    print(<span class="string">"""+----------------------+</span></span><br><span class="line"><span class="string">|    Say to Brooke:    |</span></span><br><span class="line"><span class="string">+----------------------+</span></span><br><span class="line"><span class="string">"""</span> + <span class="string">" "</span>.join(map(str,args)), end=<span class="string">""</span>)</span><br><span class="line">    <span class="keyword">return</span> input()</span><br></pre></td></tr></table></figure>
+
+<p>然后把DH通信的脚本和题目情景写好：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#server.py</span></span><br><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> encryption <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> conversation <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">banner = <span class="string">"""</span></span><br><span class="line"><span class="string">+--------------------------------------------------+</span></span><br><span class="line"><span class="string">|HELLO CHALLENGER!                                 |</span></span><br><span class="line"><span class="string">|                                                  |</span></span><br><span class="line"><span class="string">|Have you ever seen movies like MISSION IMPOSSIBLE?|</span></span><br><span class="line"><span class="string">|Unfortunately, You have got a mission that seemed |</span></span><br><span class="line"><span class="string">|impossible to finish!                             |</span></span><br><span class="line"><span class="string">|                                                  |</span></span><br><span class="line"><span class="string">|In the task, you are required to decrypt the      |</span></span><br><span class="line"><span class="string">|'Most secret' message of Arica, the bank clerk.   |</span></span><br><span class="line"><span class="string">|                                                  |</span></span><br><span class="line"><span class="string">|Fortunately, after social engineering you have    |</span></span><br><span class="line"><span class="string">|hacked in her communication with her boyfriend    |</span></span><br><span class="line"><span class="string">| Brooke and you have got Brooke's partial         |</span></span><br><span class="line"><span class="string">|RSA-private-key.                                  |</span></span><br><span class="line"><span class="string">|                                                  |</span></span><br><span class="line"><span class="string">|To get the message, you must first establish      |</span></span><br><span class="line"><span class="string">| communication with Arica through 'DH key exchange|</span></span><br><span class="line"><span class="string">| protocol', chat with her by saying what Brooke   |</span></span><br><span class="line"><span class="string">|said, but you need to send the message            |</span></span><br><span class="line"><span class="string">| "I want to get my AES-key." and the timestamp    |</span></span><br><span class="line"><span class="string">| after Arica said "What can I do for you?",       |</span></span><br><span class="line"><span class="string">|then she will give the AES-key encrypted with her |</span></span><br><span class="line"><span class="string">| RSA-public-key，this message should be start with|</span></span><br><span class="line"><span class="string">| "Here is the key:".                              |</span></span><br><span class="line"><span class="string">+--------------------------------------------------+</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    print(banner)</span><br><span class="line">    encrypt_flag()</span><br><span class="line">    enc = encrypt_key()</span><br><span class="line">    expA = getrandbits(<span class="number">128</span>)</span><br><span class="line">    expB = getrandbits(<span class="number">128</span>)</span><br><span class="line">    A = generateDH(expA)</span><br><span class="line">    B = generateDH(expB)</span><br><span class="line">    aricaSay(<span class="string">"A:"</span>, A)</span><br><span class="line">    AC = int(say2brooke(<span class="string">"A: "</span>))</span><br><span class="line">    brookeSay(<span class="string">"B:"</span>, B)</span><br><span class="line">    BC = int(say2arica(<span class="string">"B: "</span>))</span><br><span class="line">    keyC = pow(AC, expB, p)</span><br><span class="line">    keyS = pow(BC, expA, p)</span><br><span class="line">    keyC = long_to_bytes(keyC).rjust(<span class="number">16</span>, <span class="string">b"\x00"</span>)</span><br><span class="line">    keyS = long_to_bytes(keyS).rjust(<span class="number">16</span>, <span class="string">b"\x00"</span>)</span><br><span class="line">    cipherC = AES.new(keyC, AES.MODE_ECB)</span><br><span class="line">    cipherS = AES.new(keyS, AES.MODE_ECB)</span><br><span class="line">    <span class="keyword">for</span> _i <span class="keyword">in</span> range(<span class="number">5</span>):<span class="comment">#5</span></span><br><span class="line">        index=_i</span><br><span class="line">        randomnum = randint(<span class="number">0</span>, <span class="number">256</span>)</span><br><span class="line">        messageA = questions[index]</span><br><span class="line">        messageA = adaptmessage(messageA)</span><br><span class="line">        cS = bytes_to_long(cipherS.encrypt(messageA))</span><br><span class="line">        aricaSay(<span class="string">"A:"</span>, <span class="string">"&#123;:032x&#125;"</span>.format(cS))</span><br><span class="line">        s = int(say2brooke(<span class="string">"A: "</span>), <span class="number">16</span>)</span><br><span class="line">        s = long_to_bytes(s)</span><br><span class="line">        q = cipherC.decrypt(s)</span><br><span class="line">        <span class="keyword">if</span> q != messageA:</span><br><span class="line">            print(<span class="string">"Brooke does't get your words and realize something, U FAILED..."</span>)</span><br><span class="line">            exit(<span class="number">0</span>)</span><br><span class="line">        randomnum = randint(<span class="number">0</span>, <span class="number">256</span>)</span><br><span class="line">        messageB = answer[index]</span><br><span class="line">        messageB = adaptmessage(messageB)</span><br><span class="line">        cC = bytes_to_long(cipherC.encrypt(messageB))</span><br><span class="line">        brookeSay(<span class="string">"B:"</span>, <span class="string">"&#123;:032x&#125;"</span>.format(cC))</span><br><span class="line">        s = int(say2arica(<span class="string">"B: "</span>), <span class="number">16</span>)</span><br><span class="line">        s = long_to_bytes(s)</span><br><span class="line">        a = cipherS.decrypt(s)</span><br><span class="line">        <span class="keyword">if</span>(_i==<span class="number">4</span>):</span><br><span class="line">            messageB = fake_answer</span><br><span class="line">            messageB = adaptmessage(messageB)</span><br><span class="line">        <span class="keyword">if</span> a != messageB:</span><br><span class="line">            print(<span class="string">"Arica does't get your words and realize something, U FAILED..."</span>)</span><br><span class="line">            exit(<span class="number">0</span>)</span><br><span class="line">        </span><br><span class="line">    randomnum = randint(<span class="number">0</span>, <span class="number">256</span>)</span><br><span class="line">    messageA = saying_key+long_to_bytes(enc)</span><br><span class="line">    messageA = adaptmessage(messageA)</span><br><span class="line">    cS = bytes_to_long(cipherS.encrypt(messageA))</span><br><span class="line">    aricaSay(<span class="string">"A:"</span>, <span class="string">"&#123;:032x&#125;"</span>.format(cS))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>在出题过程中，根据自己的测试又稍微对题目更改了一下。</p>
+<p>首先，在对aes私钥进行rsa加密的时候，一开始的e比较大，在1500左右，在测试中发现对于不同的d0值和n值，脚本的运行时间需要10分钟-3个小时，而3个小时在12个小时比赛时间里面所占比例太大，所以把e限制在1024以内，且设置为动态可变的数值。但是为了不增加难度，aeskey是固定的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt_flag</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> flag</span><br><span class="line">    aes = AES.new(key, AES.MODE_ECB)</span><br><span class="line">    flag = adaptmessage(flag)</span><br><span class="line">    c = aes.encrypt(flag)</span><br><span class="line">    print(<span class="string">"Here is the encrypted flag: "</span>+str(base64.b64encode(c)))</span><br><span class="line">    <span class="comment">#b'gTAmtDzEDIYdzs6j55csresodxpsKJlOVMOmzLq8/39Vm0lJZvnrGtPBW6IKUpML'</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt_key</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment">#e = 1667</span></span><br><span class="line">    p = getPrime(<span class="number">700</span>)</span><br><span class="line">    q = getPrime(<span class="number">1400</span>) </span><br><span class="line">    n = p*q</span><br><span class="line">    print(<span class="string">"""+------------------------------------------------------+</span></span><br><span class="line"><span class="string">|Attension! Through soical engineering, you got this: |</span></span><br><span class="line"><span class="string">+------------------------------------------------------+"""</span>)</span><br><span class="line">    phi = (p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>):</span><br><span class="line">        e=getPrime(<span class="number">10</span>)</span><br><span class="line">        <span class="keyword">if</span>(phi%e!=<span class="number">0</span>):</span><br><span class="line">            print(<span class="string">"e = "</span>+str(e))</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    d = gmpy2.invert(e,phi)</span><br><span class="line">    print(<span class="string">"n = "</span>+str(n))</span><br><span class="line">    <span class="comment">#print(d)</span></span><br><span class="line">    print(<span class="string">"Brooke's partial d: "</span>+ str(int(d) % (<span class="number">2</span>**<span class="number">1050</span>)))<span class="comment">#d有问题</span></span><br><span class="line">    enc = pow(bytes_to_long(key), e, n)</span><br><span class="line">    <span class="keyword">return</span> enc</span><br></pre></td></tr></table></figure>
+
+<p>另外由于DH的g为2，所以公钥应当为大于0的整数(不管你是1或者g**y%p，都不可能是0)，所以加入了一段代码检验：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#之所以要做出这个判断，是因为公钥真的不可能为0或负数</span></span><br><span class="line"><span class="keyword">if</span>(AC &lt;=<span class="number">0</span>):</span><br><span class="line">    brookeSay(<span class="string">"You are not Arica! Her public key should not be:"</span>, AC)</span><br><span class="line">    exit(<span class="number">0</span>)</span><br><span class="line">brookeSay(<span class="string">"B:"</span>, B)</span><br><span class="line">BC = int(say2arica(<span class="string">"B: "</span>))</span><br><span class="line"><span class="keyword">if</span>(BC &lt;=<span class="number">0</span>):</span><br><span class="line">    aricaSay(<span class="string">"You are not Brooke! His public key should not be:"</span>, BC)</span><br><span class="line">    exit(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>另外，为了考察大家有没有细读message里面的内容，我在每条message后面都附带一个随机timestamp。每一次都需要更改这个timestamp，使得newtimestamp = (oldtimestamp+1)%256，程序里加上相应举例与提示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">+---------------------------------------------------------+</span><br><span class="line">| PS:                                                     |</span><br><span class="line">| All message should be followed <span class="keyword">with</span> new timestamp!!!    |</span><br><span class="line">| newtimestamp = (oldtimestamp+<span class="number">1</span>)%<span class="number">256</span>                     |</span><br><span class="line">| Please don<span class="string">'t stuck with it:(                            |</span></span><br><span class="line"><span class="string">| For example, when you decrypt what Arica said like this:|</span></span><br><span class="line"><span class="string">| +--------------------+                                  |</span></span><br><span class="line"><span class="string">| |    Brooke said:    |                                  |</span></span><br><span class="line"><span class="string">| +--------------------+                                  |</span></span><br><span class="line"><span class="string">| I'</span>m Brooke.                                             |</span><br><span class="line">| timestamp:<span class="number">112</span>                                           |</span><br><span class="line">| You should encrypt this message to Arica:               |</span><br><span class="line">| +---------------------+                                 |</span><br><span class="line">| |    Say to Arica:    |                                 |</span><br><span class="line">| +---------------------+                                 |</span><br><span class="line">| I<span class="string">'m Brooke.                                             |</span></span><br><span class="line"><span class="string">| timestamp:113                                           |</span></span><br><span class="line"><span class="string">+---------------------------------------------------------+</span></span><br></pre></td></tr></table></figure>
+
+<p>请大家不要太纠结timestamp的意义，这个机制是Arica和Brooke确保不被中间人攻击的机制，假设Arica和Brooke的时戳是同步的，对话中每次附加一个时戳值，通过验证时戳与当前时间是否相同来过关。但是如果是采用真正的时间的话，攻击成功的概率就更小了，所以简化一下，就生成一个固定的256位随机数。同时，中间人修改信息需要时间，并把修改后的时间替换发给另一方。这时候我们假设中间人接收并重发消息的时间代价为1s，所以我们要将时戳加一。举例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#server.py</span></span><br><span class="line">messageA = questions[index]+<span class="string">b"\ntimestamp:"</span>+bytes(str((randomnum+<span class="number">1</span>)%<span class="number">256</span>),encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">messageA = adaptmessage(messageA)</span><br></pre></td></tr></table></figure>
+
+<h4 id="Writeup样例"><a href="#Writeup样例" class="headerlink" title="Writeup样例"></a>Writeup样例</h4><p>首先，改编server.py为client.py，和服务器进行交互。这里由于交互程序变动较大，我直接通过手动输入把Arica和Brooke的密文信息传进去，等到解出明文以后手动修改timestamp。另外为了方便起见，我传递过去的公钥为1(即私钥为0)，这样的话和Brooke以及Alice的会话密钥都是1，就比较简单了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> encryption <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    keyC = <span class="number">1</span></span><br><span class="line">    keyS = <span class="number">1</span></span><br><span class="line">    keyC = long_to_bytes(keyC).rjust(<span class="number">16</span>, <span class="string">b"\x00"</span>)</span><br><span class="line">    keyS = long_to_bytes(keyS).rjust(<span class="number">16</span>, <span class="string">b"\x00"</span>)</span><br><span class="line">    cipherC = AES.new(keyC, AES.MODE_ECB)</span><br><span class="line">    cipherS = AES.new(keyS, AES.MODE_ECB)</span><br><span class="line">    <span class="keyword">for</span> _i <span class="keyword">in</span> range(<span class="number">0</span>):<span class="comment">#5</span></span><br><span class="line">        <span class="comment">#Arica说话了</span></span><br><span class="line">        s = int(say2brooke(<span class="string">"A: "</span>), <span class="number">16</span>)<span class="comment">#输入Arica说的话</span></span><br><span class="line">        s = long_to_bytes(s)</span><br><span class="line">        q = cipherC.decrypt(s)</span><br><span class="line">        print(q)</span><br><span class="line">        <span class="comment">#这里还是直接从外头输入吧</span></span><br><span class="line">        messageA = bytes(input(),encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">        messageA += <span class="string">b"\n"</span></span><br><span class="line">        messageA += bytes(input(),encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">        messageA = adaptmessage(messageA)</span><br><span class="line"></span><br><span class="line">        s=cipherC.encrypt(messageA)</span><br><span class="line">        print(hex(bytes_to_long(s))[<span class="number">2</span>:])<span class="comment">#对Brooke说的话</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#Brooke说话了</span></span><br><span class="line">        s = int(say2arica(<span class="string">"B: "</span>), <span class="number">16</span>)<span class="comment">#输入Brooke说的话</span></span><br><span class="line">        s = long_to_bytes(s)</span><br><span class="line">        a = cipherS.decrypt(s)</span><br><span class="line">        print(a)</span><br><span class="line">        <span class="comment">#这里还是直接从外头输入吧</span></span><br><span class="line">        messageB = bytes(input(),encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">        messageB += <span class="string">b"\n"</span></span><br><span class="line">        messageB += bytes(input(),encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">        messageB = adaptmessage(messageB)</span><br><span class="line">        </span><br><span class="line">        s=cipherS.encrypt(messageB)</span><br><span class="line">        print(hex(bytes_to_long(s))[<span class="number">2</span>:])<span class="comment">#对Arica说的话</span></span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">    <span class="comment">#Arica说出key了</span></span><br><span class="line">    s = int(say2brooke(<span class="string">"A: "</span>), <span class="number">16</span>)<span class="comment">#输入Arica说的话</span></span><br><span class="line">    s = long_to_bytes(s)</span><br><span class="line">    q = cipherC.decrypt(s)</span><br><span class="line">    key = q[<span class="number">17</span>:]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range (len(key)):</span><br><span class="line">        <span class="keyword">if</span>(key[i:i+<span class="number">10</span>]==<span class="string">b'\ntimestamp'</span>):</span><br><span class="line">            key=key[:i]</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    print(q)</span><br><span class="line">    print(key)</span><br><span class="line">    print(bytes_to_long(key))<span class="comment">#key</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>然后开始运行，运行截图如下：</p>
+<p>首先收到服务器的消息:</p>
+<p><img src="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/1.png" alt></p>
+<p>这些就是rsa的公钥，模数和泄露的私钥，先保存住，然后开始通信。</p>
+<p>首先，传递的公钥都为1。然后把Arica said的内容decryption，修改timestamp后把输出给回say to Brooke。</p>
+<p>服务器端界面：</p>
+<p><img src="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/2.png" alt="2"></p>
+<p>decryption.py运行界面：</p>
+<p><img src="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/image-20200402131956740.png" alt="image-20200402131956740"></p>
+<p>一直运行下去：</p>
+<p><img src="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/3.png" alt="3"></p>
+<p>直到最后得到key:</p>
+<p><img src="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/4.png" alt="4"></p>
+<p>把key的部分截取下来，转换为数字，然后根据已有的e，n，partial d来解出aeskey：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">e=<span class="number">863</span></span><br><span class="line">n = <span class="number">100518394843898371534434468452366727877002363101196571557097132988734353726584916462381290904798733002716305256677572628142627545744681541293793069726231800754314572981168235829239563613754713724345581918566947492170647540708428013292098065584617876680109166595710006367308500341766024651457023537770009981295726110940010220082434490215229951191714998895277291076151298363584672162765486380515325199053994651202708865071379999942193926154807059329464291992287421875356468218685095369057734586073271903432589401520355996027480658214090147502829069822606753125953586123331154015992246394834867237734405963056883227552074835515815968441</span></span><br><span class="line">c=<span class="number">86032824638305503499105979004374728344861493802341583733786447138684660694449673826205271902766363026345759436852747743967254218765160248630402258125202844303276381357264903281385470521070161164325276902001627351570675438339067652784355957225763207341000628151024518554862922220201109512940053316358078220681816224518400117972877854801506805929902506832781106133167532327833813179558969694268634413548545525533605595649634856393268111552838570383386406869870266457914799472663817890880697043874427042958587244568923338441053981863674366842769379075373006984522023718553749977766836594738859315852333132093474709715377682153430675891</span></span><br><span class="line">d0=<span class="number">8429433927120666131169351623736961178529851960373209550653840828920672665447032524933438956407503522388445988812739437427277858013428300926608147855795349674824173869269407061090165202002106353884034590344852857623737262477675587193006629765892565228448265429521617733861051151345083787592170864896543517637252788111</span></span><br><span class="line"></span><br><span class="line">d = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">0</span>,e):</span><br><span class="line">    <span class="keyword">print</span> k</span><br><span class="line">    X = var(<span class="string">'X'</span>)</span><br><span class="line">    results = solve_mod([e*d0*X - k*(n*X-X*X-n+X) == X], <span class="number">2</span>**<span class="number">1050</span>)</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> results:</span><br><span class="line">        p0 = ZZ(x[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">if</span> is_prime(p0) <span class="keyword">and</span> gcd(n,p0)!=<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">print</span> p0</span><br><span class="line">            q0 = n//p0</span><br><span class="line">            phi=(q0<span class="number">-1</span>)*(p0<span class="number">-1</span>)</span><br><span class="line">            d = inverse_mod(e,phi)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">if</span>(d!=<span class="number">0</span>):</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"><span class="keyword">print</span> d</span><br><span class="line">m = pow(c,d,n)</span><br><span class="line"><span class="keyword">print</span> m</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如图：</p>
+<p><img src="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/5.png" alt="5"></p>
+<p>得到aeskey以后解密flag，脚本如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Cryptodome.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> Cryptodome.Util.number <span class="keyword">import</span> (</span><br><span class="line">    bytes_to_long,</span><br><span class="line">    long_to_bytes,</span><br><span class="line">)</span><br><span class="line">key_in_num = <span class="number">137504889148498708381160600835355727692</span></span><br><span class="line">encryptedflag = <span class="string">b'gTAmtDzEDIYdzs6j55csresodxpsKJlOVMOmzLq8/39Vm0lJZvnrGtPBW6IKUpML'</span></span><br><span class="line">c = base64.b64decode(encryptedflag)</span><br><span class="line">key = long_to_bytes(key_in_num)</span><br><span class="line">print(key)</span><br><span class="line">aes = AES.new(key, AES.MODE_ECB)</span><br><span class="line">flag = aes.decrypt(c)</span><br><span class="line">print(<span class="string">"Here is the decrypted flag: "</span>+str(flag))</span><br></pre></td></tr></table></figure>
+
+<p>最终得到flag</p>
+<p><img src="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/6.png" alt="6"></p>
+<h6 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h6><p>[1]王小云,刘明洁.格密码学研究[J].密码学报,2014,1(01):13-27.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/" data-id="ck8oidtlo0009csuc36zxapf8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/auroralab/" rel="tag">auroralab</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/competition/" rel="tag">competition</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/project/" rel="tag">project</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          lz77编码选做实验过程笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/03/29/Coppersmith%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%B0%8F%E7%BB%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Coppersmith攻击方式小结</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/auroralab/" rel="tag">auroralab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/competition/" rel="tag">competition</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary/" rel="tag">diary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exploration/" rel="tag">exploration</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/introduction/" rel="tag">introduction</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/project/" rel="tag">project</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/study/" rel="tag">study</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/auroralab/" style="font-size: 15px;">auroralab</a> <a href="/tags/competition/" style="font-size: 15px;">competition</a> <a href="/tags/diary/" style="font-size: 15px;">diary</a> <a href="/tags/exploration/" style="font-size: 10px;">exploration</a> <a href="/tags/introduction/" style="font-size: 10px;">introduction</a> <a href="/tags/project/" style="font-size: 20px;">project</a> <a href="/tags/study/" style="font-size: 15px;">study</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/">lz77编码选做实验过程笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/">极光实验室战队考核密码学部分考察点与题解</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/Coppersmith%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%B0%8F%E7%BB%93/">Coppersmith攻击方式小结</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/">安卓反混淆软件探索-deobf</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B/">记一次安卓代码加固软件的测试过程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 life-extension<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
