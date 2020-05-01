@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>多媒体第三次选做实验-图像处理、滤波以及动画效果 | life-extension&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="粗略看了一下要补充的代码，涉及的功能挺多跨度挺广，但是各个功能是相互独立的，所以即使不完成所有的功能，只要不运行相关代码，程序也不会报错。我决定一个一个来，完成后直接测试功能。 计算灰度值计算灰度值的公式在PPT上，对照代码中已经获取了B,G,R的值，只需要保留灰度系数进行运算，注意顺序是B-G-R。 12345678&#x2F;&#x2F;&#x2F;&#x2F;                   请补充代码-- 计算灰度值，并设置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多媒体第三次选做实验-图像处理、滤波以及动画效果">
+<meta property="og:url" content="http://yoursite.com/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/index.html">
+<meta property="og:site_name" content="life-extension&#39;s blogs">
+<meta property="og:description" content="粗略看了一下要补充的代码，涉及的功能挺多跨度挺广，但是各个功能是相互独立的，所以即使不完成所有的功能，只要不运行相关代码，程序也不会报错。我决定一个一个来，完成后直接测试功能。 计算灰度值计算灰度值的公式在PPT上，对照代码中已经获取了B,G,R的值，只需要保留灰度系数进行运算，注意顺序是B-G-R。 12345678&#x2F;&#x2F;&#x2F;&#x2F;                   请补充代码-- 计算灰度值，并设置">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423213240919.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423214936625.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423215015872.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423220001751.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423220822623.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423221301931.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423225138987.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423225822497.png">
+<meta property="article:published_time" content="2020-04-23T13:15:30.000Z">
+<meta property="article:modified_time" content="2020-04-30T15:09:55.244Z">
+<meta property="article:author" content="life-extension">
+<meta property="article:tag" content="study">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423213240919.png">
+  
+    <link rel="alternate" href="/atom.xml" title="life-extension&#39;s blogs" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">life-extension&#39;s blogs</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">chaser of light</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-多媒体第三次选做实验-图像处理、滤波以及动画效果" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/" class="article-date">
+  <time datetime="2020-04-23T13:15:30.000Z" itemprop="datePublished">2020-04-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      多媒体第三次选做实验-图像处理、滤波以及动画效果
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>粗略看了一下要补充的代码，涉及的功能挺多跨度挺广，但是各个功能是相互独立的，所以即使不完成所有的功能，只要不运行相关代码，程序也不会报错。我决定一个一个来，完成后直接测试功能。</p>
+<h3 id="计算灰度值"><a href="#计算灰度值" class="headerlink" title="计算灰度值"></a>计算灰度值</h3><p>计算灰度值的公式在PPT上，对照代码中已经获取了B,G,R的值，只需要保留灰度系数进行运算，注意顺序是B-G-R。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////                   请补充代码-- 计算灰度值，并设置像素的每个通道值为该灰度值</span></span><br><span class="line">                      </span><br><span class="line">                <span class="comment">//////////////  开始补充   ///////////////</span></span><br><span class="line">				gray = B * <span class="number">0.114</span> + G * <span class="number">0.587</span> + R * <span class="number">0.299</span>;</span><br><span class="line">				*(pD + offset) = gray;</span><br><span class="line">				*(pD + offset + <span class="number">1</span>) = gray;</span><br><span class="line">				*(pD + offset + <span class="number">2</span>) = gray;</span><br><span class="line">                <span class="comment">//////////////  结束补充   ///////////////</span></span><br></pre></td></tr></table></figure>
+
+<p>测试效果过关：</p>
+<p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423213240919.png" alt="image-20200423213240919"></p>
+<h3 id="提取水平向边缘和竖直向边缘"><a href="#提取水平向边缘和竖直向边缘" class="headerlink" title="提取水平向边缘和竖直向边缘"></a>提取水平向边缘和竖直向边缘</h3><p>水平向边缘的提取是一个卷积运算，而今天所学的好几项功能都需要用到卷积运算。此刻我希望的就是能有一个函数能帮我进行矩阵操作。搜了一下“卷积”，没有找到内容，正当我准备自己写这个函数的时候，我看到代码有提示，直接调用FilterBmp。</p>
+<p>浏览了一下FilterBmp的功能和参数，第一个参数是卷积核，第二个和第三个参数是bmp图像，不同的是第二个参数句柄是初始图像的，不用进行修改，而第三个参数需要修改。参考一下其他对FilterBmp的调用形式，我们发现bmp_ori_copy和bmp变量可以利用。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FilterBmp(smooth_kernel, bmp_ori_copy, bmp);</span><br></pre></td></tr></table></figure>
+
+<p>记录一下水平向矩阵和竖直向矩阵的名字，xEdge_kernel和yEdge_kernel，所以补充好代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////           请补充代码-- 提取水平向边缘，提示：调用FilterBmp</span></span><br><span class="line">               <span class="comment">//////////////  开始补充   ///////////////</span></span><br><span class="line">			FilterBmp(xEdge_kernel, bmp_ori_copy, bmp);</span><br><span class="line">               <span class="comment">//////////////  结束补充   ///////////////</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////           请补充代码-- 提取竖直向边缘，提示：调用FilterBmp</span></span><br><span class="line">                <span class="comment">//////////////  开始补充   ///////////////</span></span><br><span class="line">				FilterBmp(yEdge_kernel, bmp_ori_copy, bmp);</span><br><span class="line">                <span class="comment">//////////////  结束补充   ///////////////</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果是成功的，图像中的边缘被成功提取了出来。</p>
+<p>水平边缘图：</p>
+<p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423214936625.png" alt="image-20200423214936625"></p>
+<p>竖直边缘图：</p>
+<p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423215015872.png" alt="image-20200423215015872"></p>
+<h3 id="实现图像锐化"><a href="#实现图像锐化" class="headerlink" title="实现图像锐化"></a>实现图像锐化</h3><p>这一次提前看到了提示，与IDM_EDGE中的代码有关。IDM_EDGE中实现的功能就是整体边缘提取，边缘图 = 原图 – 模糊图像。而图像锐化的概念是锐化图 = 原图 + 边缘图。所以我们可以得到整体边缘图，再加上原图即可。此刻希望有一个相加函数，就像SubIm1FromIm2一样，结果在函数声明看到了AddIm1ToIm2。实现也就比较简单了。不过在实现前又看到了上面老师注释的一段代码，决定试一试。</p>
+<p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423220001751.png" alt="image-20200423220001751"></p>
+<p>效果还不错，具体看到实现以后，我明白了，原来这幅图是这样实现的：认为总体边缘图=水平边缘图+竖直边缘图，那么锐化图=原图+水平边缘图+竖直边缘图。但是这么实现的<strong>不足之处</strong>就是，代码 AddIm1ToIm2(bmp_ori_copy, bmp)会改变bmp_ori_copy的值，会影响到后面的操作。</p>
+<p>那么我自己的实现就只能按照PPT的形式了，先给出代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////           请补充代码-- 实现图像锐化，提示：与IDM_EDGE中的代码有关</span></span><br><span class="line">               <span class="comment">//////////////  开始补充   ///////////////</span></span><br><span class="line">			FilterBmp(smooth_kernel, bmp_ori_copy, bmp);</span><br><span class="line">			SubIm1FromIm2(bmp, bmp_ori_copy);</span><br><span class="line">			AddIm1ToIm2(bmp_ori_copy, bmp);</span><br><span class="line">               <span class="comment">//////////////  结束补充   ///////////////</span></span><br></pre></td></tr></table></figure>
+
+<p>再看看效果如何：</p>
+<p>不算很明显，不知道有没有成功，这是锐化后的：</p>
+<p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423220822623.png" alt="image-20200423220822623"></p>
+<p>我反而觉得锐化前更清晰一些。</p>
+<p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423221301931.png" alt="image-20200423221301931"></p>
+<h3 id="判断鼠标位置并设置对应像素"><a href="#判断鼠标位置并设置对应像素" class="headerlink" title="判断鼠标位置并设置对应像素"></a>判断鼠标位置并设置对应像素</h3><p>判断鼠标位置是否在图像内，我们知道图像的长宽，又知道图像没有偏移，起点在（0,0）。因此可以直接判断，这部分代码可以应用老师在FilterBmp的一段代码，但是为了让代码不那么啰嗦，我还是自己写了。另外设置像素值的事情让我想到了保留红色通道。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////           请补充代码--实现：判断鼠标位置是否在图像内，并设置对应像素为红色</span></span><br><span class="line">            <span class="comment">//////////////  开始补充   ///////////////</span></span><br><span class="line">			<span class="keyword">if</span> (y &gt;= <span class="number">0</span> &amp;&amp; y &lt; bmp.bmHeight &amp;&amp; x &gt;= <span class="number">0</span> &amp;&amp; x &lt; bmp.bmWidth)</span><br><span class="line">			<span class="comment">//在图像内</span></span><br><span class="line">			&#123;</span><br><span class="line">				BYTE* pD = (BYTE*)bmp.bmBits;</span><br><span class="line">				<span class="keyword">int</span> i = y * bmp.bmWidth + x;</span><br><span class="line">				<span class="keyword">long</span> offset = i * <span class="number">4</span>;</span><br><span class="line">				*(pD + offset) = <span class="number">0</span>;</span><br><span class="line">				*(pD + offset + <span class="number">1</span>) = <span class="number">0</span>;</span><br><span class="line">				*(pD + offset + <span class="number">2</span>) = *(pD + offset + <span class="number">2</span>); <span class="comment">//红色通道</span></span><br><span class="line">				*(pD + offset + <span class="number">3</span>) = <span class="number">0</span>; <span class="comment">//这是透明度通道</span></span><br><span class="line">				InvalidateRect(hWnd, <span class="literal">NULL</span>, <span class="literal">true</span>);</span><br><span class="line">			&#125;        </span><br><span class="line">            <span class="comment">//////////////  结束补充   ///////////////</span></span><br></pre></td></tr></table></figure>
+
+<p>运行的结果就是，能画线，但是位置真好反了过来，就像倒立了一样，所以这个offset抓的是有问题的。</p>
+<p>把</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = y * bmp.bmWidth + x;</span><br></pre></td></tr></table></figure>
+
+<p>改为</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = (bmp.bmHeight-y) * bmp.bmWidth + x;</span><br></pre></td></tr></table></figure>
+
+<p>这样一来就解决了问题。</p>
+<p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423225138987.png" alt="image-20200423225138987"></p>
+<h3 id="与硬件无关的动画速度"><a href="#与硬件无关的动画速度" class="headerlink" title="与硬件无关的动画速度"></a>与硬件无关的动画速度</h3><p>根据PPT的内容，首先找到代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">preTime = GetTickCount();</span><br></pre></td></tr></table></figure>
+
+<p>这个就是记录当前时间的方法，然后按照PPT上面基本可以补充好如下代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////      请补充代码-- 实现与机器速度无关的平移</span></span><br><span class="line">   <span class="comment">///         要求实现x = x + animSpeed * deltaTime，其中deltaTime是本次与上次运行之间的时间差</span></span><br><span class="line">   <span class="comment">//////////////  开始补充   ///////////////</span></span><br><span class="line">now = GetTickCount();</span><br><span class="line">deltaTime = now - preTime;</span><br><span class="line">preTime = now;</span><br><span class="line">x = x + animSpeed * deltaTime;</span><br><span class="line">   <span class="comment">//////////////  结束补充   ///////////////</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423225822497.png" alt="image-20200423225822497"></p>
+<p>运行成功，点住消息栏不放，小方块不会动，但一旦松开，程序将重新计算deltatime，所以小方块一般会出现较大的位移。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/" data-id="ck9odqwki000bpguc6tkyh3hl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/study/" rel="tag">study</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/30/%E5%9F%BA%E4%BA%8E%E9%97%A8%E9%99%90%E6%96%B9%E6%A1%88%E7%9A%84%E6%9D%A1%E5%BD%A2%E7%A0%81%E4%BF%9D%E5%AF%86%E5%8F%8A%E5%AE%B9%E9%94%99%E6%8A%80%E6%9C%AF/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          基于门限方案的条形码保密及容错技术
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">基于win32 GDI的图像显示方法选做实验笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/auroralab/" rel="tag">auroralab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/competition/" rel="tag">competition</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary/" rel="tag">diary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exploration/" rel="tag">exploration</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/introduction/" rel="tag">introduction</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/project/" rel="tag">project</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/study/" rel="tag">study</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/auroralab/" style="font-size: 13.33px;">auroralab</a> <a href="/tags/competition/" style="font-size: 13.33px;">competition</a> <a href="/tags/diary/" style="font-size: 13.33px;">diary</a> <a href="/tags/exploration/" style="font-size: 10px;">exploration</a> <a href="/tags/introduction/" style="font-size: 10px;">introduction</a> <a href="/tags/project/" style="font-size: 20px;">project</a> <a href="/tags/study/" style="font-size: 16.67px;">study</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/30/%E5%9F%BA%E4%BA%8E%E9%97%A8%E9%99%90%E6%96%B9%E6%A1%88%E7%9A%84%E6%9D%A1%E5%BD%A2%E7%A0%81%E4%BF%9D%E5%AF%86%E5%8F%8A%E5%AE%B9%E9%94%99%E6%8A%80%E6%9C%AF/">基于门限方案的条形码保密及容错技术</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/">多媒体第三次选做实验-图像处理、滤波以及动画效果</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/">基于win32 GDI的图像显示方法选做实验笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/15/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E7%89%A9%E6%B5%81%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88/">基于CRT的物流信息安全处理方案</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/13/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E6%96%B0%E5%9E%8B%E7%BE%A4%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB%E7%B3%BB%E7%BB%9F/">基于CRT的新型群文件共享系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 life-extension<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

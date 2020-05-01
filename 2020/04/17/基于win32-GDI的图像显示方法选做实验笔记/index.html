@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>基于win32 GDI的图像显示方法选做实验笔记 | life-extension&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这是多媒体原理的第二次选做实验，这次为了充分调动自己的主观能动性，我打算自己先写好代码运行程序，然后再去评论区了解到其他同学对待这个问题的思考角度。 程序代码与注释任务一：修改画布内容，只显示G通道这段代码其实是老师在视频中重点讲解演示过的，不过当时的对象是红色通道。视频中提醒我需要注意的点：BMP中每个像素的存储点是按B-G-R顺序来进行的。我们的目标是对于每个像素点，对画布图片的指针进行操作，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于win32 GDI的图像显示方法选做实验笔记">
+<meta property="og:url" content="http://yoursite.com/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="life-extension&#39;s blogs">
+<meta property="og:description" content="这是多媒体原理的第二次选做实验，这次为了充分调动自己的主观能动性，我打算自己先写好代码运行程序，然后再去评论区了解到其他同学对待这个问题的思考角度。 程序代码与注释任务一：修改画布内容，只显示G通道这段代码其实是老师在视频中重点讲解演示过的，不过当时的对象是红色通道。视频中提醒我需要注意的点：BMP中每个像素的存储点是按B-G-R顺序来进行的。我们的目标是对于每个像素点，对画布图片的指针进行操作，">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/image-20200417123354912.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/image-20200417130122809.png">
+<meta property="article:published_time" content="2020-04-17T03:56:26.000Z">
+<meta property="article:modified_time" content="2020-04-17T10:31:21.257Z">
+<meta property="article:author" content="life-extension">
+<meta property="article:tag" content="study">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/image-20200417123354912.png">
+  
+    <link rel="alternate" href="/atom.xml" title="life-extension&#39;s blogs" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">life-extension&#39;s blogs</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">chaser of light</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-基于win32-GDI的图像显示方法选做实验笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2020-04-17T03:56:26.000Z" itemprop="datePublished">2020-04-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      基于win32 GDI的图像显示方法选做实验笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这是多媒体原理的第二次选做实验，这次为了充分调动自己的主观能动性，我打算自己先写好代码运行程序，然后再去评论区了解到其他同学对待这个问题的思考角度。</p>
+<h3 id="程序代码与注释"><a href="#程序代码与注释" class="headerlink" title="程序代码与注释"></a>程序代码与注释</h3><h5 id="任务一：修改画布内容，只显示G通道"><a href="#任务一：修改画布内容，只显示G通道" class="headerlink" title="任务一：修改画布内容，只显示G通道"></a>任务一：修改画布内容，只显示G通道</h5><p>这段代码其实是老师在视频中重点讲解演示过的，不过当时的对象是红色通道。视频中提醒我需要注意的点：BMP中每个像素的存储点是按B-G-R顺序来进行的。我们的目标是对于每个像素点，对画布图片的指针进行操作，只保留绿色通道的值，其他都清零，于是可以补充代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> offset = i * <span class="number">4</span>;</span><br><span class="line">*(pD + offset) = <span class="number">0</span>;</span><br><span class="line">*(pD + offset + <span class="number">1</span>) = *(pD + offset + <span class="number">1</span>);<span class="comment">//绿色通道</span></span><br><span class="line">*(pD + offset + <span class="number">2</span>) = <span class="number">0</span>; </span><br><span class="line">*(pD + offset + <span class="number">3</span>) = <span class="number">0</span>; <span class="comment">//这是透明度通道</span></span><br></pre></td></tr></table></figure>
+
+<p>但是我觉得这段代码也存在一些问题。比如我们这里，需要保留G通道的值，所以修改G通道的值的代码貌似是多余的，其他两个通道也是，都有一句代码是多余的，虽然这样更易读，但我还是决定删掉，最终通过测试的一部分代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">              <span class="keyword">for</span> (<span class="keyword">long</span> i = <span class="number">0</span>; i &lt; nP; i++)</span><br><span class="line">              &#123;</span><br><span class="line">                 </span><br><span class="line">                 <span class="comment">//请补充代码--保留G通道的值，把R和B通道值置零</span></span><br><span class="line">                 </span><br><span class="line">                  <span class="comment">//////////////  开始补充   ///////////////</span></span><br><span class="line"><span class="keyword">long</span> offset = i * <span class="number">4</span>;</span><br><span class="line">*(pD + offset) = <span class="number">0</span>;</span><br><span class="line">*(pD + offset + <span class="number">2</span>) = <span class="number">0</span>; </span><br><span class="line">*(pD + offset + <span class="number">3</span>) = <span class="number">0</span>; <span class="comment">//这是透明度通道</span></span><br><span class="line">                  <span class="comment">//////////////  结束补充   ///////////////</span></span><br><span class="line">              &#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试效果也是OK的。</p>
+<p><img src="/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/image-20200417123354912.png" alt="image-20200417123354912"></p>
+<h5 id="任务二：倒立图像"><a href="#任务二：倒立图像" class="headerlink" title="任务二：倒立图像"></a>任务二：倒立图像</h5><p>在写代码之前，我思考了老师在代码中注释的一个问题，在这段代码中为什么halfline–：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> halfLines = bmp.bmHeight / <span class="number">2</span>;</span><br><span class="line">               <span class="keyword">if</span> (halfLines * <span class="number">2</span> &gt; bmp.bmHeight)</span><br><span class="line">                   halfLines--; <span class="comment">//为什么要进行这个计算？</span></span><br></pre></td></tr></table></figure>
+
+<p>这段代码是为了找出图片翻转循环的执行次数。在代码上其实还有其他的表示方法，总体的目标就是找到中间行，使得除了中间行（如果存在的话）之外图像收尾对应行的交换，最终实现图像倒立。中间行是不必参与交换的。举个例子，如果图像有10行，从0开始数，那么第4行和第5行需要交换。如果图像有11行，那么第5行固定不动即可。</p>
+<p>补充的代码要求将第i行的像素值与垂直方向对应行像素值进行互换，那么按照上面10行的例子，就是第0行和第9行换，halflines是5，推广起来就是第i行和第halflines*2-1-i行换。具体的做法和两个值的交换函数没有区别，可补充代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">               <span class="comment">//请补充代码--将第i行的像素值与垂直方向对应行像素值进行互换</span></span><br><span class="line"></span><br><span class="line">               <span class="comment">//////////////  开始补充   ///////////////</span></span><br><span class="line">*(pD + i * bmp.bmWidthBytes + j) =  *(pD + (halfLines * <span class="number">2</span> - <span class="number">1</span> - i) * bmp.bmWidthBytes + j);</span><br><span class="line">*(pD + (halfLines * <span class="number">2</span> - <span class="number">1</span> - i) * bmp.bmWidthBytes + j) = midV;</span><br><span class="line"></span><br><span class="line">               <span class="comment">//////////////  结束补充   ///////////////</span></span><br></pre></td></tr></table></figure>
+
+<p>成功完成任务：</p>
+<p><img src="/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/image-20200417130122809.png" alt="image-20200417130122809"></p>
+<h3 id="讨论与交流"><a href="#讨论与交流" class="headerlink" title="讨论与交流"></a>讨论与交流</h3><p>上传任务后，我又去讨论区看了看其他同学的成果。他们大多提到了一个问题，那就是式子：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">halfLines * <span class="number">2</span> &gt; bmp.bmHeight</span><br></pre></td></tr></table></figure>
+
+<p>是一条永真式。我们讨论了一番，最后还是打算求助老师。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/" data-id="ck9odqwkd0008pgucamh4fbep" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/study/" rel="tag">study</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          多媒体第三次选做实验-图像处理、滤波以及动画效果
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/15/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E7%89%A9%E6%B5%81%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">基于CRT的物流信息安全处理方案</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/auroralab/" rel="tag">auroralab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/competition/" rel="tag">competition</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary/" rel="tag">diary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exploration/" rel="tag">exploration</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/introduction/" rel="tag">introduction</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/project/" rel="tag">project</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/study/" rel="tag">study</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/auroralab/" style="font-size: 13.33px;">auroralab</a> <a href="/tags/competition/" style="font-size: 13.33px;">competition</a> <a href="/tags/diary/" style="font-size: 13.33px;">diary</a> <a href="/tags/exploration/" style="font-size: 10px;">exploration</a> <a href="/tags/introduction/" style="font-size: 10px;">introduction</a> <a href="/tags/project/" style="font-size: 20px;">project</a> <a href="/tags/study/" style="font-size: 16.67px;">study</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/30/%E5%9F%BA%E4%BA%8E%E9%97%A8%E9%99%90%E6%96%B9%E6%A1%88%E7%9A%84%E6%9D%A1%E5%BD%A2%E7%A0%81%E4%BF%9D%E5%AF%86%E5%8F%8A%E5%AE%B9%E9%94%99%E6%8A%80%E6%9C%AF/">基于门限方案的条形码保密及容错技术</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/">多媒体第三次选做实验-图像处理、滤波以及动画效果</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/">基于win32 GDI的图像显示方法选做实验笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/15/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E7%89%A9%E6%B5%81%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88/">基于CRT的物流信息安全处理方案</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/13/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E6%96%B0%E5%9E%8B%E7%BE%A4%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB%E7%B3%BB%E7%BB%9F/">基于CRT的新型群文件共享系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 life-extension<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
