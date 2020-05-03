@@ -1,105 +1,297 @@
+<!--
+	作者：Sariay
+	时间：2018-08-26
+	描述：There may be a bug, but don't worry, Qiling(器灵) says that it can work normally! aha!
+-->
 <!DOCTYPE html>
-<html>
+<html class="html-loading">
+		
+
 <head>
-  <meta charset="utf-8">
+	<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <title>
+    
+      对音频缓存加密的探讨 | life-extension&#39;s blogs
+    
+  </title>
+  <meta name="author" content="life-extension">
+  <meta name="keywords" content="" />
+  <meta name="description" content="chaser of light" />
+	<!-- favicon -->
+  <link rel="shortcut icon" href="/img/favicon.ico">
+
+  <!-- css -->
   
+<link rel="stylesheet" href="/css/Annie.css">
 
   
-  <title>对音频缓存加密的探讨 | life-extension&#39;s blogs</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前段时间，某音乐被爆其缓存文件只使用了简单的异或加密，且容易得到加密密钥为0xa3。原文链接点击这里。以下是我的延伸探讨。 1.对音频缓存的批量解密攻击[^该部分来自于我11月份写的推送]:  抱着好奇的心理，我把手机里面该音乐的缓存转到了电脑上面，如图：  据分析这些UC！文件就是加密后的MP3文件。 用010editor打开其中一个文件，发现存在很多0xa3的字符，如果我们断定网易云用的是异">
-<meta property="og:type" content="article">
-<meta property="og:title" content="对音频缓存加密的探讨">
-<meta property="og:url" content="http://yoursite.com/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/index.html">
-<meta property="og:site_name" content="life-extension&#39;s blogs">
-<meta property="og:description" content="前段时间，某音乐被爆其缓存文件只使用了简单的异或加密，且容易得到加密密钥为0xa3。原文链接点击这里。以下是我的延伸探讨。 1.对音频缓存的批量解密攻击[^该部分来自于我11月份写的推送]:  抱着好奇的心理，我把手机里面该音乐的缓存转到了电脑上面，如图：  据分析这些UC！文件就是加密后的MP3文件。 用010editor打开其中一个文件，发现存在很多0xa3的字符，如果我们断定网易云用的是异">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/1.png">
-<meta property="og:image" content="http://yoursite.com/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/2.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/3.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/4.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/5.jpg">
-<meta property="article:published_time" content="2020-02-17T10:41:30.000Z">
-<meta property="article:modified_time" content="2020-03-30T03:25:15.140Z">
-<meta property="article:author" content="life-extension">
-<meta property="article:tag" content="project">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/1.png">
-  
-    <link rel="alternate" href="/atom.xml" title="life-extension&#39;s blogs" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+  <!-- jquery -->
+	
+<script src="/plugin/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 4.2.0"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">life-extension&#39;s blogs</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">chaser of light</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
+<script>
+    const CONFIG_BGIMAGE = {
+      mode: 'normal',
+      normalSrc: '/img/header-bg.jpg',
+      randomYouMax: 110,
+      randomYouSrc: 'https://sariay.github.io/Random-img/',
+	  randomOtherSrc: 'https://api.berryapi.net/?service=App.Bing.Images&day=-0',
+	  preloaderEnable: true
+    }
+	
+    const CONFIG_LEACLOUD_COUNT = {
+      enable: false,
+	  appId: 'AU8...',
+	  appKey: '4cU...',
+	  serverURLs: 'http' || ' '
+    }
+  </script>
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="life-extension's blogs" type="application/atom+xml">
+</head>
+	<body>
+		<!-- Preloader -->
+
+	<div id="preloader">
+		<div class="pre-container">
+			
+				<div class="spinner">
+					<div class="double-bounce1"></div>
+					<div class="double-bounce2"></div>
+				</div>
+						
+		</div>
+	</div>
+
+
+<!-- header -->
+<header class="fixbackground bg-pan-br">
+	<div class="mask">
+		<!-- motto -->
+		<div class="h-body">	
+			
+				<div class="motto text-shadow-pop-left">
+					<p class="content" id="motto-content">Fetching...</p>
+					<p>-<p>
+					<p class="author" id="motto-author">Just a minute...</p>
+				</div>
+			
+		</div>
+		
+		<!-- others: such as time... -->			
+		<div class="h-footer">
+			<a href="javascript:;" id="read-more" class="scroll-down">
+				<span class="icon-anchor1 animation-scroll-down"></span>
+			</a>
+		</div>
+	</div>
 </header>
-      <div class="outer">
-        <section id="main"><article id="post-对音频缓存加密的探讨" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/" class="article-date">
-  <time datetime="2020-02-17T10:41:30.000Z" itemprop="datePublished">2020-02-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      对音频缓存加密的探讨
-    </h1>
-  
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/1.png" alt="img"></p>
+<div id="navigation-hide">
+	<!-- Progress bar -->
+	<div id="progress-bar"></div>
+
+	<!-- Progress percent -->
+	<div id="progress-percentage"><span>0.0%</span></div>
+
+	<div class="toc-switch"><span class="switch-button">Catalog</span></div>
+
+	<!-- Page title -->
+	<p>
+		
+			「对音频缓存加密的探讨」
+		
+	</p>
+
+	
+	
+
+	<!-- Nav trigger for navigation-H-->
+	<a class="nav-trigger"><span></span></a>
+</div>
+
+<!-- Navigation in div(id="navigation-H") -->
+<nav class="nav-container" id="cd-nav">
+	<div class="nav-header">
+		<span class="logo"> 
+			<img src="/img/logo.png">
+		</span>
+		<a href="javascript:;" class="nav-close"></a>
+	</div>
+	
+	<div class="nav-body">
+		<ul id="global-nav">
+	
+		<li class="menu-home">
+			<a href="/" class="menu-item-home" target="_blank">Home</a>
+		</li>
+		
+	
+		<li class="menu-archive">
+			<a href="/archives" class="menu-item-archive" target="_blank">Archive</a>
+		</li>
+		
+	
+		<li class="menu-categories">
+			<a href="/categories" class="menu-item-categories" target="_blank">Category</a>
+		</li>
+		
+	
+		<li class="menu-tags">
+			<a href="/tags" class="menu-item-tags" target="_blank">Tag</a>
+		</li>
+		
+	
+		<li class="menu-about">
+			<a href="/about" class="menu-item-about" target="_blank">About</a>
+		</li>
+		
+	
+		<li class="menu-gallery">
+			<a href="/gallery" class="menu-item-gallery" target="_blank">Gallery</a>
+		</li>
+		
+	
+
+	
+		<li class="menu-search">
+			<a href="javascript:;" class="popup-trigger">Search</a>
+		</li>
+	
+</ul>
+	</div>
+	
+	<div class="nav-footer">
+		<ul id="global-social">
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-one"><span class="path1"></span><span class="path2"></span></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-zhihu"></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-github"></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-sina-weibo "></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-pinterest2"></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-instagram"></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-twitter"></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="/atom.xml" target="_blank">
+				<span class="icon-rss"></span>
+			</a>
+		</li>
+			
+</ul>
+
+	</div>
+</nav>
+			
+		<!--main-->
+		<main>
+			<!--
+	时间：2018-11-17
+	描述：
+		插件名称：katelog.min.js
+		插件作者：KELEN
+		插件来源: https://github.com/KELEN/katelog
+-->
+
+	
+		<div class="layout-toc">
+			<div id="layout-toc">
+				<div class="k-catelog-list" id="catelog-list" data-title="Catalog"></div>
+			</div>
+		</div>
+
+		
+<script src="/plugin/toc/katelog.min.js"></script>
+
+
+		
+	 
+
+<div class="layout-post">
+	<div id="layout-post">
+		<div class="article-title">
+			
+	<a href="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/" itemprop="url">
+		对音频缓存加密的探讨
+	</a>
+
+		</div>
+
+		<div class="article-meta">
+			<span>
+				<i class="icon-calendar1"></i>
+				
+				
+
+
+
+
+	Updated on
+
+	<a href="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/" itemprop="url">
+		<time datetime="2020-02-17T10:41:30.000Z" itemprop="dateUpdated">
+	  		2020-05-03
+	  </time>
+	</a> 
+
+
+
+			</span>
+			<span>
+				
+	<i class="icon-price-tags"></i>
+	
+		<a href="/tags/project/" class=" ">
+			project
+		</a>
+	
+		
+			</span>
+			
+			
+
+
+
+		</div>
+
+		<div class="article-content" id="article-content">
+			<p><img src="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/1.png" alt="img"></p>
 <p>前段时间，某音乐被爆其缓存文件只使用了简单的异或加密，且容易得到加密密钥为0xa3。<a href="https://forum.90sec.com/t/topic/38/9" target="_blank" rel="noopener">原文链接点击这里</a>。以下是我的延伸探讨。</p>
 <h2 id="1-对音频缓存的批量解密攻击"><a href="#1-对音频缓存的批量解密攻击" class="headerlink" title="1.对音频缓存的批量解密攻击"></a>1.对音频缓存的批量解密攻击</h2><p>[^该部分来自于我11月份写的推送]: </p>
 <p>抱着好奇的心理，我把手机里面该音乐的缓存转到了电脑上面，如图：</p>
@@ -119,147 +311,642 @@
 <h2 id="3-对音频缓存加密方式的建议"><a href="#3-对音频缓存加密方式的建议" class="headerlink" title="3.对音频缓存加密方式的建议"></a>3.对音频缓存加密方式的建议</h2><p>其实该音乐应用可以改进加密算法，提高密钥空间的分析。</p>
 <p>市面上目前也有很多音乐应用，使用了比较好的加密算法。</p>
 <p>例如qq音乐采用了tea加密。如果tea加密比较复杂的话，我认为用维吉尼亚加密也可以，但是注意密钥要稍微长一些，不然通过对文件头的分析是可以把密钥给重新还原的。</p>
+	
+		</div>
+		
+		<div id="current-post-cover" data-scr="/img/music.png"></div>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/" data-id="ck9odqwkr000fpguc5mknfb6s" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/project/" rel="tag">project</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2020/03/01/%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E5%9D%91%E6%B4%BC%E6%B4%BC(%E6%8C%81%E6%9B%B4%E4%B8%AD)/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          安卓开发中遇到的坑坑洼洼
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">ACTF新人赛密码学部分考察点与题解</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/auroralab/" rel="tag">auroralab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/competition/" rel="tag">competition</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary/" rel="tag">diary</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exploration/" rel="tag">exploration</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/introduction/" rel="tag">introduction</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/project/" rel="tag">project</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/study/" rel="tag">study</a></li></ul>
-    </div>
-  </div>
+		<!-- relate post, comment...-->
+		<div class="investment-container">
+			<div class="investment-header">
+				<div class="investment-title-1">
+					<div class="on">Related post</div>
+					<div>Comment</div>
+					<div>Share</div>
+				</div>
+				<div class="investment-title-2">	            
+					
+	<span>
+		<a id="totop-post-page">To Top</a>
+		
+			<a href="/2020/03/01/%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E5%9D%91%E6%B4%BC%E6%B4%BC(%E6%8C%81%E6%9B%B4%E4%B8%AD)/" title="安卓开发中遇到的坑坑洼洼" rel="prev">
+				&laquo;Pre post
+			</a>
+		
+		
+			<a href="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/" title="ACTF新人赛密码学部分考察点与题解" rel="next">
+				Next post&raquo;
+			</a>
+			
+	</span>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/auroralab/" style="font-size: 13.33px;">auroralab</a> <a href="/tags/competition/" style="font-size: 13.33px;">competition</a> <a href="/tags/diary/" style="font-size: 13.33px;">diary</a> <a href="/tags/exploration/" style="font-size: 10px;">exploration</a> <a href="/tags/introduction/" style="font-size: 10px;">introduction</a> <a href="/tags/project/" style="font-size: 20px;">project</a> <a href="/tags/study/" style="font-size: 16.67px;">study</a>
-    </div>
-  </div>
+      		
+				</div>	
+			</div>
+			
+			<div class="investment-content">
+				<div class="investment-content-list">
+					
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
-    </div>
-  </div>
+<div class="relate-post">
+	
+		<ul>
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/04/30/%E5%9F%BA%E4%BA%8E%E9%97%A8%E9%99%90%E6%96%B9%E6%A1%88%E7%9A%84%E6%9D%A1%E5%BD%A2%E7%A0%81%E4%BF%9D%E5%AF%86%E5%8F%8A%E5%AE%B9%E9%94%99%E6%8A%80%E6%9C%AF/" title="基于门限方案的条形码保密及容错技术">
+								基于门限方案的条形码保密及容错技术			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								四月 30日, 2020				
+							</p>
+							<p class="relate-post-content">
+								经历过初期两个小项目的探索，我们项目团队积累了一定的项目研究经验，在老师和16级学长的帮助下，我们把研究方向转到了门限方案的实际应用上。结合市面上用9张合并的条形码提高条形码的容错能力的操作，我们在保留一定的容错能力的基础上提高条形码...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/04/30/%E5%9F%BA%E4%BA%8E%E9%97%A8%E9%99%90%E6%96%B9%E6%A1%88%E7%9A%84%E6%9D%A1%E5%BD%A2%E7%A0%81%E4%BF%9D%E5%AF%86%E5%8F%8A%E5%AE%B9%E9%94%99%E6%8A%80%E6%9C%AF/" title="基于门限方案的条形码保密及容错技术">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/threshold.png" alt="基于门限方案的条形码保密及容错技术"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/04/15/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E7%89%A9%E6%B5%81%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88/" title="基于CRT的物流信息安全处理方案">
+								基于CRT的物流信息安全处理方案			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								四月 15日, 2020				
+							</p>
+							<p class="relate-post-content">
+								引言在2018年11月份的时候，段老师在密码学课上讲到了密钥分发协议，我当时就觉得这个协议很有意思也很有应用前景。后来老师还很主动地分享了一下它的idea，其中一部分就是有关物流单上的信息安全问题的。这个我深有感触，其实每次处理快递的...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/04/15/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E7%89%A9%E6%B5%81%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88/" title="基于CRT的物流信息安全处理方案">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/crt1.jpg" alt="基于CRT的物流信息安全处理方案"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/04/13/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E6%96%B0%E5%9E%8B%E7%BE%A4%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB%E7%B3%BB%E7%BB%9F/" title="基于CRT的新型群文件共享系统">
+								基于CRT的新型群文件共享系统			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								四月 13日, 2020				
+							</p>
+							<p class="relate-post-content">
+								这个项目的是在2019年寒假期间进行的，4月份在中南大学信息安全作品赛答辩，但是由于功能只实现了主体部分，加之我在台上比较胆怯紧张，所以只获得团队三等奖，但是当时老师们还是对我们鼓励有加，说我们有实实在在在做项目。在此感谢两位搭档与我...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/04/13/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E6%96%B0%E5%9E%8B%E7%BE%A4%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB%E7%B3%BB%E7%BB%9F/" title="基于CRT的新型群文件共享系统">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/crt.png" alt="基于CRT的新型群文件共享系统"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/" title="极光实验室战队考核密码学部分考察点与题解">
+								极光实验室战队考核密码学部分考察点与题解			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								四月 1日, 2020				
+							</p>
+							<p class="relate-post-content">
+								实验室战队考核新人赛题目点评与WP题目
+出题思路由于是战队考核，这次的题目应出得相对综合，也更考验同学们的知识面和对各方面加密的理解和把握能力。同时，题目应当结合密码学的实际应用，有生动的背景和场景。
+出题前，我在网上做了两三道rsa...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/" title="极光实验室战队考核密码学部分考察点与题解">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/teamwp.png" alt="极光实验室战队考核密码学部分考察点与题解"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/" title="安卓反混淆软件探索-deobf">
+								安卓反混淆软件探索-deobf			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								三月 19日, 2020				
+							</p>
+							<p class="relate-post-content">
+								前言我们的大创项目其实是分两方面进行的，一方面，我们从代码混淆的角度比较各种软件对安卓程序的加固能力；另一方面，我们着重针对OLLVM进行反混淆测试。OLLVM集成了代码混淆的几种最基本的方法：控制流平坦化，虚假控制流，指令替代等三种...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/" title="安卓反混淆软件探索-deobf">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/deobf.png" alt="安卓反混淆软件探索-deobf"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/03/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B/" title="记一次安卓代码加固软件的测试过程">
+								记一次安卓代码加固软件的测试过程			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								三月 13日, 2020				
+							</p>
+							<p class="relate-post-content">
+								在大创项目的实践中，我们对市面上的一些安卓代码加固软件进行了采集，经过搜集，发现了几类代码加固方法并分组进行研究。我发现很多代码加固软件都是对java字节码进行混淆与加固，另外一些则选择对原生语言和so文件进行加固，而我打算研究的这一...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/03/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B/" title="记一次安卓代码加固软件的测试过程">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/andresguard.png" alt="记一次安卓代码加固软件的测试过程"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/" title="ACTF新人赛密码学部分考察点与题解">
+								ACTF新人赛密码学部分考察点与题解			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								二月 16日, 2020				
+							</p>
+							<p class="relate-post-content">
+								新生赛是我进入实验室以来参与出题的第一场比赛。为了这个比赛，我在平时还是做了一些积累，只有有灵感，我就着手开始写出题脚本和解题脚本，然后有一道自己完成不了的题目就麻烦DJ学长帮我写了一下，在这里感谢DJ学长啦！第二次在gitea上协作...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/" title="ACTF新人赛密码学部分考察点与题解">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/actfwp.jpg" alt="ACTF新人赛密码学部分考察点与题解"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/" title="多媒体第三次选做实验-图像处理、滤波以及动画效果">
+								多媒体第三次选做实验-图像处理、滤波以及动画效果			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								四月 23日, 2020				
+							</p>
+							<p class="relate-post-content">
+								粗略看了一下要补充的代码，涉及的功能挺多跨度挺广，但是各个功能是相互独立的，所以即使不完成所有的功能，只要不运行相关代码，程序也不会报错。我决定一个一个来，完成后直接测试功能。
+计算灰度值计算灰度值的公式在PPT上，对照代码中已经获取...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/" title="多媒体第三次选做实验-图像处理、滤波以及动画效果">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/multi3.png" alt="多媒体第三次选做实验-图像处理、滤波以及动画效果"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/" title="基于win32 GDI的图像显示方法选做实验笔记">
+								基于win32 GDI的图像显示方法选做实验笔记			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								四月 17日, 2020				
+							</p>
+							<p class="relate-post-content">
+								这是多媒体原理的第二次选做实验，这次为了充分调动自己的主观能动性，我打算自己先写好代码运行程序，然后再去评论区了解到其他同学对待这个问题的思考角度。
+程序代码与注释任务一：修改画布内容，只显示G通道这段代码其实是老师在视频中重点讲解演...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/" title="基于win32 GDI的图像显示方法选做实验笔记">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/mult2.png" alt="基于win32 GDI的图像显示方法选做实验笔记"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/" title="lz77编码选做实验过程笔记">
+								lz77编码选做实验过程笔记			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								四月 3日, 2020				
+							</p>
+							<p class="relate-post-content">
+								多媒体原理与系统设计选做实验编码算法完善过程先把LZ77算法的伪代码拷贝下来
+
+1.else分支需要补充的代码是else分支的处理代码。由于数据结构是固定的，因此只能输入0，0和next_char的三元组信息。如果要设计更复杂的实现算...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/" title="lz77编码选做实验过程笔记">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/multi1.jpg" alt="lz77编码选做实验过程笔记"/>
+							</a>
+						</div>
+					</li>												
+			
+		</ul>
+	
+</div>	
+				</div>
+				<div class="investment-content-list">
+					<div class="layout-comment">
+
+	
+		<div class="config-info">
+			Please check the parameter of <b>comment</b> in config.yml of hexo-theme-Annie!
+		</div>	
+	
+
+</div>
+				</div>
+				<div class="investment-content-list">
+					<div class="layout-share">
+	
+	
+
+		
+			
+			<!-- socialShare share -->
+			<div class="social-share"></div>
+
+<!--  css & js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+			
+		
+		
+	
+</div>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2020/04/30/%E5%9F%BA%E4%BA%8E%E9%97%A8%E9%99%90%E6%96%B9%E6%A1%88%E7%9A%84%E6%9D%A1%E5%BD%A2%E7%A0%81%E4%BF%9D%E5%AF%86%E5%8F%8A%E5%AE%B9%E9%94%99%E6%8A%80%E6%9C%AF/">基于门限方案的条形码保密及容错技术</a>
-          </li>
-        
-          <li>
-            <a href="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/">多媒体第三次选做实验-图像处理、滤波以及动画效果</a>
-          </li>
-        
-          <li>
-            <a href="/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/">基于win32 GDI的图像显示方法选做实验笔记</a>
-          </li>
-        
-          <li>
-            <a href="/2020/04/15/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E7%89%A9%E6%B5%81%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88/">基于CRT的物流信息安全处理方案</a>
-          </li>
-        
-          <li>
-            <a href="/2020/04/13/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E6%96%B0%E5%9E%8B%E7%BE%A4%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB%E7%B3%BB%E7%BB%9F/">基于CRT的新型群文件共享系统</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+				</div>
+			</div>	
+		</div>
+	</div>
+</div>
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2020 life-extension<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
+<!-- show math formula -->
+
+
+
+	 
+	
+<script src="/plugin/clipboard/clipboard.js"></script>
+
+	<script>
+		// Copy code !
+	    function preprocessing() {
+	        $("#article-content .highlight").each(function() {
+	            $(this).wrap('<div id="post-code"></div>');
+	        })
+
+	        $("#article-content #post-code").each(function() {
+	            $(this).prepend('<nav class="copy-nav"><span><i class="code-language"></i></span></nav>');
+	        })
+
+	        $("#article-content .copy-nav").each(function() {
+	            let languageClass = $(this).next().attr('class'),
+	                language = ((languageClass.length > 9) && (languageClass != null)) ? languageClass.substr(10) : "none"; //why 9? Need to check language?
+
+	            $(this).find('.code-language').text(language);
+	            $(this).append('<span class="copy-btn icon-paste"></span>');
+	        });
+	    }
+
+		function copy() {
+		    $('#article-content #post-code').each(function(i) {
+		        let codeCopyId = 'codeCopy-' + i;
+
+		        let codeNode = $(this).find('.code'),
+		            copyButton = $(this).find('.copy-btn');
+
+		        codeNode.attr('id', codeCopyId);
+		        copyButton.attr('data-clipboard-target-id', codeCopyId);
+		    })
+   
+			let clipboard = new ClipboardJS('.copy-btn', {
+					target: function(trigger) {
+						return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+					}
+		      	});
+
+			//pure js
+			function showTooltip(elem, msg) {		   
+				elem.setAttribute('aria-label', msg);
+				elem.setAttribute('class', 'copy-btn icon-clipboard1');
+				setTimeout(function() {
+					elem.setAttribute('class', 'copy-btn icon-paste');
+				}, 2000);
+			}
+
+			clipboard.on('success', function(e) {
+			    e.clearSelection();
+			    console.info('Action:', e.action);		   
+			    console.info('Trigger:', e.trigger);
+			    showTooltip(e.trigger, 'Copied!');   
+			});
+			
+			clipboard.on('error', function(e) {
+			    console.error('Action:', e.action);
+			    console.error('Trigger:', e.trigger);
+			});
+		}
+		
+		(function copyCode(){
+			if ($('.layout-post').length) {
+			    preprocessing();
+			    copy();
+			} 
+		})();
+	</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+
+
+<script src="/plugin/fancybox/jquery.fancybox.js"></script>
+
+
+<script type="text/javascript">
+	(function gallerySet(){
+		let titleID = $('.article-title a'),
+			imageID = $('.article-content img'),
+			videoID = $('.article-content video');
+		
+		let postTitle = titleID.text() ? titleID.text() : "No post title!";
+		
+		imageID.each(function() {
+			let imgPath = $(this).attr('src'),
+				imgTitle = $(this).attr('alt') ? $(this).attr('alt') : "No image description!";
+		
+			//给每个匹配的<img>元素打包, 即添加父元素<a>
+			$(this).wrap('<a data-fancybox="gallery" data-caption="《 ' + postTitle + ' 》' + imgTitle + '"href="' + imgPath + '"> </a>');
+		});
+		
+		videoID.each(function() {
+			let videoPath = $(this).attr('src');
+		
+			//给每个匹配的<img>元素打包, 即添加父元素<a>
+			$(this).wrap('<a data-fancybox href=" ' + videoPath + ' "> </a>');
+		});
+		
+		//TODO：支持html5 video
+
+		if($('#layout-post').length) {
+			$('[data-fancybox="gallery"]').fancybox({
+				loop: true,
+				buttons: [
+					"zoom",
+					"share",
+					"slideShow",
+					"fullScreen",
+					//"download",
+					"thumbs",
+					"close"
+				],
+				protect: true
+			});
+		}
+	})();
+</script>
+		</main>
+
+		<!--footer-->
+		<footer>
+	<div id="navigation-show">
+		<ul id="global-nav">
+	
+		<li class="menu-home">
+			<a href="/" class="menu-item-home" target="_blank">Home</a>
+		</li>
+		
+	
+		<li class="menu-archive">
+			<a href="/archives" class="menu-item-archive" target="_blank">Archive</a>
+		</li>
+		
+	
+		<li class="menu-categories">
+			<a href="/categories" class="menu-item-categories" target="_blank">Category</a>
+		</li>
+		
+	
+		<li class="menu-tags">
+			<a href="/tags" class="menu-item-tags" target="_blank">Tag</a>
+		</li>
+		
+	
+		<li class="menu-about">
+			<a href="/about" class="menu-item-about" target="_blank">About</a>
+		</li>
+		
+	
+		<li class="menu-gallery">
+			<a href="/gallery" class="menu-item-gallery" target="_blank">Gallery</a>
+		</li>
+		
+	
+
+	
+		<li class="menu-search">
+			<a href="javascript:;" class="popup-trigger">Search</a>
+		</li>
+	
+</ul>
+	</div>
+
+	<div class="copyright">
+		<p>
+			 
+				&copy;2017 - 2020, content by Sariay. All Rights Reserved.
+			
+			
+				<a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> Theme <a href="https://github.com/Sariay/hexo-theme-Annie" title="Annie" target="_blank" rel="noopener">Annie</a> by Sariay.
+			
+		</p>
+		<p>
+			
+
+	<!-- busuanzi -->
+	<!-- busuanzi -->
+
+
+
+			<a href="javascript:zh_tran('s');" class="zh_click" id="zh_click_s">简体</a> 
+			<a href="javascript:zh_tran('t');" class="zh_click" id="zh_click_t">繁體</a>				
+		</p>
+	</div>		
 </footer>
-    </div>
-    <nav id="mobile-nav">
+		
+	<!-- Local or hitokoto! -->
+
+	
+<script src="/plugin/motto/motto.js"></script>
+
+	
+	<script type="text/javascript">
+		(function motto(){
+			let mottoText = getMingYanContent().split('</br> - </br>'),
+			
+			mottoTextContent = mottoText[0]?mottoText[0]:'请刷新...',
+			
+			mottoTextFrom = mottoText[1]?mottoText[1]:'one/一个';
+			
+			mottoTextContent = mottoTextContent.trim().substring(0, 100);
+		
+			$("#motto-content").html( mottoTextContent);
+			$("#motto-author").html( mottoTextFrom  );
+		})();	
+	</script>	
+
+
+
+<!-- love effect -->
+
+
+<!-- back to top -->
+
+	<div id="totop">
+	<span class="icon-circle-up"></span>
+</div>
+
+
+
+<!-- site analysis -->
+
+
+	<!-- site-analysis -->
+	
+	
+	
+	
+	
+ 
+
+<!-- leancloud -->
+
+
+	<!-- leancloud -->
+	<!--
+	时间：2018-11-27
+	描述：
+		文章访问量：visitors
+		文章喜欢量：likes	
+		文章排行榜：topNPost
+		其他得说明：
+			01-Cookie相关的函数 
+				https://blog.csdn.net/somehow1002/article/details/78511541（Author：somehow1002）
+			02-visitors相关的函数 
+				https://blog.csdn.net/u013553529/article/details/63357382（Author：爱博客大伯）
+				https://notes.doublemine.me/2015-10-21-为NexT主题添加文章阅读量统计功能.html（Author：夏末）
+			03-topNPost相关的函数
+				https://hoxis.github.io/hexo-next-read-rank.html（Author：hoxis）
+			04-likes相关的函数，
+				参考了01 & 02进行简单的设计与实现
+-->
+
+
+	
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<!--
+	时间：2018-10-3
+	描述：
+		插件名称：hexo-generator-search-zip
+		插件来源: https://github.com/SuperKieran/hexo-generator-search-zip
+		代码参考：https://github.com/SuperKieran/TKL/blob/master/layout/_partial/search.ejs(Include: js & css)	
+-->
+<div class="popup search-popup local-search-popup scrollbar" >
+	<div class="local-search-container">
+		<span class="popup-btn-close">
+      		ESC
+   		</span>
+		<div class="local-search-header">
+			<div class="input-prompt">				
+			</div>
+			<input autocomplete="off" placeholder="Search..." type="text" id="local-search-input">
+		</div>
+		<div class="local-search-body">
+			<div id="local-search-output"></div>
+		</div>
+		<div class="local-search-footer">
+			<div class="topN-post">				
+				
+								
+			</div>
+		</div>
+	</div>
+</div>
 
 
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script src="/plugin/search/ziploader.js"></script>
+<script src="/js/search.js"></script>
 
 
+<script type="text/javascript">
+	var search_path = 'search.json',
+		zip_Path = '/search.zip',
+		version_Path = '/searchVersion.txt',
+		input_Trigger = 'auto',
+		top_N = '2';
+
+	themeLocalSearch({
+		search_path, 
+		zip_Path, 
+		version_Path, 
+		input_Trigger, 
+		top_N
+	});
+</script>
 
 
-<script src="/js/script.js"></script>
 
+<script src="/plugin/chinese/chinese.js"></script>
+<script src="/plugin/imagelazyloader/yall.min.js"></script>
+<script src="/plugin/imageloaded/imagesloaded.pkgd.min.js"></script>
+<script src="/plugin/nicescroll/jquery.nicescroll.js"></script>
+<script src="/plugin/resizediv/resizediv.js"></script>
+<script src="/js/main.js"></script>
 
-
-
-  </div>
-</body>
+	</body>	
 </html>
