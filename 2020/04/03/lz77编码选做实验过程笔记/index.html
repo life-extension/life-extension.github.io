@@ -8,7 +8,7 @@
 		
 
 <head>
-	<meta charset="utf-8">
+	<!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <title>
@@ -49,10 +49,10 @@
 	  serverURLs: 'http' || ' '
     }
   </script>
-<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="life-extension's blogs" type="application/atom+xml">
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="life-extension's blogs" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 	<body>
-		<!-- Preloader -->
+		<!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Preloader -->
 
 	<div id="preloader">
 		<div class="pre-container">
@@ -281,7 +281,7 @@
 			study
 		</a>
 	
-		
+			
 			</span>
 			
 			
@@ -291,23 +291,23 @@
 		</div>
 
 		<div class="article-content" id="article-content">
-			<h1 id="多媒体原理与系统设计选做实验"><a href="#多媒体原理与系统设计选做实验" class="headerlink" title="多媒体原理与系统设计选做实验"></a>多媒体原理与系统设计选做实验</h1><h3 id="编码算法完善过程"><a href="#编码算法完善过程" class="headerlink" title="编码算法完善过程"></a>编码算法完善过程</h3><p>先把LZ77算法的伪代码拷贝下来</p>
+			<h1><span id="多媒体原理与系统设计选做实验">多媒体原理与系统设计选做实验</span></h1><h3><span id="编码算法完善过程">编码算法完善过程</span></h3><p>先把LZ77算法的伪代码拷贝下来</p>
 <p><img src="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403190150298.png" alt="image-20200403190150298"></p>
-<h4 id="1-else分支"><a href="#1-else分支" class="headerlink" title="1.else分支"></a>1.else分支</h4><p>需要补充的代码是else分支的处理代码。由于数据结构是固定的，因此只能输入0，0和next_char的三元组信息。如果要设计更复杂的实现算法和数据结果的话，可以把0省略，以实现更大程度的压缩。</p>
+<h4><span id="1else分支">1.else分支</span></h4><p>需要补充的代码是else分支的处理代码。由于数据结构是固定的，因此只能输入0，0和next_char的三元组信息。如果要设计更复杂的实现算法和数据结果的话，可以把0省略，以实现更大程度的压缩。</p>
 <p>先看看if分支的代码有没有可以借鉴的地方：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">swprintf(code, <span class="number">125</span>, <span class="string">L"(%d,%d,%lc)"</span>, offset, length, source[pointer+length] );<span class="comment">//输出三元组，需要借鉴保留，因为不匹配，length=0和offset=0必定满足</span></span><br><span class="line">			cpy_len = wcslen(code);<span class="comment">//计算新增编码长度，借鉴保留</span></span><br><span class="line">			</span><br><span class="line">			wcscpy_s(codes + code_size,cpy_len+<span class="number">1</span>, code);<span class="comment">//应该是用于展示的，借鉴保留</span></span><br><span class="line"></span><br><span class="line">			pointer = pointer + length + <span class="number">1</span>;<span class="comment">//指针移动，但是length=0，只需要借鉴保留</span></span><br><span class="line">			code_size+= cpy_len;<span class="comment">//更新总编码长度，借鉴保留</span></span><br></pre></td></tr></table></figure>
 
 <p>于是就得到如下代码：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//没有发现匹配字符串时，输入0，0和next_char信息</span></span><br><span class="line">			<span class="comment">//******************************************************************</span></span><br><span class="line">			<span class="comment">//**                 此处需要你补全代码</span></span><br><span class="line">			<span class="comment">//******************************************************************</span></span><br><span class="line">			<span class="comment">//开始你的代码</span></span><br><span class="line">			swprintf(code, <span class="number">125</span>, <span class="string">L"(%d,%d,%lc)"</span>, offset, length, source[pointer + length]);<span class="comment">//输出三元组</span></span><br><span class="line">			cpy_len = wcslen(code);</span><br><span class="line"></span><br><span class="line">			wcscpy_s(codes + code_size, cpy_len + <span class="number">1</span>, code);</span><br><span class="line"></span><br><span class="line">			pointer = pointer + length + <span class="number">1</span>;</span><br><span class="line">			code_size += cpy_len;</span><br><span class="line">			<span class="comment">//结束你的代码</span></span><br><span class="line">			<span class="comment">//******************************************************************</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="2-报文尾部"><a href="#2-报文尾部" class="headerlink" title="2.报文尾部"></a>2.报文尾部</h4><p>先看看如何判断是到了报文尾部。按照一般的情况，可能需要记录报文的长度或者剩余报文的字数，如果当前指针偏移达到报文长度或者剩余报文长度为0的话，就意味着到了报文结尾。也可以通过某种特殊符号记录报文末尾。</p>
+<h4><span id="2报文尾部">2.报文尾部</span></h4><p>先看看如何判断是到了报文尾部。按照一般的情况，可能需要记录报文的长度或者剩余报文的字数，如果当前指针偏移达到报文长度或者剩余报文长度为0的话，就意味着到了报文结尾。也可以通过某种特殊符号记录报文末尾。</p>
 <p>观察代码，找到了程序相关变量：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//source明文，winsize窗口大小,codes编码后文字</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lz77_coder</span><span class="params">(WCHAR* source, <span class="keyword">int</span> win_size, WCHAR* codes)</span></span></span><br><span class="line"><span class="function"></span>&#123;		</span><br><span class="line">	<span class="keyword">size_t</span> source_len = wcslen(source);<span class="comment">//计算原文字符串长度</span></span><br></pre></td></tr></table></figure>
 
 <p>那么如果win_size_real为0，就意味着到达了报文末尾了。可以补全相关代码：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//达到报文末尾时，退出编码循环</span></span><br><span class="line"><span class="comment">//******************************************************************</span></span><br><span class="line"><span class="comment">//**                 此处需要你补全代码</span></span><br><span class="line"><span class="comment">//******************************************************************</span></span><br><span class="line"><span class="comment">//开始你的代码</span></span><br><span class="line"><span class="keyword">if</span> (source_len &lt;= pointer)<span class="comment">//把常量写左边，以防写错比较符号</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//结束你的代码</span></span><br><span class="line"><span class="comment">//******************************************************************</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="解码算法完善过程"><a href="#解码算法完善过程" class="headerlink" title="解码算法完善过程"></a>解码算法完善过程</h3><p>解码算法没有相应的伪代码，但是可以参照编码算法来完善。</p>
+<h3><span id="解码算法完善过程">解码算法完善过程</span></h3><p>解码算法没有相应的伪代码，但是可以参照编码算法来完善。</p>
 <p>首先了解源程序每个循环的作用和如何解析三元组找到offset的：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//每个循环都解析一个编码，结构为：(offset,length,next_char)，最后一个编码的右边可能缺少next_char和)</span></span><br><span class="line"><span class="comment">//找到offset</span></span><br><span class="line">		<span class="keyword">while</span>(codes[idx] != <span class="string">','</span>)<span class="comment">//三元组的第一元，读到逗号为止</span></span><br><span class="line">		&#123;</span><br><span class="line">			idx++;</span><br><span class="line">		&#125;</span><br><span class="line">		token_sz = idx - start_idx;<span class="comment">//忽略逗号的长度，正好把两个逗号长度抵消</span></span><br><span class="line">		copy_str1_to_str0(token, codes+start_idx, token_sz);<span class="comment">//把offset取出来</span></span><br><span class="line">		offset = _wtoi(token);<span class="comment">//把内容是数字的字符串转换整型数字</span></span><br><span class="line">		idx++;<span class="comment">//忽略逗号</span></span><br></pre></td></tr></table></figure>
 
@@ -320,7 +320,7 @@
 <p>然后补全解码时输出匹配字符串和最后一个附加的next_char字符的代码，我看到next_char已经输出了，那么接下来最主要的就是根据length和offset找到匹配字符串，然后把匹配字符串按字符一个个附加到解码字符串后面：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; length; i++)<span class="comment">//这里已经在length的循环里面了</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//******************************************************************</span></span><br><span class="line">	<span class="comment">//**                 此处需要你补全代码</span></span><br><span class="line">	<span class="comment">//******************************************************************</span></span><br><span class="line">	<span class="comment">//开始你的代码</span></span><br><span class="line">	decodes[decodes_idx++] = decodes[(decodes_idx++) - offset];</span><br><span class="line">	<span class="comment">//结束你的代码</span></span><br><span class="line">	<span class="comment">//******************************************************************	</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="调试与运行"><a href="#调试与运行" class="headerlink" title="调试与运行"></a>调试与运行</h3><p>一开始的时候，编码算法和原文对比是没有问题的，但是解码的时候出现了问题：</p>
+<h3><span id="调试与运行">调试与运行</span></h3><p>一开始的时候，编码算法和原文对比是没有问题的，但是解码的时候出现了问题：</p>
 <p><img src="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403211706525.png" alt="image-20200403211706525"></p>
 <p>明显所有的nextchar都被读成了右括号。后来发现原来是自己的代码里面重复了一次id++。</p>
 <p><img src="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403212041843.png" alt="image-20200403212041843"></p>
@@ -340,13 +340,29 @@
 <p><img src="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403213722664.png" alt="image-20200403213722664"></p>
 <p>还是删除最下面的idx，于是运行成功：</p>
 <p><img src="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/image-20200403213826058.png" alt="image-20200403213826058"></p>
-<h3 id="感受"><a href="#感受" class="headerlink" title="感受"></a>感受</h3><p>通过选做实验完善课程项目的编程其实真的是一种很棒的教学形式。就如同在科研团队或者工作中，一个大项目被分成若干的部分，每个人完成其中一小部分。这需要项目参与者的相互配合，交流并了解对方代码的含义。要使用统一的变量和接口函数，以免在代码衔接过程中产生bug，使得软件出现功能的不符合或者安全脆弱点。当然，为了验证程序的重要性，调试和测试阶段也是不可免的。</p>
+<h3><span id="感受">感受</span></h3><p>通过选做实验完善课程项目的编程其实真的是一种很棒的教学形式。就如同在科研团队或者工作中，一个大项目被分成若干的部分，每个人完成其中一小部分。这需要项目参与者的相互配合，交流并了解对方代码的含义。要使用统一的变量和接口函数，以免在代码衔接过程中产生bug，使得软件出现功能的不符合或者安全脆弱点。当然，为了验证程序的重要性，调试和测试阶段也是不可免的。</p>
 <p>这次编程过程，出现了很多的小问题，特别是相同的错误在两段代码里都出现了，所以体现出自己在补充代码时可能会考虑没有这么全面，但是通过代码测试和代码审计，最终把所有错误纠正了，也熟悉了一次lz77编解码的相关知识，这个过程本身就是很值得的。</p>
-	
-		</div>
 		
+		<!-- 要添加的内容 -->
+		<div>
+	<ul class="post-copyright">
+		<li class="post-copyright-author">
+		<strong>作者：  </strong>life-extension</a>
+		</li>
+		<li class="post-copyright-link">
+		<strong>文章链接:  </strong>
+		<a href="/2020/04/03/lz77编码选做实验过程笔记/" target="_blank" title="lz77编码选做实验过程笔记">http://yoursite.com/2020/04/03/lz77编码选做实验过程笔记/</a>
+		</li>
+		<li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本博客所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            许可协议。转载请注明出处!
+		</li>
+	</ul>
+<div>
+		<!---->			
+		</div>
 		<div id="current-post-cover" data-scr="/img/multi1.jpg"></div>
-
 		<!-- relate post, comment...-->
 		<div class="investment-container">
 			<div class="investment-header">
@@ -975,7 +991,7 @@
 <script src="/plugin/imageloaded/imagesloaded.pkgd.min.js"></script>
 <script src="/plugin/nicescroll/jquery.nicescroll.js"></script>
 <script src="/plugin/resizediv/resizediv.js"></script>
-<script src="/js/main.js"></script>
+<script src="/js/main.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 	</body>	
 </html>

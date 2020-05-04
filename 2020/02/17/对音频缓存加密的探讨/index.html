@@ -8,7 +8,7 @@
 		
 
 <head>
-	<meta charset="utf-8">
+	<!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <title>
@@ -49,10 +49,10 @@
 	  serverURLs: 'http' || ' '
     }
   </script>
-<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="life-extension's blogs" type="application/atom+xml">
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="life-extension's blogs" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 	<body>
-		<!-- Preloader -->
+		<!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Preloader -->
 
 	<div id="preloader">
 		<div class="pre-container">
@@ -281,7 +281,7 @@
 			project
 		</a>
 	
-		
+			
 			</span>
 			
 			
@@ -293,7 +293,7 @@
 		<div class="article-content" id="article-content">
 			<p><img src="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/1.png" alt="img"></p>
 <p>前段时间，某音乐被爆其缓存文件只使用了简单的异或加密，且容易得到加密密钥为0xa3。<a href="https://forum.90sec.com/t/topic/38/9" target="_blank" rel="noopener">原文链接点击这里</a>。以下是我的延伸探讨。</p>
-<h2 id="1-对音频缓存的批量解密攻击"><a href="#1-对音频缓存的批量解密攻击" class="headerlink" title="1.对音频缓存的批量解密攻击"></a>1.对音频缓存的批量解密攻击</h2><p>[^该部分来自于我11月份写的推送]: </p>
+<h2><span id="1对音频缓存的批量解密攻击">1.对音频缓存的批量解密攻击</span></h2><p>[^该部分来自于我11月份写的推送]: </p>
 <p>抱着好奇的心理，我把手机里面该音乐的缓存转到了电脑上面，如图：</p>
 <p><img src="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/2.jpg" alt="img"></p>
 <p>据分析这些UC！文件就是加密后的MP3文件。</p>
@@ -307,15 +307,31 @@
 <p><img src="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/4.jpg" alt="img"></p>
 <p>运行后就得到了我们想要的mp3文件啦！</p>
 <p><img src="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/5.jpg" alt="img"></p>
-<h2 id="2-音频缓存加密过于简单的原因"><a href="#2-音频缓存加密过于简单的原因" class="headerlink" title="2.音频缓存加密过于简单的原因"></a>2.音频缓存加密过于简单的原因</h2><p>当然，音频的缓存文件是不可能太过于复杂的，我们听音频的时候，是很讲求时效性的，如果使用太复杂的加密方式，那么可能会导致播放器卡顿。使用异或的加密方式，虽然不太安全，但是还原起来还是很容易的。有时候，安全和性能往往会相互牵制，因此对产品开发者来说，需要把握好安全和性能间的平衡。当然，该音乐应用对安全的把握其实是不太好的，因为解密一首音乐，甚至可以不用写脚本。</p>
-<h2 id="3-对音频缓存加密方式的建议"><a href="#3-对音频缓存加密方式的建议" class="headerlink" title="3.对音频缓存加密方式的建议"></a>3.对音频缓存加密方式的建议</h2><p>其实该音乐应用可以改进加密算法，提高密钥空间的分析。</p>
+<h2><span id="2音频缓存加密过于简单的原因">2.音频缓存加密过于简单的原因</span></h2><p>当然，音频的缓存文件是不可能太过于复杂的，我们听音频的时候，是很讲求时效性的，如果使用太复杂的加密方式，那么可能会导致播放器卡顿。使用异或的加密方式，虽然不太安全，但是还原起来还是很容易的。有时候，安全和性能往往会相互牵制，因此对产品开发者来说，需要把握好安全和性能间的平衡。当然，该音乐应用对安全的把握其实是不太好的，因为解密一首音乐，甚至可以不用写脚本。</p>
+<h2><span id="3对音频缓存加密方式的建议">3.对音频缓存加密方式的建议</span></h2><p>其实该音乐应用可以改进加密算法，提高密钥空间的分析。</p>
 <p>市面上目前也有很多音乐应用，使用了比较好的加密算法。</p>
 <p>例如qq音乐采用了tea加密。如果tea加密比较复杂的话，我认为用维吉尼亚加密也可以，但是注意密钥要稍微长一些，不然通过对文件头的分析是可以把密钥给重新还原的。</p>
-	
-		</div>
 		
+		<!-- 要添加的内容 -->
+		<div>
+	<ul class="post-copyright">
+		<li class="post-copyright-author">
+		<strong>作者：  </strong>life-extension</a>
+		</li>
+		<li class="post-copyright-link">
+		<strong>文章链接:  </strong>
+		<a href="/2020/02/17/对音频缓存加密的探讨/" target="_blank" title="对音频缓存加密的探讨">http://yoursite.com/2020/02/17/对音频缓存加密的探讨/</a>
+		</li>
+		<li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本博客所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            许可协议。转载请注明出处!
+		</li>
+	</ul>
+<div>
+		<!---->			
+		</div>
 		<div id="current-post-cover" data-scr="/img/music.png"></div>
-
 		<!-- relate post, comment...-->
 		<div class="investment-container">
 			<div class="investment-header">
@@ -946,7 +962,7 @@
 <script src="/plugin/imageloaded/imagesloaded.pkgd.min.js"></script>
 <script src="/plugin/nicescroll/jquery.nicescroll.js"></script>
 <script src="/plugin/resizediv/resizediv.js"></script>
-<script src="/js/main.js"></script>
+<script src="/js/main.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 	</body>	
 </html>

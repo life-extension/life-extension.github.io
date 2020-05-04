@@ -1574,6 +1574,16 @@ main {
   width: auto;
   margin: auto;
 }
+#layout-post .post-copyright {
+  margin: 2em 0 0;
+  padding: 0.5em 1em;
+  border-left: 3px solid #ff1700;
+  background-color: #f9f9f9;
+  list-style: none;
+}
+#layout-post .post-copyright li {
+  line-height: 30px;
+}
 .investment-container {
   width: 100%;
   margin: 6em auto 2em;

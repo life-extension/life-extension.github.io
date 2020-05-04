@@ -8,7 +8,7 @@
 		
 
 <head>
-	<meta charset="utf-8">
+	<!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <title>
@@ -49,10 +49,10 @@
 	  serverURLs: 'http' || ' '
     }
   </script>
-<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="life-extension's blogs" type="application/atom+xml">
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="life-extension's blogs" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 	<body>
-		<!-- Preloader -->
+		<!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Preloader -->
 
 	<div id="preloader">
 		<div class="pre-container">
@@ -281,7 +281,7 @@
 			study
 		</a>
 	
-		
+			
 			</span>
 			
 			
@@ -292,12 +292,12 @@
 
 		<div class="article-content" id="article-content">
 			<p>粗略看了一下要补充的代码，涉及的功能挺多跨度挺广，但是各个功能是相互独立的，所以即使不完成所有的功能，只要不运行相关代码，程序也不会报错。我决定一个一个来，完成后直接测试功能。</p>
-<h3 id="计算灰度值"><a href="#计算灰度值" class="headerlink" title="计算灰度值"></a>计算灰度值</h3><p>计算灰度值的公式在PPT上，对照代码中已经获取了B,G,R的值，只需要保留灰度系数进行运算，注意顺序是B-G-R。</p>
+<h3><span id="计算灰度值">计算灰度值</span></h3><p>计算灰度值的公式在PPT上，对照代码中已经获取了B,G,R的值，只需要保留灰度系数进行运算，注意顺序是B-G-R。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////                   请补充代码-- 计算灰度值，并设置像素的每个通道值为该灰度值</span></span><br><span class="line">                      </span><br><span class="line">                <span class="comment">//////////////  开始补充   ///////////////</span></span><br><span class="line">				gray = B * <span class="number">0.114</span> + G * <span class="number">0.587</span> + R * <span class="number">0.299</span>;</span><br><span class="line">				*(pD + offset) = gray;</span><br><span class="line">				*(pD + offset + <span class="number">1</span>) = gray;</span><br><span class="line">				*(pD + offset + <span class="number">2</span>) = gray;</span><br><span class="line">                <span class="comment">//////////////  结束补充   ///////////////</span></span><br></pre></td></tr></table></figure>
 
 <p>测试效果过关：</p>
 <p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423213240919.png" alt="image-20200423213240919"></p>
-<h3 id="提取水平向边缘和竖直向边缘"><a href="#提取水平向边缘和竖直向边缘" class="headerlink" title="提取水平向边缘和竖直向边缘"></a>提取水平向边缘和竖直向边缘</h3><p>水平向边缘的提取是一个卷积运算，而今天所学的好几项功能都需要用到卷积运算。此刻我希望的就是能有一个函数能帮我进行矩阵操作。搜了一下“卷积”，没有找到内容，正当我准备自己写这个函数的时候，我看到代码有提示，直接调用FilterBmp。</p>
+<h3><span id="提取水平向边缘和竖直向边缘">提取水平向边缘和竖直向边缘</span></h3><p>水平向边缘的提取是一个卷积运算，而今天所学的好几项功能都需要用到卷积运算。此刻我希望的就是能有一个函数能帮我进行矩阵操作。搜了一下“卷积”，没有找到内容，正当我准备自己写这个函数的时候，我看到代码有提示，直接调用FilterBmp。</p>
 <p>浏览了一下FilterBmp的功能和参数，第一个参数是卷积核，第二个和第三个参数是bmp图像，不同的是第二个参数句柄是初始图像的，不用进行修改，而第三个参数需要修改。参考一下其他对FilterBmp的调用形式，我们发现bmp_ori_copy和bmp变量可以利用。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FilterBmp(smooth_kernel, bmp_ori_copy, bmp);</span><br></pre></td></tr></table></figure>
 
@@ -311,7 +311,7 @@
 <p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423214936625.png" alt="image-20200423214936625"></p>
 <p>竖直边缘图：</p>
 <p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423215015872.png" alt="image-20200423215015872"></p>
-<h3 id="实现图像锐化"><a href="#实现图像锐化" class="headerlink" title="实现图像锐化"></a>实现图像锐化</h3><p>这一次提前看到了提示，与IDM_EDGE中的代码有关。IDM_EDGE中实现的功能就是整体边缘提取，边缘图 = 原图 – 模糊图像。而图像锐化的概念是锐化图 = 原图 + 边缘图。所以我们可以得到整体边缘图，再加上原图即可。此刻希望有一个相加函数，就像SubIm1FromIm2一样，结果在函数声明看到了AddIm1ToIm2。实现也就比较简单了。不过在实现前又看到了上面老师注释的一段代码，决定试一试。</p>
+<h3><span id="实现图像锐化">实现图像锐化</span></h3><p>这一次提前看到了提示，与IDM_EDGE中的代码有关。IDM_EDGE中实现的功能就是整体边缘提取，边缘图 = 原图 – 模糊图像。而图像锐化的概念是锐化图 = 原图 + 边缘图。所以我们可以得到整体边缘图，再加上原图即可。此刻希望有一个相加函数，就像SubIm1FromIm2一样，结果在函数声明看到了AddIm1ToIm2。实现也就比较简单了。不过在实现前又看到了上面老师注释的一段代码，决定试一试。</p>
 <p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423220001751.png" alt="image-20200423220001751"></p>
 <p>效果还不错，具体看到实现以后，我明白了，原来这幅图是这样实现的：认为总体边缘图=水平边缘图+竖直边缘图，那么锐化图=原图+水平边缘图+竖直边缘图。但是这么实现的<strong>不足之处</strong>就是，代码 AddIm1ToIm2(bmp_ori_copy, bmp)会改变bmp_ori_copy的值，会影响到后面的操作。</p>
 <p>那么我自己的实现就只能按照PPT的形式了，先给出代码：</p>
@@ -322,7 +322,7 @@
 <p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423220822623.png" alt="image-20200423220822623"></p>
 <p>我反而觉得锐化前更清晰一些。</p>
 <p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423221301931.png" alt="image-20200423221301931"></p>
-<h3 id="判断鼠标位置并设置对应像素"><a href="#判断鼠标位置并设置对应像素" class="headerlink" title="判断鼠标位置并设置对应像素"></a>判断鼠标位置并设置对应像素</h3><p>判断鼠标位置是否在图像内，我们知道图像的长宽，又知道图像没有偏移，起点在（0,0）。因此可以直接判断，这部分代码可以应用老师在FilterBmp的一段代码，但是为了让代码不那么啰嗦，我还是自己写了。另外设置像素值的事情让我想到了保留红色通道。</p>
+<h3><span id="判断鼠标位置并设置对应像素">判断鼠标位置并设置对应像素</span></h3><p>判断鼠标位置是否在图像内，我们知道图像的长宽，又知道图像没有偏移，起点在（0,0）。因此可以直接判断，这部分代码可以应用老师在FilterBmp的一段代码，但是为了让代码不那么啰嗦，我还是自己写了。另外设置像素值的事情让我想到了保留红色通道。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////           请补充代码--实现：判断鼠标位置是否在图像内，并设置对应像素为红色</span></span><br><span class="line">            <span class="comment">//////////////  开始补充   ///////////////</span></span><br><span class="line">			<span class="keyword">if</span> (y &gt;= <span class="number">0</span> &amp;&amp; y &lt; bmp.bmHeight &amp;&amp; x &gt;= <span class="number">0</span> &amp;&amp; x &lt; bmp.bmWidth)</span><br><span class="line">			<span class="comment">//在图像内</span></span><br><span class="line">			&#123;</span><br><span class="line">				BYTE* pD = (BYTE*)bmp.bmBits;</span><br><span class="line">				<span class="keyword">int</span> i = y * bmp.bmWidth + x;</span><br><span class="line">				<span class="keyword">long</span> offset = i * <span class="number">4</span>;</span><br><span class="line">				*(pD + offset) = <span class="number">0</span>;</span><br><span class="line">				*(pD + offset + <span class="number">1</span>) = <span class="number">0</span>;</span><br><span class="line">				*(pD + offset + <span class="number">2</span>) = *(pD + offset + <span class="number">2</span>); <span class="comment">//红色通道</span></span><br><span class="line">				*(pD + offset + <span class="number">3</span>) = <span class="number">0</span>; <span class="comment">//这是透明度通道</span></span><br><span class="line">				InvalidateRect(hWnd, <span class="literal">NULL</span>, <span class="literal">true</span>);</span><br><span class="line">			&#125;        </span><br><span class="line">            <span class="comment">//////////////  结束补充   ///////////////</span></span><br></pre></td></tr></table></figure>
 
 <p>运行的结果就是，能画线，但是位置真好反了过来，就像倒立了一样，所以这个offset抓的是有问题的。</p>
@@ -334,7 +334,7 @@
 
 <p>这样一来就解决了问题。</p>
 <p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423225138987.png" alt="image-20200423225138987"></p>
-<h3 id="与硬件无关的动画速度"><a href="#与硬件无关的动画速度" class="headerlink" title="与硬件无关的动画速度"></a>与硬件无关的动画速度</h3><p>根据PPT的内容，首先找到代码：</p>
+<h3><span id="与硬件无关的动画速度">与硬件无关的动画速度</span></h3><p>根据PPT的内容，首先找到代码：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">preTime = GetTickCount();</span><br></pre></td></tr></table></figure>
 
 <p>这个就是记录当前时间的方法，然后按照PPT上面基本可以补充好如下代码：</p>
@@ -343,11 +343,27 @@
 <p>运行结果：</p>
 <p><img src="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/image-20200423225822497.png" alt="image-20200423225822497"></p>
 <p>运行成功，点住消息栏不放，小方块不会动，但一旦松开，程序将重新计算deltatime，所以小方块一般会出现较大的位移。</p>
-	
-		</div>
 		
+		<!-- 要添加的内容 -->
+		<div>
+	<ul class="post-copyright">
+		<li class="post-copyright-author">
+		<strong>作者：  </strong>life-extension</a>
+		</li>
+		<li class="post-copyright-link">
+		<strong>文章链接:  </strong>
+		<a href="/2020/04/23/多媒体第三次选做实验-图像处理、滤波以及动画效果/" target="_blank" title="多媒体第三次选做实验-图像处理、滤波以及动画效果">http://yoursite.com/2020/04/23/多媒体第三次选做实验-图像处理、滤波以及动画效果/</a>
+		</li>
+		<li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本博客所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            许可协议。转载请注明出处!
+		</li>
+	</ul>
+<div>
+		<!---->			
+		</div>
 		<div id="current-post-cover" data-scr="/img/multi3.png"></div>
-
 		<!-- relate post, comment...-->
 		<div class="investment-container">
 			<div class="investment-header">
@@ -977,7 +993,7 @@
 <script src="/plugin/imageloaded/imagesloaded.pkgd.min.js"></script>
 <script src="/plugin/nicescroll/jquery.nicescroll.js"></script>
 <script src="/plugin/resizediv/resizediv.js"></script>
-<script src="/js/main.js"></script>
+<script src="/js/main.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 	</body>	
 </html>
