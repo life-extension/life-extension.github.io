@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <title>
     
-      安卓开发中遇到的坑坑洼洼 | life-extension&#39;s blogs
+      2020新年原创脚本-其中的小把戏你清楚吗 | life-extension&#39;s blogs
     
   </title>
   <meta name="author" content="痛并快乐着">
@@ -101,7 +101,7 @@
 	<!-- Page title -->
 	<p>
 		
-			「安卓开发中遇到的坑坑洼洼」
+			「2020新年原创脚本-其中的小把戏你清楚吗」
 		
 	</p>
 
@@ -228,27 +228,14 @@
 		插件作者：KELEN
 		插件来源: https://github.com/KELEN/katelog
 -->
-
-	
-		<div class="layout-toc">
-			<div id="layout-toc">
-				<div class="k-catelog-list" id="catelog-list" data-title="Catalog"></div>
-			</div>
-		</div>
-
-		
-<script src="/plugin/toc/katelog.min.js"></script>
-
-
-		
 	 
 
 <div class="layout-post">
 	<div id="layout-post">
 		<div class="article-title">
 			
-	<a href="/2020/03/01/%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E5%9D%91%E6%B4%BC%E6%B4%BC(%E6%8C%81%E6%9B%B4%E4%B8%AD)/" itemprop="url">
-		安卓开发中遇到的坑坑洼洼
+	<a href="/2020/04/26/2020%E6%96%B0%E5%B9%B4%E5%B0%8F%E5%8F%91%E6%98%8E/" itemprop="url">
+		2020新年原创脚本-其中的小把戏你清楚吗
 	</a>
 
 		</div>
@@ -264,9 +251,9 @@
 
 	Updated on
 
-	<a href="/2020/03/01/%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E5%9D%91%E6%B4%BC%E6%B4%BC(%E6%8C%81%E6%9B%B4%E4%B8%AD)/" itemprop="url">
-		<time datetime="2020-03-01T14:18:54.000Z" itemprop="dateUpdated">
-	  		2020-05-06
+	<a href="/2020/04/26/2020%E6%96%B0%E5%B9%B4%E5%B0%8F%E5%8F%91%E6%98%8E/" itemprop="url">
+		<time datetime="2020-04-26T15:35:16.000Z" itemprop="dateUpdated">
+	  		2020-05-07
 	  </time>
 	</a> 
 
@@ -277,8 +264,8 @@
 				
 	<i class="icon-price-tags"></i>
 	
-		<a href="/tags/study/" class=" ">
-			study
+		<a href="/tags/project/" class=" ">
+			project
 		</a>
 	
 			
@@ -291,40 +278,14 @@
 		</div>
 
 		<div class="article-content" id="article-content">
-			<p>关键词：安卓开发，软件测试，错误排查。</p>
-<p>大三下学期选修了十分重要的安卓开发课程，老师让我们编写编译书中的程序并完成书后的挑战练习。但是由于Android Studio的版本问题和gradle脚本以及主程序的命名与书中不同，这次编程还是遇到了一点坑，这迫使我上网查资料，并且认真研读资源目录和gradle的源代码，以找到出错的地方。以下是我的一些发现和遇到的一些坑：</p>
-<h4><span id="版本要匹配">版本要匹配</span></h4><p>千万不要随便改变项目根目录和app目录下的build.gradle，我更改了几个参数，导致编译通过后打包失败：</p>
-<p>1.项目根目录下的插件版本“build:gradle:3.4.1”，这个版本号不能随便改，原因是你的AS版本不一定支持对应的gradle版本和插件版本，当然，当AS更新以后，可能旧项目中的版本不能被支持，这个时候你就需要去更改以下几个地方：</p>
-<p>（1）项目根目录下的插件版本号，这个和AS的版本应该是一致的</p>
-<p>（2）gradle-wrapper.properties下的distributionUrl，一定要找到这个插件版本号对应的Gradle版本号，具体参考 <a href="https://blog.csdn.net/sqf251877543/article/details/101281308" target="_blank" rel="noopener">这里</a></p>
-<p>（3）下载对应的gradle版本，网址就是distributionUrl的地址。</p>
-<p>2.在app目录下的build.gradle也涉及到一些版本的问题，一是compileSdkVersion不能小于某个值，否则会报错；二是minSdkVersion的更改可能会导致在某些手机上不适配，我曾经把minSdkVersion由16改为”R”,结果在虚拟机上就不能运行了，据网上资料说，只要把minSdkVersion值设为19以下，就可以适配95%以上的安卓手机。</p>
-<p>3.版本不匹配会出现如下报错:</p>
-<p>(1)Invalid escape sequence at line 1 column xx path $[0].name</p>
-<p>(2)gradle project sync failed</p>
-<p>(3)Could not find method google() for arguments [] on repository container</p>
-<p>4.但是有时候报上述第3点的第（1）条错误时不一定是版本问题，若版本正确仍出现如上问题，应当考虑 开File-&gt;Setting-&gt;找到instant run（或者搜索）-&gt;取消Enable instant run。然后应用即可。 </p>
-<p>5.同样的，<strong>虚拟机版本的不同</strong>也可能导致一些问题。比如对于第三章，有的手机屏幕旋转了以后会改变设备配置，从而改变Activity生命周期，但有些却不行。在测试中，Nexus 5 API 29(Android 9+)旋转不会改变Activity生命周期，也不会改变设备配置，但Nexus 5 API 27(Android 8)会。</p>
-<h4><span id="提示无法执行">提示无法执行</span></h4><p>1.遇到了一个问题，当我使用Log.d的时候安卓提示要导入android.util.log，但是无法点击，手动输入也不行，后来发现util下面用的是Log这个包，所以有时候提示也是不正确的。</p>
-<h4><span id="类名的对应">类名的对应</span></h4><p>1.在主控制器中，private static final String TAG这个字符串对应的值应该和主控制器名称对应，虽然在第一第二章的时候问题不大，但是使用logcat测试后会发现有很严重的异常报错。</p>
-<h4><span id="覆盖override">覆盖@Override</span></h4><p>1.必须调用父类的同名方法，否则报错：</p>
-<blockquote>
-<p>Overriding method should call super.onActivityResult less… (Ctrl+F1)<br>Inspection info:Some methods, such as View#onDetachedFromWindow, require that you also call the super implementation as part of your method.  Issue id: MissingSuperCall</p>
-</blockquote>
-<h4><span id="中文路径">中文路径</span></h4><p>1.安卓虚拟机最好不要放在有中文的路径下，否则录屏出现如下报错：</p>
-<blockquote>
-<p> Emulator: emulator: ERROR: FfmpegRecorder.cpp:267: Could not open [C:\Users?????.android\avd\Nexus_5_API_27.avd\tmp.webm]: Invalid argument </p>
-</blockquote>
-<p>这些问号就是中文字符</p>
-<h4><span id="android-studio平台的一些问题">Android Studio平台的一些问题</span></h4><p>1.虚拟机默认装C盘，我刚刚清出的一点空间，开了三个虚拟机，结果全满了，占了我C盘一半的空间！<a href="https://blog.csdn.net/geekqian/article/details/60145357" target="_blank" rel="noopener">解决方法</a></p>
-<p>2.新版的Android Studio找不到DDMS, 如果只是需要查看文件，可以在View-&gt;Tools WIndows下选Device File Explorer.</p>
-<h4><span id="logcat过滤关键词">LogCat过滤关键词</span></h4><p>1.关键错误：FATAL EXCEPTION</p>
-<h4><span id="空指针问题">空指针问题</span></h4><p>在水平方向上运行安卓没问题，竖直方向运行安卓的时候程序终止，明显是布局的问题。LogCat报错如下：</p>
-<blockquote>
-<p>2020-03-07 18:49:45.296 3434-3434/com.example.geoquiz E/AndroidRuntime: FATAL EXCEPTION: main<br>    Process: com.example.geoquiz, PID: 3434<br>    java.lang.RuntimeException: Unable to start activity ComponentInfo{com.example.geoquiz/com.example.geoquiz.MainActivity}: java.lang.NullPointerException: Attempt to invoke virtual method ‘void android.widget.Button.setOnClickListener(android.view.View$OnClickListener)’ on a null object reference<br>    ……<br>    Caused by: java.lang.NullPointerException: Attempt to invoke virtual method ‘void android.widget.Button.setOnClickListener(android.view.View$OnClickListener)’ on a null object reference<br>        at com.example.geoquiz.MainActivity.onCreate(MainActivity.java:54)<br>       ……</p>
-</blockquote>
-<p>上网查资料，<a href="https://blog.csdn.net/qq_42618969/article/details/81141895" target="_blank" rel="noopener">参考文章</a></p>
-<p>先去看看布局文件里面有没有id，很有可能是因为这样导致的空指针，结果发现 不知道为什么两个button的布局代码没了， 所以找不到按钮的地址 ， 形成了空指针  。</p>
+			<p>关键词：随机数素数生成，新年祝福小程序。</p>
+<p>这是我在大年三十写的一个程序，当时我正准备去伯克利交流，但由于疫情的缘故，出国变数增大，所以我就打算通过随机数“未卜先知”。这个程序其实和我还没放出来的一道原创CTF题目有很大关联。疫情原因，校赛可能不举办了，所以就把这个脚本先放出来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> Cryptodome.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> 成功抵达伯克利<span class="params">()</span>:</span></span><br><span class="line">    p = getPrime(<span class="number">512</span>)</span><br><span class="line">    q = getPrime(<span class="number">512</span>)</span><br><span class="line">    <span class="keyword">if</span>(p // q &lt; <span class="number">100000</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> 感染新冠肺炎<span class="params">()</span>:</span></span><br><span class="line">    p = getPrime(<span class="number">512</span>)</span><br><span class="line">    q = getPrime(<span class="number">512</span>)</span><br><span class="line">    <span class="keyword">if</span>(p // q &gt; <span class="number">100000</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> 课程顺利完结<span class="params">()</span>:</span></span><br><span class="line">    p = getPrime(<span class="number">512</span>)</span><br><span class="line">    q = getPrime(<span class="number">512</span>)</span><br><span class="line">    <span class="keyword">if</span>(p//q &lt; <span class="number">2</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> 选择不去伯克利<span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span>(感染新冠肺炎()==<span class="number">0</span>):</span><br><span class="line">        print(<span class="string">"身体健康"</span>)</span><br><span class="line">        print(<span class="string">"万事如意"</span>)</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> 选择去伯克利<span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span>(成功抵达伯克利()):</span><br><span class="line">        print(<span class="string">"学业有成"</span>)</span><br><span class="line">    <span class="keyword">if</span>(感染新冠肺炎()==<span class="number">0</span>):</span><br><span class="line">        print(<span class="string">"身体健康"</span>)</span><br><span class="line">        <span class="keyword">if</span>(课程顺利完结()):</span><br><span class="line">            print(<span class="string">"万事如意"</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> 今年我还能去伯克利吗<span class="params">()</span>:</span>        </span><br><span class="line">    p = getPrime(<span class="number">512</span>)</span><br><span class="line">    q = getPrime(<span class="number">512</span>)</span><br><span class="line">    <span class="keyword">if</span>(p//q &gt; <span class="number">2</span>):</span><br><span class="line">        选择不去伯克利()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        选择去伯克利()</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    今年我还能去伯克利吗()</span><br></pre></td></tr></table></figure>
+
+<p>运行这个程序，按理说我们通过分支，最终将只有一定的概率能把“身体健康，万事如意，学业有成”三个词都输出，但是实际上的运行结果肯定是这样：</p>
+<p><img src="/2020/04/26/2020%E6%96%B0%E5%B9%B4%E5%B0%8F%E5%8F%91%E6%98%8E/1.png" alt="img"></p>
+<p>大家知道我耍了什么小把戏吗？答案还是等到校赛后再公布。</p>
+<p>最后，说个题外话，疫情让我难得的出国游学的机会泡汤了，不过寒假我会再争取一次的。</p>
 		
 		<!-- 要添加的内容 -->
 		<div>
@@ -334,7 +295,7 @@
 		</li>
 		<li class="post-copyright-link">
 		<strong>文章链接:  </strong>
-		<a href="/2020/03/01/安卓开发中遇到的坑坑洼洼(持更中)/" target="_blank" title="安卓开发中遇到的坑坑洼洼">https://life-extension.github.io/2020/03/01/安卓开发中遇到的坑坑洼洼(持更中)/</a>
+		<a href="/2020/04/26/2020新年小发明/" target="_blank" title="2020新年原创脚本-其中的小把戏你清楚吗">https://life-extension.github.io/2020/04/26/2020新年小发明/</a>
 		</li>
 		<li class="post-copyright-license">
             <strong>版权声明:   </strong>
@@ -345,7 +306,7 @@
 <div>
 		<!---->			
 		</div>
-		<div id="current-post-cover" data-scr="/img/android.png"></div>
+		<div id="current-post-cover" data-scr="/img/227.jpg"></div>
 		<!-- relate post, comment...-->
 		<div class="investment-container">
 			<div class="investment-header">
@@ -359,12 +320,12 @@
 	<span>
 		<a id="totop-post-page">To Top</a>
 		
-			<a href="/2020/03/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B/" title="记一次安卓代码加固软件的测试过程" rel="prev">
+			<a href="/2020/04/30/%E5%9F%BA%E4%BA%8E%E9%97%A8%E9%99%90%E6%96%B9%E6%A1%88%E7%9A%84%E6%9D%A1%E5%BD%A2%E7%A0%81%E4%BF%9D%E5%AF%86%E5%8F%8A%E5%AE%B9%E9%94%99%E6%8A%80%E6%9C%AF/" title="基于门限方案的条形码保密及容错技术" rel="prev">
 				&laquo;Pre post
 			</a>
 		
 		
-			<a href="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/" title="对音频缓存加密的探讨" rel="next">
+			<a href="/2020/04/15/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E7%89%A9%E6%B5%81%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88/" title="基于CRT的物流信息安全处理方案" rel="next">
 				Next post&raquo;
 			</a>
 			
@@ -402,29 +363,6 @@
 							<a href="/2020/04/30/%E5%9F%BA%E4%BA%8E%E9%97%A8%E9%99%90%E6%96%B9%E6%A1%88%E7%9A%84%E6%9D%A1%E5%BD%A2%E7%A0%81%E4%BF%9D%E5%AF%86%E5%8F%8A%E5%AE%B9%E9%94%99%E6%8A%80%E6%9C%AF/" title="基于门限方案的条形码保密及容错技术">				
 								
 								<img class="lazy" src="/img/lazy.gif" data-src="/img/threshold.png" alt="基于门限方案的条形码保密及容错技术"/>
-							</a>
-						</div>
-					</li>												
-			
-					<li>
-						<div class="relate-post-text">
-							<a class="relate-post-title" href="/2020/04/26/2020%E6%96%B0%E5%B9%B4%E5%B0%8F%E5%8F%91%E6%98%8E/" title="2020新年原创脚本-其中的小把戏你清楚吗">
-								2020新年原创脚本-其中的小把戏你清楚吗			
-							</a>
-							<p class="relate-post-date">
-								<i class="fa fa-calendar"></i>
-								四月 26日, 2020				
-							</p>
-							<p class="relate-post-content">
-								关键词：随机数素数生成，新年祝福小程序。
-这是我在大年三十写的一个程序，当时我正准备去伯克利交流，但由于疫情的缘故，出国变数增大，所以我就打算通过随机数“未卜先知”。这个程序其实和我还没放出来的一道原创CTF题目有很大关联。疫情原因，...
-							</p>
-						</div>
-
-						<div class="relate-post-cover">
-							<a href="/2020/04/26/2020%E6%96%B0%E5%B9%B4%E5%B0%8F%E5%8F%91%E6%98%8E/" title="2020新年原创脚本-其中的小把戏你清楚吗">				
-								
-								<img class="lazy" src="/img/lazy.gif" data-src="/img/227.jpg" alt="2020新年原创脚本-其中的小把戏你清楚吗"/>
 							</a>
 						</div>
 					</li>												
@@ -471,54 +409,6 @@
 							<a href="/2020/04/13/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E6%96%B0%E5%9E%8B%E7%BE%A4%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB%E7%B3%BB%E7%BB%9F/" title="基于CRT的新型群文件共享系统">				
 								
 								<img class="lazy" src="/img/lazy.gif" data-src="/img/crt.png" alt="基于CRT的新型群文件共享系统"/>
-							</a>
-						</div>
-					</li>												
-			
-					<li>
-						<div class="relate-post-text">
-							<a class="relate-post-title" href="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/" title="极光实验室战队考核密码学部分考察点与题解">
-								极光实验室战队考核密码学部分考察点与题解			
-							</a>
-							<p class="relate-post-date">
-								<i class="fa fa-calendar"></i>
-								四月 1日, 2020				
-							</p>
-							<p class="relate-post-content">
-								关键词：DH密钥交换协议，Coppersmith攻击，混合密码通信，rsa及aes编程。
-题目
-出题思路由于是战队考核，这次的题目应出得相对综合，也更考验同学们的知识面和对各方面加密的理解和把握能力。同时，题目应当结合密码学的实际应用...
-							</p>
-						</div>
-
-						<div class="relate-post-cover">
-							<a href="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/" title="极光实验室战队考核密码学部分考察点与题解">				
-								
-								<img class="lazy" src="/img/lazy.gif" data-src="/img/teamwp.png" alt="极光实验室战队考核密码学部分考察点与题解"/>
-							</a>
-						</div>
-					</li>												
-			
-					<li>
-						<div class="relate-post-text">
-							<a class="relate-post-title" href="/2020/03/29/Coppersmith%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%B0%8F%E7%BB%93/" title="Coppersmith攻击方式小结">
-								Coppersmith攻击方式小结			
-							</a>
-							<p class="relate-post-date">
-								<i class="fa fa-calendar"></i>
-								三月 29日, 2020				
-							</p>
-							<p class="relate-post-content">
-								关键词：rsa，coppersmith攻击。
-CopperSmith攻击的种类真的很多，以下是我归纳的几种常见形式：
-一道新的例题——p的高位和地位泄露摘自：Securinets CTF Quals 2020 - Destructio...
-							</p>
-						</div>
-
-						<div class="relate-post-cover">
-							<a href="/2020/03/29/Coppersmith%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%B0%8F%E7%BB%93/" title="Coppersmith攻击方式小结">				
-								
-								<img class="lazy" src="/img/lazy.gif" data-src="/img/Coppersmith.jpg" alt="Coppersmith攻击方式小结"/>
 							</a>
 						</div>
 					</li>												
@@ -596,6 +486,30 @@ CopperSmith攻击的种类真的很多，以下是我归纳的几种常见形式
 			
 					<li>
 						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/" title="极光实验室战队考核密码学部分考察点与题解">
+								极光实验室战队考核密码学部分考察点与题解			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								四月 1日, 2020				
+							</p>
+							<p class="relate-post-content">
+								关键词：DH密钥交换协议，Coppersmith攻击，混合密码通信，rsa及aes编程。
+题目
+出题思路由于是战队考核，这次的题目应出得相对综合，也更考验同学们的知识面和对各方面加密的理解和把握能力。同时，题目应当结合密码学的实际应用...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/04/01/%E6%9E%81%E5%85%89%E5%AE%9E%E9%AA%8C%E5%AE%A4%E6%88%98%E9%98%9F%E8%80%83%E6%A0%B8%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86%E8%80%83%E5%AF%9F%E7%82%B9%E4%B8%8E%E9%A2%98%E8%A7%A3/" title="极光实验室战队考核密码学部分考察点与题解">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/teamwp.png" alt="极光实验室战队考核密码学部分考察点与题解"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
 							<a class="relate-post-title" href="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/" title="ACTF新人赛密码学部分考察点与题解">
 								ACTF新人赛密码学部分考察点与题解			
 							</a>
@@ -613,6 +527,53 @@ CopperSmith攻击的种类真的很多，以下是我归纳的几种常见形式
 							<a href="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/" title="ACTF新人赛密码学部分考察点与题解">				
 								
 								<img class="lazy" src="/img/lazy.gif" data-src="/img/actfwp.jpg" alt="ACTF新人赛密码学部分考察点与题解"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/03/29/Coppersmith%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%B0%8F%E7%BB%93/" title="Coppersmith攻击方式小结">
+								Coppersmith攻击方式小结			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								三月 29日, 2020				
+							</p>
+							<p class="relate-post-content">
+								关键词：rsa，coppersmith攻击。
+CopperSmith攻击的种类真的很多，以下是我归纳的几种常见形式：
+一道新的例题——p的高位和地位泄露摘自：Securinets CTF Quals 2020 - Destructio...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/03/29/Coppersmith%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%B0%8F%E7%BB%93/" title="Coppersmith攻击方式小结">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/Coppersmith.jpg" alt="Coppersmith攻击方式小结"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/03/01/%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E5%9D%91%E6%B4%BC%E6%B4%BC(%E6%8C%81%E6%9B%B4%E4%B8%AD)/" title="安卓开发中遇到的坑坑洼洼">
+								安卓开发中遇到的坑坑洼洼			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								三月 1日, 2020				
+							</p>
+							<p class="relate-post-content">
+								关键词：安卓开发，软件测试，错误排查。
+大三下学期选修了十分重要的安卓开发课程，老师让我们编写编译书中的程序并完成书后的挑战练习。但是由于Android Studio的版本问题和gradle脚本以及主程序的命名与书中不同，这次编程还是...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/03/01/%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E5%9D%91%E6%B4%BC%E6%B4%BC(%E6%8C%81%E6%9B%B4%E4%B8%AD)/" title="安卓开发中遇到的坑坑洼洼">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/android.png" alt="安卓开发中遇到的坑坑洼洼"/>
 							</a>
 						</div>
 					</li>												
