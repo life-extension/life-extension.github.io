@@ -266,7 +266,7 @@
 
 	<a href="/2020/03/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B/" itemprop="url">
 		<time datetime="2020-03-13T03:53:13.000Z" itemprop="dateUpdated">
-	  		2020-05-03
+	  		2020-05-06
 	  </time>
 	</a> 
 
@@ -291,7 +291,8 @@
 		</div>
 
 		<div class="article-content" id="article-content">
-			<p>在大创项目的实践中，我们对市面上的一些安卓代码加固软件进行了采集，经过搜集，发现了几类代码加固方法并分组进行研究。我发现很多代码加固软件都是对java字节码进行混淆与加固，另外一些则选择对原生语言和so文件进行加固，而我打算研究的这一款软件，则是对资源文件进行加固，它就是<a href="https://github.com/shwenzhang/AndResGuard/blob/master/README.zh-cn.md" target="_blank" rel="noopener">AndResGuard</a>。</p>
+			<p>关键词：代码加固，软件测试，原理分析，过程分析。</p>
+<p>在大创项目的实践中，我们对市面上的一些安卓代码加固软件进行了采集，经过搜集，发现了几类代码加固方法并分组进行研究。我发现很多代码加固软件都是对java字节码进行混淆与加固，另外一些则选择对原生语言和so文件进行加固，而我打算研究的这一款软件，则是对资源文件进行加固，它就是<a href="https://github.com/shwenzhang/AndResGuard/blob/master/README.zh-cn.md" target="_blank" rel="noopener">AndResGuard</a>。</p>
 <h3><span id="混淆原理">混淆原理</span></h3><p>大致上来说就是apk在调用资源的时候不是通过资源名来调用的，而是通过一个资源ID值来调用的，因此资源名和资源ID存在一种映射关系，保存在 resources.arsc 中。而由于资源名是一种相对独立的存在方式，仅仅是为了源码的易读性，所以可以用用更短的资源名取代，从而减少apk文件的体积；而新的代号没有任何语义上的可读性，所以可以达到混淆的目的。而且由于这种映射关系是独立于安卓编译过程的，所以我们可以在整个apk的基础上进行操作，通过实现对apk的解压并修改资源文件和 resources.arsc 进行混淆。</p>
 <p>项目贡献者的说明文章见<a href="https://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&mid=208135658&idx=1&sn=ac9bd6b4927e9e82f9fa14e396183a8f#rd" target="_blank" rel="noopener">这里</a>。</p>
 <h3><span id="混淆过程">混淆过程</span></h3><p>为了统一研究对象，采用的混淆软件是我第六次安卓作业后生成的apk文件:</p>
@@ -373,7 +374,7 @@
 			</a>
 		
 		
-			<a href="/2020/03/05/%E4%B8%80%E4%B8%AA%E5%B1%80%E5%A4%96%E4%BA%BA%E5%AF%B9227%E4%BA%8B%E4%BB%B6%E7%9A%84%E8%AE%A4%E8%AF%86/" title="一个局外人对227事件的认识" rel="next">
+			<a href="/2020/03/01/%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E5%9D%91%E6%B4%BC%E6%B4%BC(%E6%8C%81%E6%9B%B4%E4%B8%AD)/" title="安卓开发中遇到的坑坑洼洼" rel="next">
 				Next post&raquo;
 			</a>
 			
@@ -402,7 +403,8 @@
 								四月 30日, 2020				
 							</p>
 							<p class="relate-post-content">
-								经历过初期两个小项目的探索，我们项目团队积累了一定的项目研究经验，在老师和16级学长的帮助下，我们把研究方向转到了门限方案的实际应用上。结合市面上用9张合并的条形码提高条形码的容错能力的操作，我们在保留一定的容错能力的基础上提高条形码...
+								关键词：门限方案，条形码保密，条形码容错，条形码认证与防伪造。
+经历过初期两个小项目的探索，我们项目团队积累了一定的项目研究经验，在老师和16级学长的帮助下，我们把研究方向转到了门限方案的实际应用上。结合市面上用9张合并的条形码提高条...
 							</p>
 						</div>
 
@@ -424,7 +426,8 @@
 								四月 15日, 2020				
 							</p>
 							<p class="relate-post-content">
-								引言在2018年11月份的时候，段老师在密码学课上讲到了密钥分发协议，我当时就觉得这个协议很有意思也很有应用前景。后来老师还很主动地分享了一下它的idea，其中一部分就是有关物流单上的信息安全问题的。这个我深有感触，其实每次处理快递的...
+								关键词：中国剩余定理，密钥分发技术，隐私保护。
+引言在2018年11月份的时候，段老师在密码学课上讲到了密钥分发协议，我当时就觉得这个协议很有意思也很有应用前景。后来老师还很主动地分享了一下它的idea，其中一部分就是有关物流单上的信...
 							</p>
 						</div>
 
@@ -446,7 +449,8 @@
 								四月 13日, 2020				
 							</p>
 							<p class="relate-post-content">
-								这个项目的是在2019年寒假期间进行的，4月份在中南大学信息安全作品赛答辩，但是由于功能只实现了主体部分，加之我在台上比较胆怯紧张，所以只获得团队三等奖，但是当时老师们还是对我们鼓励有加，说我们有实实在在在做项目。在此感谢两位搭档与我...
+								关键词：隐私保护，权限管理，身份认证，中国剩余定理，密钥分发，密钥更新。
+这个项目的是在2019年寒假期间进行的，4月份在中南大学信息安全作品赛答辩，但是由于功能只实现了主体部分，加之我在台上比较胆怯紧张，所以只获得团队三等奖，但是当...
 							</p>
 						</div>
 
@@ -468,7 +472,8 @@
 								三月 19日, 2020				
 							</p>
 							<p class="relate-post-content">
-								前言我们的大创项目其实是分两方面进行的，一方面，我们从代码混淆的角度比较各种软件对安卓程序的加固能力；另一方面，我们着重针对OLLVM进行反混淆测试。OLLVM集成了代码混淆的几种最基本的方法：控制流平坦化，虚假控制流，指令替代等三种...
+								关键词：代码混淆，代码反混淆及其原理，代码反混淆软件测试与性能对比。
+前言我们的大创项目其实是分两方面进行的，一方面，我们从代码混淆的角度比较各种软件对安卓程序的加固能力；另一方面，我们着重针对OLLVM进行反混淆测试。OLLVM集成...
 							</p>
 						</div>
 
@@ -490,10 +495,10 @@
 								二月 17日, 2020				
 							</p>
 							<p class="relate-post-content">
-								
+								关键词：缓存解密，批量自动执行脚本，版权保护相关建议。
+
 前段时间，某音乐被爆其缓存文件只使用了简单的异或加密，且容易得到加密密钥为0xa3。原文链接点击这里。以下是我的延伸探讨。
-1.对音频缓存的批量解密攻击[^该部分来自于我11月份写的推送]: 
-抱着好奇的心理，我把手机里面该音乐的缓...
+1.对音频缓存的批量解密攻击抱着好奇的心理，我把手机...
 							</p>
 						</div>
 
@@ -515,9 +520,9 @@
 								四月 1日, 2020				
 							</p>
 							<p class="relate-post-content">
-								实验室战队考核新人赛题目点评与WP题目
-出题思路由于是战队考核，这次的题目应出得相对综合，也更考验同学们的知识面和对各方面加密的理解和把握能力。同时，题目应当结合密码学的实际应用，有生动的背景和场景。
-出题前，我在网上做了两三道rsa...
+								关键词：DH密钥交换协议，Coppersmith攻击，混合密码通信，rsa及aes编程。
+题目
+出题思路由于是战队考核，这次的题目应出得相对综合，也更考验同学们的知识面和对各方面加密的理解和把握能力。同时，题目应当结合密码学的实际应用...
 							</p>
 						</div>
 
@@ -539,7 +544,8 @@
 								二月 16日, 2020				
 							</p>
 							<p class="relate-post-content">
-								新生赛是我进入实验室以来参与出题的第一场比赛。为了这个比赛，我在平时还是做了一些积累，只有有灵感，我就着手开始写出题脚本和解题脚本，然后有一道自己完成不了的题目就麻烦DJ学长帮我写了一下，在这里感谢DJ学长啦！第二次在gitea上协作...
+								关键词：密码学，CTF出题，题解。
+新生赛是我进入实验室以来参与出题的第一场比赛。为了这个比赛，我在平时还是做了一些积累，只有有灵感，我就着手开始写出题脚本和解题脚本，然后有一道自己完成不了的题目就麻烦DJ学长帮我写了一下，在这里感谢...
 							</p>
 						</div>
 
@@ -553,70 +559,70 @@
 			
 					<li>
 						<div class="relate-post-text">
-							<a class="relate-post-title" href="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/" title="多媒体第三次选做实验-图像处理、滤波以及动画效果">
-								多媒体第三次选做实验-图像处理、滤波以及动画效果			
+							<a class="relate-post-title" href="/2020/03/29/Coppersmith%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%B0%8F%E7%BB%93/" title="Coppersmith攻击方式小结">
+								Coppersmith攻击方式小结			
 							</a>
 							<p class="relate-post-date">
 								<i class="fa fa-calendar"></i>
-								四月 23日, 2020				
+								三月 29日, 2020				
 							</p>
 							<p class="relate-post-content">
-								粗略看了一下要补充的代码，涉及的功能挺多跨度挺广，但是各个功能是相互独立的，所以即使不完成所有的功能，只要不运行相关代码，程序也不会报错。我决定一个一个来，完成后直接测试功能。
-计算灰度值计算灰度值的公式在PPT上，对照代码中已经获取...
+								关键词：rsa，coppersmith攻击。
+CopperSmith攻击的种类真的很多，以下是我归纳的几种常见形式：
+一道新的例题——p的高位和地位泄露摘自：Securinets CTF Quals 2020 - Destructio...
 							</p>
 						</div>
 
 						<div class="relate-post-cover">
-							<a href="/2020/04/23/%E5%A4%9A%E5%AA%92%E4%BD%93%E7%AC%AC%E4%B8%89%E6%AC%A1%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%81%E6%BB%A4%E6%B3%A2%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/" title="多媒体第三次选做实验-图像处理、滤波以及动画效果">				
+							<a href="/2020/03/29/Coppersmith%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E5%B0%8F%E7%BB%93/" title="Coppersmith攻击方式小结">				
 								
-								<img class="lazy" src="/img/lazy.gif" data-src="/img/multi3.png" alt="多媒体第三次选做实验-图像处理、滤波以及动画效果"/>
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/Coppersmith.jpg" alt="Coppersmith攻击方式小结"/>
 							</a>
 						</div>
 					</li>												
 			
 					<li>
 						<div class="relate-post-text">
-							<a class="relate-post-title" href="/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/" title="基于win32 GDI的图像显示方法选做实验笔记">
-								基于win32 GDI的图像显示方法选做实验笔记			
+							<a class="relate-post-title" href="/2020/03/01/%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E5%9D%91%E6%B4%BC%E6%B4%BC(%E6%8C%81%E6%9B%B4%E4%B8%AD)/" title="安卓开发中遇到的坑坑洼洼">
+								安卓开发中遇到的坑坑洼洼			
 							</a>
 							<p class="relate-post-date">
 								<i class="fa fa-calendar"></i>
-								四月 17日, 2020				
+								三月 1日, 2020				
 							</p>
 							<p class="relate-post-content">
-								这是多媒体原理的第二次选做实验，这次为了充分调动自己的主观能动性，我打算自己先写好代码运行程序，然后再去评论区了解到其他同学对待这个问题的思考角度。
-程序代码与注释任务一：修改画布内容，只显示G通道这段代码其实是老师在视频中重点讲解演...
+								关键词：安卓开发，软件测试，错误排查。
+大三下学期选修了十分重要的安卓开发课程，老师让我们编写编译书中的程序并完成书后的挑战练习。但是由于Android Studio的版本问题和gradle脚本以及主程序的命名与书中不同，这次编程还是...
 							</p>
 						</div>
 
 						<div class="relate-post-cover">
-							<a href="/2020/04/17/%E5%9F%BA%E4%BA%8Ewin32-GDI%E7%9A%84%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA%E6%96%B9%E6%B3%95%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E7%AC%94%E8%AE%B0/" title="基于win32 GDI的图像显示方法选做实验笔记">				
+							<a href="/2020/03/01/%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E5%9D%91%E6%B4%BC%E6%B4%BC(%E6%8C%81%E6%9B%B4%E4%B8%AD)/" title="安卓开发中遇到的坑坑洼洼">				
 								
-								<img class="lazy" src="/img/lazy.gif" data-src="/img/mult2.png" alt="基于win32 GDI的图像显示方法选做实验笔记"/>
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/android.png" alt="安卓开发中遇到的坑坑洼洼"/>
 							</a>
 						</div>
 					</li>												
 			
 					<li>
 						<div class="relate-post-text">
-							<a class="relate-post-title" href="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/" title="lz77编码选做实验过程笔记">
-								lz77编码选做实验过程笔记			
+							<a class="relate-post-title" href="/2020/02/15/about-me/" title="about me">
+								about me			
 							</a>
 							<p class="relate-post-date">
 								<i class="fa fa-calendar"></i>
-								四月 3日, 2020				
+								二月 15日, 2020				
 							</p>
 							<p class="relate-post-content">
-								多媒体原理与系统设计选做实验编码算法完善过程先把LZ77算法的伪代码拷贝下来
-
-1.else分支需要补充的代码是else分支的处理代码。由于数据结构是固定的，因此只能输入0，0和next_char的三元组信息。如果要设计更复杂的实现算...
+								关键词：个人自述，todolist。
+说来惭愧，写了很多的日记，也写过几篇可以充当作业或者领稿费的小文章，也发了很多的说说和pyq，但是发博客确是第一次。在朋友们都已经创办了属于自己的公众号，博客或者专刊的时候，我却才在blog上发表...
 							</p>
 						</div>
 
 						<div class="relate-post-cover">
-							<a href="/2020/04/03/lz77%E7%BC%96%E7%A0%81%E9%80%89%E5%81%9A%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B%E7%AC%94%E8%AE%B0/" title="lz77编码选做实验过程笔记">				
+							<a href="/2020/02/15/about-me/" title="about me">				
 								
-								<img class="lazy" src="/img/lazy.gif" data-src="/img/multi1.jpg" alt="lz77编码选做实验过程笔记"/>
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/about_me.jpg" alt="about me"/>
 							</a>
 						</div>
 					</li>												
