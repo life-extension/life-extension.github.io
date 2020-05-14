@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://life-extension.github.io/"/>
-  <updated>2020-05-14T04:23:35.935Z</updated>
+  <updated>2020-05-14T14:18:21.222Z</updated>
   <id>https://life-extension.github.io/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>答辩顺序抽签小程序</title>
+    <link href="https://life-extension.github.io/2020/05/14/%E7%AD%94%E8%BE%A9%E9%A1%BA%E5%BA%8F%E6%8A%BD%E7%AD%BE%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
+    <id>https://life-extension.github.io/2020/05/14/%E7%AD%94%E8%BE%A9%E9%A1%BA%E5%BA%8F%E6%8A%BD%E7%AD%BE%E5%B0%8F%E7%A8%8B%E5%BA%8F/</id>
+    <published>2020-05-14T13:27:21.000Z</published>
+    <updated>2020-05-14T14:18:21.222Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近比较喜欢动手编写小程序和脚本。晚上有同学和我讨论对答辩队伍进行公平抽签的方案，所以打算编写一个很简单的小脚本，并做到尽量减少计算量。</p><h4><span id="脚本思路">脚本思路</span></h4><p>按照一定根据给各个队伍排序，然后初始化抽签序号池，每次随机获取池内的一个值，交给其中一支队伍，被使用的值从抽签序号池扔掉</p><h4><span id="代码">代码</span></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">team=<span class="number">100000</span></span><br><span class="line"></span><br><span class="line">numpool=[]</span><br><span class="line">orderpool=[]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,team+<span class="number">1</span>):</span><br><span class="line">    numpool.append(i)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(team):   </span><br><span class="line">    rand=random.randint(<span class="number">0</span>,team<span class="number">-1</span>)</span><br><span class="line">    orderpool.append(numpool[rand])</span><br><span class="line">    <span class="keyword">del</span> numpool[rand]</span><br><span class="line">    team-=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">print(orderpool)</span><br></pre></td></tr></table></figure><h4><span id="运行效果">运行效果</span></h4><p>可在5s内完成300000支队伍的排序。</p><h4><span id="感想">感想</span></h4><p>从python代码来看，我认为已经做到了最优化。但不知道del函数的实现方式会不会导致一些不必要的耗时。以后有机会当采用C语言来编写。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;最近比较喜欢动手编写小程序和脚本。晚上有同学和我讨论对答辩队伍进行公平抽签的方案，所以打算编写一个很简单的小脚本，并做到尽量减少计算量。&lt;/p&gt;
+&lt;h4&gt;&lt;span id=&quot;脚本思路&quot;&gt;脚本思路&lt;/span&gt;&lt;/h4&gt;&lt;p&gt;按照一定根据给各个队伍排序，然后初始化抽签序号池，
+      
+    
+    </summary>
+    
+    
+    
+      <category term="project" scheme="https://life-extension.github.io/tags/project/"/>
+    
+  </entry>
+  
+  <entry>
     <title>课堂记录小助手</title>
     <link href="https://life-extension.github.io/2020/05/14/%E8%AF%BE%E5%A0%82%E8%AE%B0%E5%BD%95%E5%B0%8F%E5%8A%A9%E6%89%8B/"/>
     <id>https://life-extension.github.io/2020/05/14/%E8%AF%BE%E5%A0%82%E8%AE%B0%E5%BD%95%E5%B0%8F%E5%8A%A9%E6%89%8B/</id>
     <published>2020-05-14T04:07:06.000Z</published>
-    <updated>2020-05-14T04:23:35.935Z</updated>
+    <updated>2020-05-14T14:16:34.639Z</updated>
     
     <content type="html"><![CDATA[<p>作为一名课代表，我需要每天记录同学在QQ群的签到和回答问题情况。开始我是直接把记录复制到word里面手动提取有用的消息，最后我决定解放双手编写一个自动化处理脚本。</p><h4><span id="这个脚本需要一些什么功能呢">这个脚本需要一些什么功能呢？</span></h4><p>1.最基础的，就是从漫长的聊天记录中提取专业，班级，姓名等信息。</p><p>2.然后就是要进行去重操作，要不老师一个个对照打勾会比较困难。</p><h4><span id="如何处理">如何处理？</span></h4><p>1.首先让同学们按照“专业-班级-姓名”的顺序修改好群名片以后，通过观察我发现他们的名片里面都有“170”这个字符串。所以可以提取到发言记录中人名的那一行。</p><p>2.若是发言记录，后面会附上一个10个字符的时间，把这个去掉即可。</p><p>3.对新记录进行存储，输出。若该记录和已有的内容重复则不输出。</p><h4><span id="代码">代码</span></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*-coding=UTF-8-*-</span></span><br><span class="line"></span><br><span class="line">f=open(<span class="string">"record.txt"</span>,encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">output=[]</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">    <span class="keyword">if</span> <span class="string">"170"</span><span class="keyword">in</span> line:</span><br><span class="line">        subline=line[:<span class="number">-10</span>]</span><br><span class="line">        <span class="keyword">if</span>(subline <span class="keyword">not</span> <span class="keyword">in</span> output):</span><br><span class="line">            output.append(subline)</span><br><span class="line">            print(subline)</span><br></pre></td></tr></table></figure><h4><span id="todo">Todo:</span></h4><p>1.如果我能拿到班级名单的话，应该可以通过excel自动化生成到课情况和答疑情况，并进行适当标注。</p><p>2.存在一些错误的识别情况，例如“xxx撤回了一条消息”，“@xxx”。但是这些现象比较罕见，没必要为此提高计算复杂度。所以在最终记录后还需要少量人工处理。</p>]]></content>
     
@@ -35,8 +60,6 @@
     
     </summary>
     
-    
-      <category term="project" scheme="https://life-extension.github.io/categories/project/"/>
     
     
       <category term="project" scheme="https://life-extension.github.io/tags/project/"/>
