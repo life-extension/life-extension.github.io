@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <title>
     
-      对音频缓存加密的探讨 | life-extension&#39;s blogs
+      课堂记录小助手 | life-extension&#39;s blogs
     
   </title>
   <meta name="author" content="痛并快乐着">
@@ -101,7 +101,7 @@
 	<!-- Page title -->
 	<p>
 		
-			「对音频缓存加密的探讨」
+			「课堂记录小助手」
 		
 	</p>
 
@@ -247,8 +247,8 @@
 	<div id="layout-post">
 		<div class="article-title">
 			
-	<a href="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/" itemprop="url">
-		对音频缓存加密的探讨
+	<a href="/2020/05/14/%E8%AF%BE%E5%A0%82%E8%AE%B0%E5%BD%95%E5%B0%8F%E5%8A%A9%E6%89%8B/" itemprop="url">
+		课堂记录小助手
 	</a>
 
 		</div>
@@ -264,9 +264,9 @@
 
 	Updated on
 
-	<a href="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/" itemprop="url">
-		<time datetime="2020-02-17T10:41:30.000Z" itemprop="dateUpdated">
-	  		2020-05-06
+	<a href="/2020/05/14/%E8%AF%BE%E5%A0%82%E8%AE%B0%E5%BD%95%E5%B0%8F%E5%8A%A9%E6%89%8B/" itemprop="url">
+		<time datetime="2020-05-14T04:07:06.000Z" itemprop="dateUpdated">
+	  		2020-05-14
 	  </time>
 	</a> 
 
@@ -291,26 +291,18 @@
 		</div>
 
 		<div class="article-content" id="article-content">
-			<p>关键词：缓存解密，批量自动执行脚本，版权保护相关建议。</p>
-<p><img src="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/1.png" alt="img"></p>
-<p>前段时间，某音乐被爆其缓存文件只使用了简单的异或加密，且容易得到加密密钥为0xa3。<a href="https://forum.90sec.com/t/topic/38/9" target="_blank" rel="noopener">原文链接点击这里</a>。以下是我的延伸探讨。</p>
-<h2><span id="1对音频缓存的批量解密攻击">1.对音频缓存的批量解密攻击</span></h2><p>抱着好奇的心理，我把手机里面该音乐的缓存转到了电脑上面，如图：</p>
-<p><img src="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/2.jpg" alt="img"></p>
-<p>据分析这些UC！文件就是加密后的MP3文件。</p>
-<p>用010editor打开其中一个文件，发现存在很多0xa3的字符，如果我们断定网易云用的是异或加密，那么极有可能原文就是0x00，那么异或的密钥就是0xa3。还原得到可以被qq音乐播放的mp3文件：</p>
-<p><img src="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/3.jpg" alt="img"></p>
-<p>通过010editor逐一分析，发现加密密钥的确都是0xa3。既然加密密钥都是同一个，那么用010editor手改上百个文件就太难受了，能否写一个脚本或者程序来跑一下呢？</p>
-<p>由于我刚学了java，觉得java文件流很不错，于是我就用java编写以下脚本：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> FileInputStream fis;</span><br><span class="line">    <span class="keyword">static</span>  FileOutputStream fos;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">   <span class="comment">// write your code here</span></span><br><span class="line">        String path = <span class="string">"*********"</span>;</span><br><span class="line">        travelfolder(path);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">travelfolder</span><span class="params">(String path)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        File file = <span class="keyword">new</span> File(path);</span><br><span class="line">        <span class="keyword">if</span> (file.exists()) &#123;</span><br><span class="line">            File[] files = file.listFiles();</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> != files) &#123;</span><br><span class="line">                <span class="keyword">for</span> (File file2 : files) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (file2.isDirectory()) &#123;<span class="comment">//文件夹</span></span><br><span class="line">                        System.out.println(<span class="string">"进入文件夹:"</span> + file2.getAbsolutePath());</span><br><span class="line">                        travelfolder(file2.getAbsolutePath());<span class="comment">//深度优先遍历算法</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="comment">//普通文件</span></span><br><span class="line">                        <span class="keyword">if</span>(file2.getName().substring(file2.getName().length()-<span class="number">3</span>).equals(<span class="string">"mp3"</span>))</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="comment">//这些是已经改好的文件，不必修改</span></span><br><span class="line">                            System.out.println(<span class="string">"MP3文件:"</span> + file2.getAbsolutePath());</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">else</span> <span class="keyword">if</span>(file2.getName().substring(file2.getName().length()-<span class="number">3</span>).equals(<span class="string">"uc!"</span>))</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="comment">//这些文件还没修改</span></span><br><span class="line">                            System.out.println(<span class="string">"UC!文件:"</span> + file2.getAbsolutePath());</span><br><span class="line">                            fis = <span class="keyword">new</span> FileInputStream(file2);</span><br><span class="line">                            File newfile = <span class="keyword">new</span> File(file2.getName().substring(<span class="number">0</span>,file2.getName().length()-<span class="number">4</span>));<span class="comment">//把uc!文件变为mp3文件</span></span><br><span class="line">                            fos = <span class="keyword">new</span> FileOutputStream(path+<span class="string">"\\"</span>+newfile);</span><br><span class="line">                            <span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];<span class="comment">//缓冲区</span></span><br><span class="line">                            <span class="keyword">int</span> length = <span class="number">0</span>;</span><br><span class="line">                            <span class="keyword">while</span>((length = fis.read(buf)) != -<span class="number">1</span>)&#123;</span><br><span class="line">                                <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length;i++)</span><br><span class="line">                                &#123;</span><br><span class="line">                                    buf[i]^=<span class="number">0xa3</span>;<span class="comment">//还原</span></span><br><span class="line">                                &#125;</span><br><span class="line">                                fos.write(buf);</span><br><span class="line">                            &#125;</span><br><span class="line">                            fis.close();</span><br><span class="line">                            fos.close();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">"文件不存在!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+			<p>作为一名课代表，我需要每天记录同学在QQ群的签到和回答问题情况。开始我是直接把记录复制到word里面手动提取有用的消息，最后我决定解放双手编写一个自动化处理脚本。</p>
+<h4><span id="这个脚本需要一些什么功能呢">这个脚本需要一些什么功能呢？</span></h4><p>1.最基础的，就是从漫长的聊天记录中提取专业，班级，姓名等信息。</p>
+<p>2.然后就是要进行去重操作，要不老师一个个对照打勾会比较困难。</p>
+<h4><span id="如何处理">如何处理？</span></h4><p>1.首先让同学们按照“专业-班级-姓名”的顺序修改好群名片以后，通过观察我发现他们的名片里面都有“170”这个字符串。所以可以提取到发言记录中人名的那一行。</p>
+<p>2.若是发言记录，后面会附上一个10个字符的时间，把这个去掉即可。</p>
+<p>3.对新记录进行存储，输出。若该记录和已有的内容重复则不输出。</p>
+<h4><span id="代码">代码</span></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*-coding=UTF-8-*-</span></span><br><span class="line"></span><br><span class="line">f=open(<span class="string">"record.txt"</span>,encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">output=[]</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">    <span class="keyword">if</span> <span class="string">"170"</span><span class="keyword">in</span> line:</span><br><span class="line">        subline=line[:<span class="number">-10</span>]</span><br><span class="line">        <span class="keyword">if</span>(subline <span class="keyword">not</span> <span class="keyword">in</span> output):</span><br><span class="line">            output.append(subline)</span><br><span class="line">            print(subline)</span><br></pre></td></tr></table></figure>
 
-<p>于是开始运行这段代码：</p>
-<p><img src="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/4.jpg" alt="img"></p>
-<p>运行后就得到了我们想要的mp3文件啦！</p>
-<p><img src="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/5.jpg" alt="img"></p>
-<h2><span id="2音频缓存加密过于简单的原因">2.音频缓存加密过于简单的原因</span></h2><p>当然，音频的缓存文件是不可能太过于复杂的，我们听音频的时候，是很讲求时效性的，如果使用太复杂的加密方式，那么可能会导致播放器卡顿。使用异或的加密方式，虽然不太安全，但是还原起来还是很容易的。有时候，安全和性能往往会相互牵制，因此对产品开发者来说，需要把握好安全和性能间的平衡。当然，该音乐应用对安全的把握其实是不太好的，因为解密一首音乐，甚至可以不用写脚本。</p>
-<h2><span id="3对音频缓存加密方式的建议">3.对音频缓存加密方式的建议</span></h2><p>其实该音乐应用可以改进加密算法，提高密钥空间的分析。</p>
-<p>市面上目前也有很多音乐应用，使用了比较好的加密算法。</p>
-<p>例如qq音乐采用了tea加密。如果tea加密比较复杂的话，我认为用维吉尼亚加密也可以，但是注意密钥要稍微长一些，不然通过对文件头的分析是可以把密钥给重新还原的。</p>
+
+
+<h4><span id="todo">Todo:</span></h4><p>1.如果我能拿到班级名单的话，应该可以通过excel自动化生成到课情况和答疑情况，并进行适当标注。</p>
+<p>2.存在一些错误的识别情况，例如“xxx撤回了一条消息”，“@xxx”。但是这些现象比较罕见，没必要为此提高计算复杂度。所以在最终记录后还需要少量人工处理。</p>
 		
 		<!-- 要添加的内容 -->
 		<div>
@@ -320,7 +312,7 @@
 		</li>
 		<li class="post-copyright-link">
 		<strong>文章链接:  </strong>
-		<a href="/2020/02/17/对音频缓存加密的探讨/" target="_blank" title="对音频缓存加密的探讨">https://life-extension.github.io/2020/02/17/对音频缓存加密的探讨/</a>
+		<a href="/2020/05/14/课堂记录小助手/" target="_blank" title="课堂记录小助手">https://life-extension.github.io/2020/05/14/课堂记录小助手/</a>
 		</li>
 		<li class="post-copyright-license">
             <strong>版权声明:   </strong>
@@ -331,7 +323,7 @@
 <div>
 		<!---->			
 		</div>
-		<div id="current-post-cover" data-scr="/img/music.png"></div>
+		<div id="current-post-cover" data-scr="/img/assistant.jpg"></div>
 		<!-- relate post, comment...-->
 		<div class="investment-container">
 			<div class="investment-header">
@@ -345,12 +337,8 @@
 	<span>
 		<a id="totop-post-page">To Top</a>
 		
-			<a href="/2020/03/01/%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E5%9D%91%E6%B4%BC%E6%B4%BC(%E6%8C%81%E6%9B%B4%E4%B8%AD)/" title="安卓开发中遇到的坑坑洼洼" rel="prev">
-				&laquo;Pre post
-			</a>
 		
-		
-			<a href="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/" title="ACTF新人赛密码学部分考察点与题解" rel="next">
+			<a href="/2020/04/30/%E5%9F%BA%E4%BA%8E%E9%97%A8%E9%99%90%E6%96%B9%E6%A1%88%E7%9A%84%E6%9D%A1%E5%BD%A2%E7%A0%81%E4%BF%9D%E5%AF%86%E5%8F%8A%E5%AE%B9%E9%94%99%E6%8A%80%E6%9C%AF/" title="基于门限方案的条形码保密及容错技术" rel="next">
 				Next post&raquo;
 			</a>
 			
@@ -368,29 +356,6 @@
 <div class="relate-post">
 	
 		<ul>
-			
-					<li>
-						<div class="relate-post-text">
-							<a class="relate-post-title" href="/2020/05/14/%E8%AF%BE%E5%A0%82%E8%AE%B0%E5%BD%95%E5%B0%8F%E5%8A%A9%E6%89%8B/" title="课堂记录小助手">
-								课堂记录小助手			
-							</a>
-							<p class="relate-post-date">
-								<i class="fa fa-calendar"></i>
-								五月 14日, 2020				
-							</p>
-							<p class="relate-post-content">
-								作为一名课代表，我需要每天记录同学在QQ群的签到和回答问题情况。开始我是直接把记录复制到word里面手动提取有用的消息，最后我决定解放双手编写一个自动化处理脚本。
-这个脚本需要一些什么功能呢？1.最基础的，就是从漫长的聊天记录中提取专...
-							</p>
-						</div>
-
-						<div class="relate-post-cover">
-							<a href="/2020/05/14/%E8%AF%BE%E5%A0%82%E8%AE%B0%E5%BD%95%E5%B0%8F%E5%8A%A9%E6%89%8B/" title="课堂记录小助手">				
-								
-								<img class="lazy" src="/img/lazy.gif" data-src="/img/assistant.jpg" alt="课堂记录小助手"/>
-							</a>
-						</div>
-					</li>												
 			
 					<li>
 						<div class="relate-post-text">
@@ -526,6 +491,31 @@
 							<a href="/2020/03/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B/" title="记一次安卓代码加固软件的测试过程">				
 								
 								<img class="lazy" src="/img/lazy.gif" data-src="/img/andresguard.png" alt="记一次安卓代码加固软件的测试过程"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/" title="对音频缓存加密的探讨">
+								对音频缓存加密的探讨			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								二月 17日, 2020				
+							</p>
+							<p class="relate-post-content">
+								关键词：缓存解密，批量自动执行脚本，版权保护相关建议。
+
+前段时间，某音乐被爆其缓存文件只使用了简单的异或加密，且容易得到加密密钥为0xa3。原文链接点击这里。以下是我的延伸探讨。
+1.对音频缓存的批量解密攻击抱着好奇的心理，我把手机...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/" title="对音频缓存加密的探讨">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/music.png" alt="对音频缓存加密的探讨"/>
 							</a>
 						</div>
 					</li>												
