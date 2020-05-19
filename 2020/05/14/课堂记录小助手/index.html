@@ -266,7 +266,7 @@
 
 	<a href="/2020/05/14/%E8%AF%BE%E5%A0%82%E8%AE%B0%E5%BD%95%E5%B0%8F%E5%8A%A9%E6%89%8B/" itemprop="url">
 		<time datetime="2020-05-14T04:07:06.000Z" itemprop="dateUpdated">
-	  		2020-05-14
+	  		2020-05-19
 	  </time>
 	</a> 
 
@@ -303,6 +303,9 @@
 
 <h4><span id="todo">Todo:</span></h4><p>1.如果我能拿到班级名单的话，应该可以通过excel自动化生成到课情况和答疑情况，并进行适当标注。</p>
 <p>2.存在一些错误的识别情况，例如“xxx撤回了一条消息”，“@xxx”。但是这些现象比较罕见，没必要为此提高计算复杂度。所以在最终记录后还需要少量人工处理。</p>
+<h4><span id="519更新">5.19更新</span></h4><p>改进了错误识别情况，成功去掉“xxx撤回了一条消息”的“@xxx”的无效记录。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*-coding=UTF-8-*-</span></span><br><span class="line"></span><br><span class="line">f=open(<span class="string">"record.txt"</span>,encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">output=[]</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">    <span class="keyword">if</span> <span class="string">"170"</span><span class="keyword">in</span> line:</span><br><span class="line">        <span class="keyword">if</span>(<span class="string">'@'</span> <span class="keyword">in</span> line):</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="string">'撤回了一条消息'</span> <span class="keyword">in</span> line):</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="string">':'</span> <span class="keyword">in</span> line):</span><br><span class="line">            subline=line[:<span class="number">-10</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            subline=line[:<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">if</span>(subline <span class="keyword">not</span> <span class="keyword">in</span> output):</span><br><span class="line">            output.append(subline)</span><br><span class="line">            print(subline)</span><br></pre></td></tr></table></figure>
+
 		
 		<!-- 要添加的内容 -->
 		<div>
