@@ -266,7 +266,7 @@
 
 	<a href="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/" itemprop="url">
 		<time datetime="2020-02-16T10:56:33.000Z" itemprop="dateUpdated">
-	  		2020-05-06
+	  		2020-06-05
 	  </time>
 	</a> 
 
@@ -300,6 +300,7 @@
 
 		<div class="article-content" id="article-content">
 			<p>关键词：密码学，CTF出题，题解。</p>
+<p>具体的题目，考点，题解请见<a href="https://github.com/CSUAuroraLab/ACTF_Junior_2020" target="_blank" rel="noopener">项目链接</a>。</p>
 <p>新生赛是我进入实验室以来参与出题的第一场比赛。为了这个比赛，我在平时还是做了一些积累，只有有灵感，我就着手开始写出题脚本和解题脚本，然后有一道自己完成不了的题目就麻烦DJ学长帮我写了一下，在这里感谢DJ学长啦！第二次在gitea上协作完成项目，无论是实验室的同学，学长，学弟还是河北师范的同学都给予了我很大的帮助。这次我吸取了之前密码学实验项目的教训，对于分支，调试，校对，发布的流程有了更多的了解。另外这次出题，在苏洋同学的帮助下我终于开始用git bash了，这也为我后面自学开博客打下了基础。最后，这次我也格外注重了文档的规范性，每一道题目都提前按格式把出题方向，题解，源代码，发布的题目，提示，题干，hint给写好了。<img src="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/1.png" alt="出题文件层次分明"><br>说起这次题目的遗憾，就是有两道稍微有难度而又很有意思的题目没有放上来。看了大家的做题情况，密码学的题目基本上都还是几位同学在做。所以对于更加复杂的两道题目，我认为没有必要这么早放上来了，等到校赛吧，等着你们成长。我看到同学们也努力了，比如某位同学，辛辛苦苦终于解出了一道维吉尼亚，当然他一开始对维吉尼亚有些误解，也问了我，最后独立的把题目解了出来。我觉得不管能不能解出题目，只要题目足够有意思，大家足够享受这个过程，就够了。还有一个比较悲剧的，就是没想到杂项出题的学长会和我出了同一个考点，面对着90%以上的题目相似度，我觉得学长题目内容的确更简洁一些，而我的题干更好一些，于是我就放弃了我的那道题目，把自己的题干放到了杂项的那道题目那里。杂项密码学也有千丝万缕的联系呢，少一道也不亏。以下是同学们的完成状况：<br><img src="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/2.png" alt="2"> <img src="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/3.png" alt="3"> <img src="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/4.png" alt="4"> <img src="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/5.png" alt="5"> <img src="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/6.png" alt="密码学题目完成情况"> <img src="/2020/02/16/ACTF%E6%96%B0%E4%BA%BA%E8%B5%9B%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86wp/7.png" alt="杂项题目完成情况"><br>从同学们的完成状况来看，密码学的确没有杂项，逆向和web那么受欢迎，究其原因，应该是密码学的就业面没这么大，而且理论相对深奥，难度较大。但是我认为密码学一直都是挺有意思的存在，多了解一些密码学的知识点总是好的，如果的确有能力，可以做做密码学的研究；觉得自己能力不够的话，退而研究算法，或者在信息安全的其他方面引入密码学的知识，活学活用也很不错。好了，接下来就是这次的wp，我觉得自己这次的题目还是偏简单了一些，和CTF有比较大的差别，另外为了使一道题目有更多的考点，也更加有趣，我的确准备了很多的压缩包密码，所以遭到了一些吐槽。不过也没关系啦，继续完善一下自己，争取校赛能提供更好的题目！</p>
 <h2><span id="classic0">classic0</span></h2><h4><span id="题干">题干</span></h4><p>小Z用C语言编写了一个最简单的密码系统，里面都采用的是最简单的古典加密。但是他的源程序不幸泄露，聪明的你能否解读他采用的算法并进行解密？flag格式为actf{***}</p>
 <h4><span id="考察点">考察点</span></h4><p>凯撒，异或，编程能力，生日字典</p>
@@ -506,6 +507,30 @@ CopperSmith攻击的种类真的很多，以下是我归纳的几种常见形式
 			
 					<li>
 						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/06/05/ACTF2020%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86writeup/" title="ACTF2020密码学部分writeup">
+								ACTF2020密码学部分writeup			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								六月 5日, 2020				
+							</p>
+							<p class="relate-post-content">
+								编写的项目文件请参考链接。
+为了保护服务器的同时不给选手带来更多困难，密码学部分的交互题开了pow算力检测，我也提供了相应的pow算力运算解决样例，大家下载即可。
+入门题Column Permutation Cipher：简单的矩阵换...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/06/05/ACTF2020%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86writeup/" title="ACTF2020密码学部分writeup">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="img/ACTF2020.png" alt="ACTF2020密码学部分writeup"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
 							<a class="relate-post-title" href="/2020/05/20/%E9%80%9A%E8%BF%87python%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E6%8F%92%E5%85%A5%E6%B7%B7%E6%B7%86%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%80%E7%A7%8D%E5%9F%BA%E6%9C%AC%E7%A4%BA%E4%BE%8B/" title="通过python脚本自动插入汇编反调试代码">
 								通过python脚本自动插入汇编反调试代码			
 							</a>
@@ -662,29 +687,6 @@ CopperSmith攻击的种类真的很多，以下是我归纳的几种常见形式
 							<a href="/2020/04/13/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E6%96%B0%E5%9E%8B%E7%BE%A4%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB%E7%B3%BB%E7%BB%9F/" title="基于CRT的新型群文件共享系统">				
 								
 								<img class="lazy" src="/img/lazy.gif" data-src="/img/crt.png" alt="基于CRT的新型群文件共享系统"/>
-							</a>
-						</div>
-					</li>												
-			
-					<li>
-						<div class="relate-post-text">
-							<a class="relate-post-title" href="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/" title="安卓反混淆软件探索-deobf">
-								安卓反混淆软件探索-deobf			
-							</a>
-							<p class="relate-post-date">
-								<i class="fa fa-calendar"></i>
-								三月 19日, 2020				
-							</p>
-							<p class="relate-post-content">
-								关键词：代码混淆，代码反混淆及其原理，代码反混淆软件测试与性能对比。
-前言我们的大创项目其实是分两方面进行的，一方面，我们从代码混淆的角度比较各种软件对安卓程序的加固能力；另一方面，我们着重针对OLLVM进行反混淆测试。OLLVM集成...
-							</p>
-						</div>
-
-						<div class="relate-post-cover">
-							<a href="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/" title="安卓反混淆软件探索-deobf">				
-								
-								<img class="lazy" src="/img/lazy.gif" data-src="/img/deobf.png" alt="安卓反混淆软件探索-deobf"/>
 							</a>
 						</div>
 					</li>												

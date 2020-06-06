@@ -1,0 +1,1022 @@
+<!--
+	作者：Sariay
+	时间：2018-08-26
+	描述：There may be a bug, but don't worry, Qiling(器灵) says that it can work normally! aha!
+-->
+<!DOCTYPE html>
+<html class="html-loading">
+		
+
+<head>
+	<!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <title>
+    
+      ACTF2020密码学部分writeup | life-extension&#39;s blogs
+    
+  </title>
+  <meta name="author" content="痛并快乐着">
+  <meta name="keywords" content="" />
+  <meta name="description" content="chaser of light" />
+	<!-- favicon -->
+  <link rel="shortcut icon" href="/img/favicon.ico">
+
+  <!-- css -->
+  
+<link rel="stylesheet" href="/css/Annie.css">
+
+  
+  <!-- jquery -->
+	
+<script src="/plugin/jquery/jquery.min.js"></script>
+
+
+<script>
+    const CONFIG_BGIMAGE = {
+      mode: 'normal',
+      normalSrc: '/img/header-bg.jpg',
+      randomYouMax: 110,
+      randomYouSrc: 'https://sariay.github.io/Random-img/',
+	  randomOtherSrc: 'https://api.berryapi.net/?service=App.Bing.Images&day=-0',
+	  preloaderEnable: true
+    }
+	
+    const CONFIG_LEACLOUD_COUNT = {
+      enable: false,
+	  appId: 'AU8...',
+	  appKey: '4cU...',
+	  serverURLs: 'http' || ' '
+    }
+  </script>
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="life-extension's blogs" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+	<body>
+		<!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Preloader -->
+
+	<div id="preloader">
+		<div class="pre-container">
+			
+				<div class="spinner">
+					<div class="double-bounce1"></div>
+					<div class="double-bounce2"></div>
+				</div>
+						
+		</div>
+	</div>
+
+
+<!-- header -->
+<header class="fixbackground bg-pan-br">
+	<div class="mask">
+		<!-- motto -->
+		<div class="h-body">	
+			
+				<div class="motto text-shadow-pop-left">
+					<p class="content" id="motto-content">Fetching...</p>
+					<p>-<p>
+					<p class="author" id="motto-author">Just a minute...</p>
+				</div>
+			
+		</div>
+		
+		<!-- others: such as time... -->			
+		<div class="h-footer">
+			<a href="javascript:;" id="read-more" class="scroll-down">
+				<span class="icon-anchor1 animation-scroll-down"></span>
+			</a>
+		</div>
+	</div>
+</header>
+
+<div id="navigation-hide">
+	<!-- Progress bar -->
+	<div id="progress-bar"></div>
+
+	<!-- Progress percent -->
+	<div id="progress-percentage"><span>0.0%</span></div>
+
+	<div class="toc-switch"><span class="switch-button">Catalog</span></div>
+
+	<!-- Page title -->
+	<p>
+		
+			「ACTF2020密码学部分writeup」
+		
+	</p>
+
+	
+	
+
+	<!-- Nav trigger for navigation-H-->
+	<a class="nav-trigger"><span></span></a>
+</div>
+
+<!-- Navigation in div(id="navigation-H") -->
+<nav class="nav-container" id="cd-nav">
+	<div class="nav-header">
+		<span class="logo"> 
+			<img src="/img/logo.png">
+		</span>
+		<a href="javascript:;" class="nav-close"></a>
+	</div>
+	
+	<div class="nav-body">
+		<ul id="global-nav">
+	
+		<li class="menu-home">
+			<a href="/" class="menu-item-home" target="_blank">Home</a>
+		</li>
+		
+	
+		<li class="menu-archive">
+			<a href="/archives" class="menu-item-archive" target="_blank">Archive</a>
+		</li>
+		
+	
+		<li class="menu-categories">
+			<a href="/categories" class="menu-item-categories" target="_blank">Category</a>
+		</li>
+		
+	
+		<li class="menu-tags">
+			<a href="/tags" class="menu-item-tags" target="_blank">Tag</a>
+		</li>
+		
+	
+		<li class="menu-about">
+			<a href="/about" class="menu-item-about" target="_blank">About</a>
+		</li>
+		
+	
+		<li class="menu-gallery">
+			<a href="/gallery" class="menu-item-gallery" target="_blank">Gallery</a>
+		</li>
+		
+	
+
+	
+		<li class="menu-search">
+			<a href="javascript:;" class="popup-trigger">Search</a>
+		</li>
+	
+</ul>
+	</div>
+	
+	<div class="nav-footer">
+		<ul id="global-social">
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-one"><span class="path1"></span><span class="path2"></span></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-zhihu"></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-github"></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-sina-weibo "></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-pinterest2"></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-instagram"></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<span class="icon-twitter"></span>
+			</a>
+		</li>
+	
+		<li>
+			<a href="/atom.xml" target="_blank">
+				<span class="icon-rss"></span>
+			</a>
+		</li>
+			
+</ul>
+
+	</div>
+</nav>
+			
+		<!--main-->
+		<main>
+			<!--
+	时间：2018-11-17
+	描述：
+		插件名称：katelog.min.js
+		插件作者：KELEN
+		插件来源: https://github.com/KELEN/katelog
+-->
+
+	
+		<div class="layout-toc">
+			<div id="layout-toc">
+				<div class="k-catelog-list" id="catelog-list" data-title="Catalog"></div>
+			</div>
+		</div>
+
+		
+<script src="/plugin/toc/katelog.min.js"></script>
+
+
+		
+	 
+
+<div class="layout-post">
+	<div id="layout-post">
+		<div class="article-title">
+			
+	<a href="/2020/06/05/ACTF2020%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86writeup/" itemprop="url">
+		ACTF2020密码学部分writeup
+	</a>
+
+		</div>
+
+		<div class="article-meta">
+			<span>
+				<i class="icon-calendar1"></i>
+				
+				
+
+
+
+
+	Updated on
+
+	<a href="/2020/06/05/ACTF2020%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86writeup/" itemprop="url">
+		<time datetime="2020-06-05T11:33:52.000Z" itemprop="dateUpdated">
+	  		2020-06-06
+	  </time>
+	</a> 
+
+
+
+			</span>
+			<span>
+				
+	<i class="icon-price-tags"></i>
+	
+		<a href="/tags/project/" class=" ">
+			project
+		</a>
+	
+			
+			</span>
+			
+			
+
+
+
+		</div>
+
+		<div class="article-content" id="article-content">
+			<p>编写的项目文件请参考<a href>链接</a>。</p>
+<p>为了保护服务器的同时不给选手带来更多困难，密码学部分的交互题开了pow算力检测，我也提供了相应的pow算力运算解决样例，大家下载即可。</p>
+<h4><span id="入门题">入门题</span></h4><h5><span id="column-permutation-cipher">Column Permutation Cipher：</span></h5><p>简单的矩阵换位密码，首先统计字段长度为625，由于题目中告诉我们是m*n举证换位，所以m,n的可能值是(5,125),(25,25),(125,5)，然后爆破即可，示例脚本: </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*- coding=UTF-8 -*-</span></span><br><span class="line">possiblelen=[<span class="number">5</span>,<span class="number">25</span>,<span class="number">125</span>]</span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> possiblelen:</span><br><span class="line">    plaintext=<span class="string">""</span></span><br><span class="line">    line=<span class="number">625</span>//k</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(line):</span><br><span class="line">            plaintext+=cipher[j*k+i]</span><br><span class="line">    print(plaintext)</span><br></pre></td></tr></table></figure>
+
+<h5><span id="我的密码本">我的密码本:</span></h5><p>统计英文文本中每个字符的出现频率，并查找概率表进行对比。当然其中需要用到一些英文知识，一般这种题目语义都是连贯的，一定要注意最后解出来的明文语义上是否通顺。</p>
+<p><img src="/2020/06/05/ACTF2020%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86writeup/image-20200529003238548.png" alt="image-20200529003238548"></p>
+<p>如果你统计好词频并确定了明文-密文对以后，即可还原出原文。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">code_book=<span class="string">"ㅡ贰ㅒㄱёㄴ伍ㅊあムг肆ンㅇэ叁йΣωθξ壹ㅣのл￥"</span></span><br><span class="line">plaintext=<span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> range(len(cipher)):</span><br><span class="line">    flag=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(code_book)):</span><br><span class="line">        <span class="keyword">if</span>(cipher[j]==code_book[i]):</span><br><span class="line">            plaintext+=str(chr(<span class="number">0x61</span>+i))</span><br><span class="line">            flag=<span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span>(flag==<span class="number">0</span>):</span><br><span class="line">        plaintext+=cipher[j]</span><br><span class="line">print(plaintext)</span><br></pre></td></tr></table></figure>
+
+<h4><span id="简单题">简单题</span></h4><h5><span id="bomb-or-boom">bomb or boom：</span></h5><p>题目给出了5个压缩包文件和一个密码本，并告知我们5个压缩包只要破解4个就行。所以应该涉及到门限方案，这里虽然没有题目名，但是hint中给出来了，用的是bloom门限。这是一个（4,5）门限，消息被5个随机模数求模，得到a<sub>i</sub>和m<sub>i</sub>。并被封装在五个压缩包中。</p>
+<p>压缩包的密码被一些编码方式加密了，想了解这些编码方式请看<a href="https://www.cnblogs.com/mq0036/p/6544055.html" target="_blank" rel="noopener">这里</a>。</p>
+<p>下面稍微解释一下这些有趣的编码，第一个是培根，第二个盲文，第三个用的是千千秀字的文本转音符（大可搜索一下，如何把文本加密为音符，仅此一家，ps.看着音符的样子难道不好看嘛），第四个是aaencode（学过web应该都知道的吧），第五个是brainfuck，参考一下资料即可。</p>
+<p>然后用门限方案的脚本直接跑，就可以辽：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">from</span> Cryptodome.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">re</span><span class="params">(w1,m1)</span>:</span><span class="comment">#乘法逆</span></span><br><span class="line">	t1=w1</span><br><span class="line">	t2=m1</span><br><span class="line">	i=<span class="number">0</span></span><br><span class="line">	s=[]</span><br><span class="line">	<span class="keyword">while</span>(t1):</span><br><span class="line">		y=t2%t1</span><br><span class="line">		s.append(int(t2//t1))</span><br><span class="line">		t2=t1</span><br><span class="line">		t1=y</span><br><span class="line">	re1= <span class="number">0</span></span><br><span class="line">	re2= <span class="number">1</span></span><br><span class="line">	i=len(s)<span class="number">-2</span>	</span><br><span class="line">	<span class="keyword">while</span>(i&gt;=<span class="number">0</span>):</span><br><span class="line">		t=re2</span><br><span class="line">		re2=re1*<span class="number">1</span>-re2*s[i]</span><br><span class="line">		re1=t</span><br><span class="line">		i-=<span class="number">1</span></span><br><span class="line">	<span class="keyword">return</span> re2</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">debloom</span><span class="params">(k)</span>:</span></span><br><span class="line">    x=[]</span><br><span class="line">    m=[]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,k):</span><br><span class="line">        print(<span class="string">"inputs x"</span>+str(i+<span class="number">1</span>)+<span class="string">" and m"</span>+str(i+<span class="number">1</span>)+<span class="string">":"</span>)</span><br><span class="line">        x.append(int(input()))</span><br><span class="line">        m.append(int(input()))</span><br><span class="line">    Mn=<span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,k):</span><br><span class="line">        Mn=Mn*m[i]</span><br><span class="line"></span><br><span class="line">    w=[]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,k):</span><br><span class="line">        w.append(int(Mn//m[i]))</span><br><span class="line">    t=[]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,k):</span><br><span class="line">        t.append(re(w[i],m[i]))</span><br><span class="line">    result=<span class="number">0</span><span class="comment">#初始化</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,k):</span><br><span class="line">        result+=(w[i]*t[i]*x[i])</span><br><span class="line">    result=result%Mn</span><br><span class="line">    print(long_to_bytes(result))</span><br><span class="line"></span><br><span class="line">print(<span class="string">"input bloom k:"</span>)</span><br><span class="line">k=int(input())</span><br><span class="line">debloom(k)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<p><img src="/2020/06/05/ACTF2020%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86writeup/%E8%A7%A3%E5%AF%86%E5%9B%BE%E7%89%87.png" alt="解密图片"></p>
+<h5><span id="naive-encryption">naive encryption:</span></h5><p>一道改装后的仿射密码题，只不过采用了不同的a,b进行了更多的轮加密，所以说这道题目更像是算法逆向。关键知识是乘法逆。解题脚本如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Cryptodome.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inv</span><span class="params">(u,v)</span>:</span></span><br><span class="line">    u3,v3=u,v</span><br><span class="line">    u1,v1=<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> v3&gt;<span class="number">0</span>:</span><br><span class="line">        q=u3//v3</span><br><span class="line">        u1,v1=v1,u1-v1*q</span><br><span class="line">        u3,v3=v3,u3-v3*q</span><br><span class="line">    <span class="keyword">while</span> u1&lt;<span class="number">0</span>:</span><br><span class="line">        u1=u1+v</span><br><span class="line">    <span class="keyword">return</span> u1</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">k=[<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">11</span>,<span class="number">13</span>,<span class="number">17</span>,<span class="number">19</span>,<span class="number">23</span>,<span class="number">29</span>,<span class="number">31</span>,<span class="number">37</span>,</span><br><span class="line">    <span class="number">41</span>,<span class="number">43</span>,<span class="number">47</span>,<span class="number">53</span>,<span class="number">59</span>,<span class="number">61</span>,<span class="number">67</span>,<span class="number">71</span>,<span class="number">73</span>,<span class="number">79</span>,</span><br><span class="line">    <span class="number">83</span>,<span class="number">89</span>,<span class="number">97</span>,<span class="number">101</span>,<span class="number">103</span>,<span class="number">107</span>,<span class="number">109</span>,<span class="number">113</span>,</span><br><span class="line">    <span class="number">127</span>,<span class="number">131</span>,<span class="number">137</span>,<span class="number">139</span>,<span class="number">149</span>,<span class="number">151</span>,<span class="number">157</span>,</span><br><span class="line">    <span class="number">163</span>,<span class="number">167</span>,<span class="number">173</span>,<span class="number">179</span>,<span class="number">181</span>,<span class="number">191</span>,<span class="number">193</span>,</span><br><span class="line">    <span class="number">197</span>,<span class="number">199</span>,<span class="number">211</span>,<span class="number">223</span>,<span class="number">227</span>,<span class="number">229</span>,<span class="number">233</span>,</span><br><span class="line">    <span class="number">239</span>,<span class="number">241</span>,<span class="number">251</span>]</span><br><span class="line">n=<span class="number">1000</span></span><br><span class="line">len_k=len(k)</span><br><span class="line">cipher=[<span class="number">71</span>, <span class="number">37</span>, <span class="number">4</span>, <span class="number">242</span>, <span class="number">109</span>, <span class="number">227</span>, <span class="number">22</span>, <span class="number">207</span>, <span class="number">36</span>, <span class="number">5</span>, <span class="number">39</span>, <span class="number">87</span>, <span class="number">22</span>, <span class="number">155</span>, <span class="number">19</span>, <span class="number">5</span>, <span class="number">19</span>, <span class="number">36</span>, <span class="number">155</span>, <span class="number">36</span>, <span class="number">224</span>, <span class="number">2</span>, <span class="number">104</span>, <span class="number">155</span>, <span class="number">39</span>, <span class="number">2</span>, <span class="number">19</span>, <span class="number">241</span>, <span class="number">155</span>, <span class="number">70</span>, <span class="number">210</span>, <span class="number">241</span>, <span class="number">53</span>, <span class="number">5</span>, <span class="number">19</span>, <span class="number">39</span>, <span class="number">22</span>, <span class="number">70</span>, <span class="number">22</span>, <span class="number">210</span>, <span class="number">70</span>, <span class="number">75</span>]</span><br><span class="line"></span><br><span class="line">flag=<span class="number">0</span></span><br><span class="line">len_cipher=len(cipher)</span><br><span class="line"><span class="keyword">while</span>(n&gt;<span class="number">0</span>):</span><br><span class="line">    pointer=<span class="number">1001</span>-n</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len_cipher):</span><br><span class="line">        <span class="comment">#cipher[i]=(cipher[i]*k[((pointer+2)%len_k]+k[(pointer*7)%len_k])&amp;0xff</span></span><br><span class="line">        cipher[i]=((cipher[i]-k[(pointer*<span class="number">7</span>)%len_k])*inv(k[(pointer+<span class="number">2</span>)%len_k],<span class="number">0x100</span>))&amp;<span class="number">0xff</span></span><br><span class="line">    n=n<span class="number">-1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len_cipher):</span><br><span class="line">    flag+=cipher[i]</span><br><span class="line">    flag=flag&lt;&lt;<span class="number">8</span></span><br><span class="line">flag=flag&gt;&gt;<span class="number">8</span></span><br><span class="line">print(long_to_bytes(flag))</span><br></pre></td></tr></table></figure>
+
+<h5><span id="naive-rsa">naive rsa：</span></h5><p>本来这道题目我已经出好推送想送分的，但不料推送还没轮到我，所以没发出来，希望大家多多支持“中南极光网安实验室”的公众号，支持痛并快乐着的作品。</p>
+<p>回到题目，这是一道简单的coppersmith，主要问题出在getPrime函数和给出的p%q上。p是520位素数，q是500位素数，所以p//q就在2<sup>19</sup>到2<sup>21</sup>之间，我们假设p//q=k，p%q=a，那么p=kq+a，那么我们只需要在2<sup>19</sup>到2<sup>21</sup>之间爆破k即可，脚本如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">from</span> Cryptodome.Util.number <span class="keyword">import</span> *</span><br><span class="line">a=int(input())</span><br><span class="line">N=int(input())</span><br><span class="line">c=int(input())</span><br><span class="line">e=<span class="number">65537</span></span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">2</span>**<span class="number">19</span>,<span class="number">2</span>**<span class="number">21</span>):</span><br><span class="line">    <span class="comment">#print(gmpy2.iroot(k*k+4*N, 2)[0])</span></span><br><span class="line">    q = (-a + gmpy2.iroot(a*a+<span class="number">4</span>*k*N, <span class="number">2</span>)[<span class="number">0</span>])//(<span class="number">2</span>*k)</span><br><span class="line">    p = k*q+a</span><br><span class="line">    <span class="comment">#print(k)</span></span><br><span class="line">    <span class="keyword">if</span>(p*q==N):</span><br><span class="line">        <span class="comment">#print (k)</span></span><br><span class="line">        phi = (p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">        d = gmpy2.invert(e,phi)</span><br><span class="line">        m = pow(c,d,N)</span><br><span class="line">        <span class="keyword">print</span> (long_to_bytes(m))</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<h4><span id="中等题">中等题</span></h4><h5><span id="imitation-game">Imitation game：</span></h5><p>由于在密码学实验期间，我发现基本没有同学完成mtp的实验，所以在这里稍微加深了一下mtp以后形成了新的题目。这道题目和一般的mtp的区别就是，这里对密钥进行了类似于CBC的块加密，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(iv,message)</span>:</span></span><br><span class="line">    padding=[iv]   </span><br><span class="line">    cipher=[message[<span class="number">0</span>]^padding[<span class="number">0</span>]]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len_flag):</span><br><span class="line">        <span class="comment">#print(cipher)</span></span><br><span class="line">        padding.append(cipher[i<span class="number">-1</span>]^padding[i<span class="number">-1</span>])</span><br><span class="line">        cipher.append(message[i]^padding[i])</span><br><span class="line">    print(<span class="string">"cipher=&#123;&#125;"</span>.format(cipher))</span><br></pre></td></tr></table></figure>
+
+<p>但是由于初始iv范围很小，而且它嵌入到了密钥的每一个字节中，所以我们只需要爆破iv就可以得到明文。甚至我们可以知道密钥最后一位是”}”，直接与mtp后得到的密钥异或就知道iv值了。然后整个密钥每个字节异或iv就得到明文。</p>
+<p>而对于mtp，题目中已经给出，密文都来自于书本原句，即可见字符，那么我们只需要通过限定课件字符的范围就可以排除很多无关答案。这里推荐python的mtp包，效果很棒，运行截图如下：</p>
+<p><img src="/2020/06/05/ACTF2020%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86writeup/%E6%A0%B7%E4%BE%8B-%E5%BE%97%E5%88%B0%E7%9A%84key%E6%AF%8F%E4%B8%80%E4%BD%8D%E5%BC%82%E6%88%960xab%E5%8D%B3%E5%8F%AF.png" alt="样例-得到的key每一位异或0xab即可"></p>
+<p>得到的key不是最后的key，但是0xd6^b’}’=0xab，所以对每一位异或0xab即可得到明文。</p>
+<h5><span id="naive-aes">naive aes：</span></h5><p>又是一道算法逆向题，但是这里主要考察的是S盒和P盒的逆向。</p>
+<p>from： <a href="https://ctftime.org/task/9330" target="_blank" rel="noopener">nactf——Super Duper AES</a></p>
+<p>writeup: <a href="https://seymour.hackstreetboys.ph/chals/ctf/2019_NACTF/crypto/5_Super_Duper_AES.html" target="_blank" rel="noopener">detail link</a></p>
+<p>all you need is to:</p>
+<p>1.Reverse the <strong>permute()</strong> function.</p>
+<p>2.Reverse the <strong>substitute()</strong> function.</p>
+<p>3.Put everything together and run the script.</p>
+<p>Isn’t it easy?</p>
+<h5><span id="tiny_prng0">tiny_PRNG0:</span></h5><p>出题人：<a href="csuwangj.github.io">DJ</a></p>
+<p>出题人只给了我脚本，不过mt19937伪随机数预测最近的CTF题目很多，大家可以参考这个<a href="https://blog.wuhao13.xin/1245.html" target="_blank" rel="noopener">博客</a>。</p>
+<p>基本思想：根据输出的随机数逆向extract_number对应的状态，实际上只需要前624个随机数恢复前624个state，就可以预测此后生成的随机数。 脚本：</p>
+<p>1.mt19937.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inv_right_shift</span><span class="params">(v, b, m)</span>:</span></span><br><span class="line">    <span class="string">'</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; from cryptonita.attacks.prng import inv_right_shift</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; y, b, m = 524889969, 11, 0x010101</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; v = y ^ ((y &gt;&gt; b) &amp; m)</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; inv_right_shift(v, b, m)</span></span><br><span class="line"><span class="string">        524889969</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; y, b, m = 0xffffffff, 4, 0xffffffff</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; v = y ^ ((y &gt;&gt; b) &amp; m)</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; inv_right_shift(v, b, m)</span></span><br><span class="line"><span class="string">        4294967295</span></span><br><span class="line"><span class="string">    '</span></span><br><span class="line">    <span class="keyword">assert</span> <span class="number">0</span> &lt; b &lt; <span class="number">32</span></span><br><span class="line"></span><br><span class="line">    g = <span class="number">0</span></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; <span class="number">32</span>:</span><br><span class="line">        g = v ^ ((g &gt;&gt; b) &amp; m)</span><br><span class="line">        i += b</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> g</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inv_left_shift</span><span class="params">(v, b, m)</span>:</span></span><br><span class="line">    <span class="string">'</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; from cryptonita.attacks.prng import inv_left_shift</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; y, b, m = 524889969, 3, 0x010101</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; v = y ^ ((y &lt;&lt; b) &amp; m)</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; inv_left_shift(v, b, m)</span></span><br><span class="line"><span class="string">        524889969</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; y, b, m = 0xffffffff, 4, 0xffffffff</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; v = y ^ ((y &lt;&lt; b) &amp; m)</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; inv_left_shift(v, b, m)</span></span><br><span class="line"><span class="string">        4294967295</span></span><br><span class="line"><span class="string">    '</span></span><br><span class="line">    <span class="keyword">assert</span> <span class="number">0</span> &lt; b &lt; <span class="number">32</span></span><br><span class="line"></span><br><span class="line">    g = <span class="number">0</span></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; <span class="number">32</span>:</span><br><span class="line">        g = v ^ ((g &lt;&lt; b) &amp; m)</span><br><span class="line">        i += b</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> g</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">clone_mt19937</span><span class="params">(out)</span>:</span></span><br><span class="line">    <span class="string">'   Clone the internal state of a Mersenne Twister 19937 (MT19937)</span></span><br><span class="line"><span class="string">        from its output &lt;out&gt;.</span></span><br><span class="line"><span class="string">        For MT19937 we need 624 sequential bytes at minimum to clone</span></span><br><span class="line"><span class="string">        the state.</span></span><br><span class="line"><span class="string">            &gt;&gt;&gt; from cryptonita.attacks.prng import clone_mt19937</span></span><br><span class="line"><span class="string">            &gt;&gt;&gt; clone_mt19937(B('</span>abc<span class="string">'))           # byexample: +norm-ws</span></span><br><span class="line"><span class="string">            Traceback &lt;...&gt;</span></span><br><span class="line"><span class="string">            ValueError: You need at least 624 bytes to clone the MT19937 PRNG</span></span><br><span class="line"><span class="string">                        but you have only 3.</span></span><br><span class="line"><span class="string">        With 624+n, the first 624 are used to clone the</span></span><br><span class="line"><span class="string">        MT19937'</span>s state <span class="keyword">and</span> the next byte <span class="keyword">is</span> used to validate.</span><br><span class="line">        If the validation fails, <span class="string">"shift to the right one byte"</span>: the first</span><br><span class="line">        byte <span class="keyword">is</span> ignored, the next <span class="number">624</span> bytes are used to re-clone the state</span><br><span class="line">        <span class="keyword">and</span> the next byte <span class="keyword">is</span> used to validate the generator.</span><br><span class="line">        The process continues until one validation success <span class="keyword">or</span> until reach the</span><br><span class="line">        end of the string.</span><br><span class="line">        The last cloned MT19937 cannot be validated.</span><br><span class="line">        Given <span class="number">624</span> bytes only, no validation <span class="keyword">is</span> performed; given <span class="number">624</span>*<span class="number">2</span> bytes,</span><br><span class="line">        it <span class="keyword">is</span> guaranteed that a valid clone can be found.</span><br><span class="line">        <span class="string">'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    n = 624</span></span><br><span class="line"><span class="string">    if len(out) &lt; n:</span></span><br><span class="line"><span class="string">        raise ValueError(("You need at least %i bytes to clone the MT19937 PRNG" +\</span></span><br><span class="line"><span class="string">                          " but you have only %i.") % (n, len(out)))</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    u, d = 11, 0xffffffff</span></span><br><span class="line"><span class="string">    s, b = 7, 0x9d2c5680</span></span><br><span class="line"><span class="string">    t, c = 15, 0xefc60000</span></span><br><span class="line"><span class="string">    l = 18</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    state = []</span></span><br><span class="line"><span class="string">    for y in out:</span></span><br><span class="line"><span class="string">        y = inv_right_shift(y, l, 0xffffffff)    # inv of y ^ ((y &gt;&gt; l) &amp; 0)</span></span><br><span class="line"><span class="string">        y = inv_left_shift(y, t, c)     # inv of y ^ ((y &lt;&lt; t) &amp; c)</span></span><br><span class="line"><span class="string">        y = inv_left_shift(y, s, b)     # inv of y ^ ((y &lt;&lt; s) &amp; b)</span></span><br><span class="line"><span class="string">        y = inv_right_shift(y, u, d)    # inv of y ^ ((y &gt;&gt; u) &amp; d)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        state.append(y)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    found = False</span></span><br><span class="line"><span class="string">    i = 0</span></span><br><span class="line"><span class="string">    g = MT19937(0)</span></span><br><span class="line"><span class="string">    g.reset_state(state[i:i+n], index=n)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    while i+n &lt; len(out):</span></span><br><span class="line"><span class="string">        v = g.extract_number()</span></span><br><span class="line"><span class="string">        found = v == out[i+n]</span></span><br><span class="line"><span class="string">        if found:</span></span><br><span class="line"><span class="string">            g.reset_state(state[i:i+n], index=n)</span></span><br><span class="line"><span class="string">            break</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        i += 1</span></span><br><span class="line"><span class="string">        g.reset_state(state[i:i+n], index=n)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    return g</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># https://en.wikipedia.org/wiki/Mersenne_Twister</span></span><br><span class="line"><span class="string">class MT19937:</span></span><br><span class="line"><span class="string">    def __init__(self, seed):</span></span><br><span class="line"><span class="string">        w, n, m, r = 32, 624, 397, 31</span></span><br><span class="line"><span class="string">        a, f = 0x9908b0df, 1812433253</span></span><br><span class="line"><span class="string">        W = 0xffffffff</span></span><br><span class="line"><span class="string">        u, d = 11, 0xffffffff</span></span><br><span class="line"><span class="string">        s, b = 7, 0x9d2c5680</span></span><br><span class="line"><span class="string">        t, c = 15, 0xefc60000</span></span><br><span class="line"><span class="string">        l = 18</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        # Create a length n array to store the state of the generator</span></span><br><span class="line"><span class="string">        self.MT = MT = [] # n size</span></span><br><span class="line"><span class="string">        self.index = n+1</span></span><br><span class="line"><span class="string">        lower_mask = (1 &lt;&lt; r) - 1</span></span><br><span class="line"><span class="string">        upper_mask = (~lower_mask) &amp; W</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        # Initialize the generator from a seed</span></span><br><span class="line"><span class="string">        index = n</span></span><br><span class="line"><span class="string">        MT.append(seed)</span></span><br><span class="line"><span class="string">        for i in range(1, n):</span></span><br><span class="line"><span class="string">            MT.append((f * (MT[i-1] ^ (MT[i-1] &gt;&gt; (w-2))) + i) &amp; W)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        # Generate the next n values from the series x_i</span></span><br><span class="line"><span class="string">        def twist():</span></span><br><span class="line"><span class="string">            for i in range(n):</span></span><br><span class="line"><span class="string">                 x = (MT[i] &amp; upper_mask) \</span></span><br><span class="line"><span class="string">                           + (MT[(i+1) % n] &amp; lower_mask)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">                 xA = x &gt;&gt; 1</span></span><br><span class="line"><span class="string">                 if (x % 2) != 0:  # lowest bit of x is 1</span></span><br><span class="line"><span class="string">                     xA = xA ^ a</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">                 MT[i] = MT[(i + m) % n] ^ xA</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">            self.index = 0</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        # Extract a tempered value based on MT[index]</span></span><br><span class="line"><span class="string">        # calling twist() every n numbers</span></span><br><span class="line"><span class="string">        def extract_number():</span></span><br><span class="line"><span class="string">            while 1:</span></span><br><span class="line"><span class="string">                if self.index &gt;= n:</span></span><br><span class="line"><span class="string">                    twist()</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">                y = MT[self.index]</span></span><br><span class="line"><span class="string">                y = y ^ ((y &gt;&gt; u) &amp; d)</span></span><br><span class="line"><span class="string">                y = y ^ ((y &lt;&lt; s) &amp; b)</span></span><br><span class="line"><span class="string">                y = y ^ ((y &lt;&lt; t) &amp; c)</span></span><br><span class="line"><span class="string">                y = y ^ (y &gt;&gt; l)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">                self.index += 1</span></span><br><span class="line"><span class="string">                yield y &amp; W</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        self.extract_number = extract_number</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def reset_state(self, MT, index=0):</span></span><br><span class="line"><span class="string">        assert len(MT) == len(self.MT)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        self.index = index</span></span><br><span class="line"><span class="string">        if not (0 &lt;= self.index &lt;= len(MT)):</span></span><br><span class="line"><span class="string">            raise IndexError("Setting index=%i is out of range" \</span></span><br><span class="line"><span class="string">                    % (self.index))</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        self.MT[:] = MT</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def __iter__(self):</span></span><br><span class="line"><span class="string">        return self.extract_number()</span></span><br></pre></td></tr></table></figure>
+
+<p>2.exp.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> argv</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> List</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"><span class="keyword">from</span> mt19937 <span class="keyword">import</span> clone_mt19937</span><br><span class="line"><span class="keyword">import</span> re </span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> (</span><br><span class="line">    process,</span><br><span class="line">    remote,</span><br><span class="line">    log,</span><br><span class="line">    <span class="comment"># context</span></span><br><span class="line">)</span><br><span class="line"><span class="comment"># context.log_level = "DEBUG"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_output</span><span class="params">(io, size)</span>:</span></span><br><span class="line">    output = []</span><br><span class="line">    <span class="keyword">with</span> tqdm(total=size) <span class="keyword">as</span> bar:</span><br><span class="line">        <span class="keyword">while</span> len(output) &lt; size:</span><br><span class="line">            io.sendlineafter(<span class="string">"&gt; "</span>, <span class="string">"1"</span>)</span><br><span class="line">            line = io.recvline().decode(<span class="string">"utf-8"</span>)</span><br><span class="line">            output += list(map(int, line.strip().split(<span class="string">" "</span>)))</span><br><span class="line">            bar.update(<span class="number">10</span>)</span><br><span class="line">    bar.close()</span><br><span class="line">    <span class="keyword">return</span> output</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(argv) == <span class="number">1</span>:</span><br><span class="line">        io = process(<span class="string">"./a.out"</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        io = remote(argv[<span class="number">1</span>], int(argv[<span class="number">2</span>]))</span><br><span class="line">    log.info(<span class="string">"get output from mt19937"</span>)</span><br><span class="line">    out = get_output(io, <span class="number">640</span>)</span><br><span class="line">    log.info(<span class="string">"clone mt19937 from output"</span>)</span><br><span class="line">    new_iter = iter(clone_mt19937(out))</span><br><span class="line">    io.sendline(<span class="string">"2"</span>)</span><br><span class="line">    log.info(<span class="string">"send answer"</span>)</span><br><span class="line">    io.sendline(str(next(new_iter)))</span><br><span class="line">    s = str(io.recvuntil(<span class="string">"4) "</span>))</span><br><span class="line">    s = str(io.recvuntil(<span class="string">"4) "</span>))</span><br><span class="line">    log.success(re.search(<span class="string">"ACTF&#123;.*&#125;"</span>, s).group(<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<h4><span id="难题">难题</span></h4><h5><span id="dlp头号玩家">DLP头号玩家：</span></h5><p>这道题主要是想考察离散对数问题，设计的考点有：如何计算离散对数，ElGamal算法，ecc算法。</p>
+<p>level1:计算离散对数</p>
+<p>采用大步小步法即可。</p>
+<p>level2：ElGamal算法</p>
+<p>首先，这里的密钥是两个字节的（见下面代码），可以直接考虑爆破：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d=bytes_to_long(message[<span class="number">0</span>:<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
+
+<p>然后根据密钥进行ElGamal算法解密即可。</p>
+<p>level3：ECC算法</p>
+<p>先回顾一下ECC算法</p>
+<p><img src="/2020/06/05/ACTF2020%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86writeup/1.png" alt="1"></p>
+<p>这里我在具体代码中做了一些手脚，令k=100,d=100，把100当成常量嵌入到了kG的运算中，所以其实解密的时候只需要代入d=100,k=100即可。</p>
+<p>解题脚本示例如下(省略交互)：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> ceil,sqrt</span><br><span class="line"><span class="keyword">from</span> Cryptodome.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> ecc <span class="keyword">import</span> get_inverse,get_gcd,get_np,get_ng</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bsgs</span><span class="params">(g, y, p)</span>:</span></span><br><span class="line">    res = []</span><br><span class="line">    m = int(ceil(sqrt(p - <span class="number">1</span>)))</span><br><span class="line">    S = &#123;pow(g, j, p):j <span class="keyword">for</span> j <span class="keyword">in</span> range(m)&#125;</span><br><span class="line">    gs = pow(g, p - <span class="number">1</span> - m, p)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        <span class="keyword">if</span> y <span class="keyword">in</span> S:</span><br><span class="line">            res.append(i * m + S[y])</span><br><span class="line">        y = y * gs % p</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_inverse</span><span class="params">(u,v)</span>:</span></span><br><span class="line">    u3,v3=u,v</span><br><span class="line">    u1,v1=<span class="number">1</span>,<span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> v3&gt;<span class="number">0</span>:</span><br><span class="line">        q=u3//v3</span><br><span class="line">        u1,v1=v1,u1-v1*q</span><br><span class="line">        u3,v3=v3,u3-v3*q</span><br><span class="line">    <span class="keyword">while</span> u1&lt;<span class="number">0</span>:</span><br><span class="line">        u1=u1+v</span><br><span class="line">    <span class="keyword">return</span> u1</span><br><span class="line"></span><br><span class="line"><span class="comment">#level1</span></span><br><span class="line">p=<span class="number">5391644857</span></span><br><span class="line">g=<span class="number">2</span></span><br><span class="line">c1=[<span class="number">4908063849</span>,<span class="number">1283736637</span>,<span class="number">4385640372</span>,<span class="number">428852363</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(c1)):</span><br><span class="line">    inp=c1[i]</span><br><span class="line">    c=int(inp)</span><br><span class="line">    res=bsgs(g,c,p)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">        print(long_to_bytes(i))</span><br><span class="line"></span><br><span class="line"><span class="comment">#level2</span></span><br><span class="line">e,g,p=(<span class="number">2685568775701283525351462610033561666387306287538522499134808519515971408889570947875407095838440735098786110848850070468375238474921045086123009358906</span>,</span><br><span class="line">       <span class="number">2</span>,</span><br><span class="line">       <span class="number">3108147961599785276150798080269087679501293709501455568774725039866085754219397531303169017523045103124751042601841840328290404343235853405579539233773</span>)</span><br><span class="line">a,b=(<span class="number">1968486588460454870108621075441203470309302694739442500606039058477890260262954690597523764122825500774397066089804125306327432806567312924827814647950</span>,</span><br><span class="line">     <span class="number">1024812622664084668424411594448713407303536660751692688061972897584163822765150299422248209733371319297760175591974882337903320853550670045641950256872</span>)</span><br><span class="line">       </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>**<span class="number">16</span>):</span><br><span class="line">    <span class="keyword">if</span>(pow(g,i,p)==e):</span><br><span class="line">        print(long_to_bytes(i))</span><br><span class="line">        d=i</span><br><span class="line">inv=get_inverse(a,p)</span><br><span class="line">m2=(b*pow(inv,d,p))%p</span><br><span class="line">print(long_to_bytes(m2))</span><br><span class="line"></span><br><span class="line"><span class="comment">#level3</span></span><br><span class="line">cipher=[[<span class="number">414</span>,<span class="number">131</span>,<span class="number">27744</span>],</span><br><span class="line">        [<span class="number">249</span>,<span class="number">291</span>,<span class="number">27612</span>],</span><br><span class="line">        [<span class="number">26</span>,<span class="number">255</span>,<span class="number">26656</span>],</span><br><span class="line">        [<span class="number">452</span>,<span class="number">278</span>,<span class="number">31968</span>],</span><br><span class="line">        [<span class="number">78</span>,<span class="number">308</span>,<span class="number">17034</span>],</span><br><span class="line">        [<span class="number">319</span>,<span class="number">33</span>,<span class="number">15400</span>],</span><br><span class="line">        [<span class="number">598</span>,<span class="number">457</span>,<span class="number">51200</span>],</span><br><span class="line">        [<span class="number">310</span>,<span class="number">478</span>,<span class="number">2695</span>],</span><br><span class="line">        [<span class="number">307</span>,<span class="number">739</span>,<span class="number">5500</span>],</span><br><span class="line">        [<span class="number">397</span>,<span class="number">455</span>,<span class="number">89500</span>]</span><br><span class="line">        ]</span><br><span class="line">p=<span class="number">769</span></span><br><span class="line">a=<span class="number">23</span></span><br><span class="line">b=<span class="number">711</span></span><br><span class="line"></span><br><span class="line">key=<span class="number">100</span></span><br><span class="line">k=<span class="number">100</span></span><br><span class="line"><span class="keyword">for</span> ci <span class="keyword">in</span> cipher:</span><br><span class="line">    kG=[<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line">    kG[<span class="number">0</span>],kG[<span class="number">1</span>]=get_ng(ci[<span class="number">0</span>], ci[<span class="number">1</span>] , k, a, p) </span><br><span class="line">    decrypto_text_x,decrypto_text_y = get_ng(kG[<span class="number">0</span>], kG[<span class="number">1</span>] , key, a, p)</span><br><span class="line">    print(chr(ci[<span class="number">2</span>]//decrypto_text_x),end=<span class="string">""</span>)</span><br></pre></td></tr></table></figure>
+
+<h5><span id="tiny_prng1">tiny_PRNG1：</span></h5><p>出题人：<a href="csuwangj.github.io">DJ</a></p>
+<p>主要是对xoroshiro128plus随机数发生器，<a href="https://github.com/lemire/crackingxoroshiro128plus/blob/master/xoroshiftall.py" target="_blank" rel="noopener">参考资料</a></p>
+<p>需要对next函数进行逆向，然后用z3求解种子。</p>
+<p>直接放解题脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> sys, z3</span><br><span class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> argv</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> List</span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> (</span><br><span class="line">    process,</span><br><span class="line">    remote,</span><br><span class="line">    log,</span><br><span class="line">    <span class="comment"># context</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"><span class="comment"># context.log_level = "DEBUG"</span></span><br><span class="line">bit64 = <span class="number">0xffffffffffffffff</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">LShL</span><span class="params">(x, n)</span>:</span> <span class="keyword">return</span> (x &lt;&lt; n) &amp; bit64</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">xo128</span><span class="params">(x, y, LShR = lambda x,i: x&gt;&gt;i)</span>:</span></span><br><span class="line">    y ^= x</span><br><span class="line">    <span class="keyword">return</span> y ^ LShL(y, <span class="number">14</span>) ^ (LShL(x,<span class="number">55</span>)|LShR(x,<span class="number">9</span>)), (LShL(y,<span class="number">36</span>)|LShR(y,<span class="number">28</span>))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_output</span><span class="params">(io, size)</span>:</span></span><br><span class="line">    output = []</span><br><span class="line">    <span class="keyword">with</span> tqdm(total=size) <span class="keyword">as</span> bar:</span><br><span class="line">        <span class="keyword">while</span> len(output) &lt; size:</span><br><span class="line">            io.sendlineafter(<span class="string">"&gt; "</span>, <span class="string">"1"</span>)</span><br><span class="line">            line = io.recvline().decode(<span class="string">"utf-8"</span>)</span><br><span class="line">            output += list(map(int, line.strip().split(<span class="string">" "</span>)))</span><br><span class="line">            bar.update(<span class="number">10</span>)</span><br><span class="line">    bar.close()</span><br><span class="line">    <span class="keyword">return</span> output</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(argv) == <span class="number">1</span>:</span><br><span class="line">        io = process(<span class="string">"./a.out"</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        io = remote(argv[<span class="number">1</span>], int(argv[<span class="number">2</span>]))</span><br><span class="line">    log.info(<span class="string">"get output"</span>)</span><br><span class="line">    out = get_output(io, <span class="number">10</span>)</span><br><span class="line">    x0, y0 = z3.BitVecs(<span class="string">'x0 y0'</span>, <span class="number">64</span>)</span><br><span class="line">    x, y = x0, y0</span><br><span class="line">    s = z3.SimpleSolver()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> v <span class="keyword">in</span> out:</span><br><span class="line">        s.add((x + y) &amp; bit64 == v)</span><br><span class="line">        x, y = xo128(x, y, z3.LShR)</span><br><span class="line">    </span><br><span class="line">    ans = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, sys.maxsize):</span><br><span class="line">        <span class="keyword">if</span> s.check().r != <span class="number">1</span>: <span class="keyword">break</span>  <span class="comment"># quit if failed</span></span><br><span class="line">        soln = s.model()</span><br><span class="line">        x, y = (soln[i].as_long() <span class="keyword">for</span> i <span class="keyword">in</span> (x0,y0))</span><br><span class="line">        ans += [<span class="string">"ACTF&#123;"</span> </span><br><span class="line">            + long_to_bytes(x).decode(<span class="string">"utf-8"</span>)[::<span class="number">-1</span>]</span><br><span class="line">            + long_to_bytes(y).decode(<span class="string">"utf-8"</span>)[::<span class="number">-1</span>]</span><br><span class="line">            + <span class="string">"&#125;"</span>]</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">            x, y = xo128(x, y)</span><br><span class="line">        s.add( z3.Or(x0 != soln[x0], y0 != soln[y0]) )</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> ans:</span><br><span class="line">        log.info(<span class="string">"possible flag: "</span> + a)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+		
+		<!-- 要添加的内容 -->
+		<div>
+	<ul class="post-copyright">
+		<li class="post-copyright-author">
+		<strong>作者：  </strong>痛并快乐着</a>
+		</li>
+		<li class="post-copyright-link">
+		<strong>文章链接:  </strong>
+		<a href="/2020/06/05/ACTF2020密码学部分writeup/" target="_blank" title="ACTF2020密码学部分writeup">https://life-extension.github.io/2020/06/05/ACTF2020密码学部分writeup/</a>
+		</li>
+		<li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本博客所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            许可协议。转载请注明出处!
+		</li>
+	</ul>
+<div>
+		<!---->			
+		</div>
+		<div id="current-post-cover" data-scr="/img/ACTF2020.png"></div>
+		<!-- relate post, comment...-->
+		<div class="investment-container">
+			<div class="investment-header">
+				<div class="investment-title-1">
+					<div class="on">Related post</div>
+					<div>Comment</div>
+					<div>Share</div>
+				</div>
+				<div class="investment-title-2">	            
+					
+	<span>
+		<a id="totop-post-page">To Top</a>
+		
+		
+			<a href="/2020/05/27/GPT%E6%8A%80%E6%9C%AF%E5%88%9D%E6%8E%A2/" title="GPT技术初探" rel="next">
+				Next post&raquo;
+			</a>
+			
+	</span>
+
+
+      		
+				</div>	
+			</div>
+			
+			<div class="investment-content">
+				<div class="investment-content-list">
+					
+
+<div class="relate-post">
+	
+		<ul>
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/05/20/%E9%80%9A%E8%BF%87python%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E6%8F%92%E5%85%A5%E6%B7%B7%E6%B7%86%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%80%E7%A7%8D%E5%9F%BA%E6%9C%AC%E7%A4%BA%E4%BE%8B/" title="通过python脚本自动插入汇编反调试代码">
+								通过python脚本自动插入汇编反调试代码			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								五月 20日, 2020				
+							</p>
+							<p class="relate-post-content">
+								研究背景在之前OLLVM项目的研究过程中，我们发现反调试技术对反混淆脚本有一定的干扰作用，如果可以在OLLVM的中间代码中自动化插入反调试代码，那么就可以给OLLVM的代码混淆增加一层保障。
+方案分析探讨多种方案以后，我认为最适合在汇...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/05/20/%E9%80%9A%E8%BF%87python%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E6%8F%92%E5%85%A5%E6%B7%B7%E6%B7%86%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%80%E7%A7%8D%E5%9F%BA%E6%9C%AC%E7%A4%BA%E4%BE%8B/" title="通过python脚本自动插入汇编反调试代码">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/ollvm3.jpg" alt="通过python脚本自动插入汇编反调试代码"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/04/30/%E5%9F%BA%E4%BA%8E%E9%97%A8%E9%99%90%E6%96%B9%E6%A1%88%E7%9A%84%E6%9D%A1%E5%BD%A2%E7%A0%81%E4%BF%9D%E5%AF%86%E5%8F%8A%E5%AE%B9%E9%94%99%E6%8A%80%E6%9C%AF/" title="基于门限方案的条形码保密及容错技术">
+								基于门限方案的条形码保密及容错技术			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								四月 30日, 2020				
+							</p>
+							<p class="relate-post-content">
+								关键词：门限方案，条形码保密，条形码容错，条形码认证与防伪造。
+经历过初期两个小项目的探索，我们项目团队积累了一定的项目研究经验，在老师和16级学长的帮助下，我们把研究方向转到了门限方案的实际应用上。结合市面上用9张合并的条形码提高条...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/04/30/%E5%9F%BA%E4%BA%8E%E9%97%A8%E9%99%90%E6%96%B9%E6%A1%88%E7%9A%84%E6%9D%A1%E5%BD%A2%E7%A0%81%E4%BF%9D%E5%AF%86%E5%8F%8A%E5%AE%B9%E9%94%99%E6%8A%80%E6%9C%AF/" title="基于门限方案的条形码保密及容错技术">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/threshold.png" alt="基于门限方案的条形码保密及容错技术"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/04/26/2020%E6%96%B0%E5%B9%B4%E5%B0%8F%E5%8F%91%E6%98%8E/" title="2020新年原创脚本-其中的小把戏你清楚吗">
+								2020新年原创脚本-其中的小把戏你清楚吗			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								四月 26日, 2020				
+							</p>
+							<p class="relate-post-content">
+								关键词：随机数素数生成，新年祝福小程序。
+脚本创作这是我在大年三十写的一个程序，当时我正准备去伯克利交流，但由于疫情的缘故，出国变数增大，所以我就打算通过随机数“未卜先知”。以下就是我的脚本：
+12345678910111213141...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/04/26/2020%E6%96%B0%E5%B9%B4%E5%B0%8F%E5%8F%91%E6%98%8E/" title="2020新年原创脚本-其中的小把戏你清楚吗">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/227.jpg" alt="2020新年原创脚本-其中的小把戏你清楚吗"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/04/15/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E7%89%A9%E6%B5%81%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88/" title="基于CRT的物流信息安全处理方案">
+								基于CRT的物流信息安全处理方案			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								四月 15日, 2020				
+							</p>
+							<p class="relate-post-content">
+								关键词：中国剩余定理，密钥分发技术，隐私保护。
+引言在2018年11月份的时候，段老师在密码学课上讲到了密钥分发协议，我当时就觉得这个协议很有意思也很有应用前景。后来老师还很主动地分享了一下它的idea，其中一部分就是有关物流单上的信...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/04/15/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E7%89%A9%E6%B5%81%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88/" title="基于CRT的物流信息安全处理方案">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/crt1.jpg" alt="基于CRT的物流信息安全处理方案"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/04/13/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E6%96%B0%E5%9E%8B%E7%BE%A4%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB%E7%B3%BB%E7%BB%9F/" title="基于CRT的新型群文件共享系统">
+								基于CRT的新型群文件共享系统			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								四月 13日, 2020				
+							</p>
+							<p class="relate-post-content">
+								关键词：隐私保护，权限管理，身份认证，中国剩余定理，密钥分发，密钥更新。
+这个项目的是在2019年寒假期间进行的，4月份在中南大学信息安全作品赛答辩，但是由于功能只实现了主体部分，加之我在台上比较胆怯紧张，所以只获得团队三等奖，但是当...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/04/13/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E6%96%B0%E5%9E%8B%E7%BE%A4%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB%E7%B3%BB%E7%BB%9F/" title="基于CRT的新型群文件共享系统">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/crt.png" alt="基于CRT的新型群文件共享系统"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/" title="安卓反混淆软件探索-deobf">
+								安卓反混淆软件探索-deobf			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								三月 19日, 2020				
+							</p>
+							<p class="relate-post-content">
+								关键词：代码混淆，代码反混淆及其原理，代码反混淆软件测试与性能对比。
+前言我们的大创项目其实是分两方面进行的，一方面，我们从代码混淆的角度比较各种软件对安卓程序的加固能力；另一方面，我们着重针对OLLVM进行反混淆测试。OLLVM集成...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/03/19/%E5%AE%89%E5%8D%93%E5%8F%8D%E6%B7%B7%E6%B7%86%E8%BD%AF%E4%BB%B6%E6%8E%A2%E7%B4%A2-deobf/" title="安卓反混淆软件探索-deobf">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/deobf.png" alt="安卓反混淆软件探索-deobf"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/03/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B/" title="记一次安卓代码加固软件的测试过程">
+								记一次安卓代码加固软件的测试过程			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								三月 13日, 2020				
+							</p>
+							<p class="relate-post-content">
+								关键词：代码加固，软件测试，原理分析，过程分析。
+在大创项目的实践中，我们对市面上的一些安卓代码加固软件进行了采集，经过搜集，发现了几类代码加固方法并分组进行研究。我发现很多代码加固软件都是对java字节码进行混淆与加固，另外一些则选...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/03/13/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B/" title="记一次安卓代码加固软件的测试过程">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/andresguard.png" alt="记一次安卓代码加固软件的测试过程"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/03/08/%E5%AF%B9OLLVM%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E6%8A%80%E6%9C%AF%E7%9A%84%E6%94%B9%E8%BF%9B/" title="对OLLVM代码加固技术的改进">
+								对OLLVM代码加固技术的改进			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								三月 8日, 2020				
+							</p>
+							<p class="relate-post-content">
+								1．反静态调试反静态调试可以通过花指令，代码加密，代码加壳等方式实现。
+请看图1所示的一段反调试代码：
+
+​                                                          图1 花指...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/03/08/%E5%AF%B9OLLVM%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E6%8A%80%E6%9C%AF%E7%9A%84%E6%94%B9%E8%BF%9B/" title="对OLLVM代码加固技术的改进">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/ollvm2.jpg" alt="对OLLVM代码加固技术的改进"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/02/24/OLLVM%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" title="OLLVM代码加固机制分析">
+								OLLVM代码加固机制分析			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								二月 24日, 2020				
+							</p>
+							<p class="relate-post-content">
+								我们通过自己编写测试代码，再用OLLVM的不同指令进行加固，并逆向查看加固效果，加深对代码加固机理的了解。OLLVM目前提供的功能包括控制流平坦化（fla指令），指令替代（sub指令），代码虚拟化（bcf指令）以及虚假控制流（obf指...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/02/24/OLLVM%E4%BB%A3%E7%A0%81%E5%8A%A0%E5%9B%BA%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" title="OLLVM代码加固机制分析">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/ollvm1.jpg" alt="OLLVM代码加固机制分析"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/" title="对音频缓存加密的探讨">
+								对音频缓存加密的探讨			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								二月 17日, 2020				
+							</p>
+							<p class="relate-post-content">
+								关键词：缓存解密，批量自动执行脚本，版权保护相关建议。
+
+前段时间，某音乐被爆其缓存文件只使用了简单的异或加密，且容易得到加密密钥为0xa3。原文链接点击这里。以下是我的延伸探讨。
+1.对音频缓存的批量解密攻击抱着好奇的心理，我把手机...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/02/17/%E5%AF%B9%E9%9F%B3%E9%A2%91%E7%BC%93%E5%AD%98%E5%8A%A0%E5%AF%86%E7%9A%84%E6%8E%A2%E8%AE%A8/" title="对音频缓存加密的探讨">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/music.png" alt="对音频缓存加密的探讨"/>
+							</a>
+						</div>
+					</li>												
+			
+		</ul>
+	
+</div>	
+				</div>
+				<div class="investment-content-list">
+					<div class="layout-comment">
+
+	
+		<div class="config-info">
+			Please check the parameter of <b>comment</b> in config.yml of hexo-theme-Annie!
+		</div>	
+	
+
+</div>
+				</div>
+				<div class="investment-content-list">
+					<div class="layout-share">
+	
+	
+
+		
+			
+			<!-- socialShare share -->
+			<div class="social-share"></div>
+
+<!--  css & js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+			
+		
+		
+	
+</div>
+
+
+				</div>
+			</div>	
+		</div>
+	</div>
+</div>
+
+<!-- show math formula -->
+
+
+
+	 
+	
+<script src="/plugin/clipboard/clipboard.js"></script>
+
+	<script>
+		// Copy code !
+	    function preprocessing() {
+	        $("#article-content .highlight").each(function() {
+	            $(this).wrap('<div id="post-code"></div>');
+	        })
+
+	        $("#article-content #post-code").each(function() {
+	            $(this).prepend('<nav class="copy-nav"><span><i class="code-language"></i></span></nav>');
+	        })
+
+	        $("#article-content .copy-nav").each(function() {
+	            let languageClass = $(this).next().attr('class'),
+	                language = ((languageClass.length > 9) && (languageClass != null)) ? languageClass.substr(10) : "none"; //why 9? Need to check language?
+
+	            $(this).find('.code-language').text(language);
+	            $(this).append('<span class="copy-btn icon-paste"></span>');
+	        });
+	    }
+
+		function copy() {
+		    $('#article-content #post-code').each(function(i) {
+		        let codeCopyId = 'codeCopy-' + i;
+
+		        let codeNode = $(this).find('.code'),
+		            copyButton = $(this).find('.copy-btn');
+
+		        codeNode.attr('id', codeCopyId);
+		        copyButton.attr('data-clipboard-target-id', codeCopyId);
+		    })
+   
+			let clipboard = new ClipboardJS('.copy-btn', {
+					target: function(trigger) {
+						return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+					}
+		      	});
+
+			//pure js
+			function showTooltip(elem, msg) {		   
+				elem.setAttribute('aria-label', msg);
+				elem.setAttribute('class', 'copy-btn icon-clipboard1');
+				setTimeout(function() {
+					elem.setAttribute('class', 'copy-btn icon-paste');
+				}, 2000);
+			}
+
+			clipboard.on('success', function(e) {
+			    e.clearSelection();
+			    console.info('Action:', e.action);		   
+			    console.info('Trigger:', e.trigger);
+			    showTooltip(e.trigger, 'Copied!');   
+			});
+			
+			clipboard.on('error', function(e) {
+			    console.error('Action:', e.action);
+			    console.error('Trigger:', e.trigger);
+			});
+		}
+		
+		(function copyCode(){
+			if ($('.layout-post').length) {
+			    preprocessing();
+			    copy();
+			} 
+		})();
+	</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+
+
+<script src="/plugin/fancybox/jquery.fancybox.js"></script>
+
+
+<script type="text/javascript">
+	(function gallerySet(){
+		let titleID = $('.article-title a'),
+			imageID = $('.article-content img'),
+			videoID = $('.article-content video');
+		
+		let postTitle = titleID.text() ? titleID.text() : "No post title!";
+		
+		imageID.each(function() {
+			let imgPath = $(this).attr('src'),
+				imgTitle = $(this).attr('alt') ? $(this).attr('alt') : "No image description!";
+		
+			//给每个匹配的<img>元素打包, 即添加父元素<a>
+			$(this).wrap('<a data-fancybox="gallery" data-caption="《 ' + postTitle + ' 》' + imgTitle + '"href="' + imgPath + '"> </a>');
+		});
+		
+		videoID.each(function() {
+			let videoPath = $(this).attr('src');
+		
+			//给每个匹配的<img>元素打包, 即添加父元素<a>
+			$(this).wrap('<a data-fancybox href=" ' + videoPath + ' "> </a>');
+		});
+		
+		//TODO：支持html5 video
+
+		if($('#layout-post').length) {
+			$('[data-fancybox="gallery"]').fancybox({
+				loop: true,
+				buttons: [
+					"zoom",
+					"share",
+					"slideShow",
+					"fullScreen",
+					//"download",
+					"thumbs",
+					"close"
+				],
+				protect: true
+			});
+		}
+	})();
+</script>
+		</main>
+
+		<!--footer-->
+		<footer>
+	<div id="navigation-show">
+		<ul id="global-nav">
+	
+		<li class="menu-home">
+			<a href="/" class="menu-item-home" target="_blank">Home</a>
+		</li>
+		
+	
+		<li class="menu-archive">
+			<a href="/archives" class="menu-item-archive" target="_blank">Archive</a>
+		</li>
+		
+	
+		<li class="menu-categories">
+			<a href="/categories" class="menu-item-categories" target="_blank">Category</a>
+		</li>
+		
+	
+		<li class="menu-tags">
+			<a href="/tags" class="menu-item-tags" target="_blank">Tag</a>
+		</li>
+		
+	
+		<li class="menu-about">
+			<a href="/about" class="menu-item-about" target="_blank">About</a>
+		</li>
+		
+	
+		<li class="menu-gallery">
+			<a href="/gallery" class="menu-item-gallery" target="_blank">Gallery</a>
+		</li>
+		
+	
+
+	
+		<li class="menu-search">
+			<a href="javascript:;" class="popup-trigger">Search</a>
+		</li>
+	
+</ul>
+	</div>
+
+	<div class="copyright">
+		<p>
+			 
+				&copy;2019 - 2020, content by Life-extension(痛并快乐着). All Rights Reserved.
+			
+			
+				<a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> Theme <a href="https://github.com/Sariay/hexo-theme-Annie" title="Annie" target="_blank" rel="noopener">Annie</a> by Sariay.
+			
+		</p>
+		<p>
+			
+
+	<!-- busuanzi -->
+	<!-- busuanzi -->
+
+
+
+			<a href="javascript:zh_tran('s');" class="zh_click" id="zh_click_s">简体</a> 
+			<a href="javascript:zh_tran('t');" class="zh_click" id="zh_click_t">繁體</a>				
+		</p>
+	</div>		
+</footer>
+		
+	<!-- Local or hitokoto! -->
+
+	
+<script src="/plugin/motto/motto.js"></script>
+
+	
+	<script type="text/javascript">
+		(function motto(){
+			let mottoText = getMingYanContent().split('</br> - </br>'),
+			
+			mottoTextContent = mottoText[0]?mottoText[0]:'请刷新...',
+			
+			mottoTextFrom = mottoText[1]?mottoText[1]:'one/一个';
+			
+			mottoTextContent = mottoTextContent.trim().substring(0, 100);
+		
+			$("#motto-content").html( mottoTextContent);
+			$("#motto-author").html( mottoTextFrom  );
+		})();	
+	</script>	
+
+
+
+<!-- love effect -->
+
+
+<!-- back to top -->
+
+	<div id="totop">
+	<span class="icon-circle-up"></span>
+</div>
+
+
+
+<!-- site analysis -->
+
+
+	<!-- site-analysis -->
+	
+	
+	
+	
+	
+ 
+
+<!-- leancloud -->
+
+
+	<!-- leancloud -->
+	<!--
+	时间：2018-11-27
+	描述：
+		文章访问量：visitors
+		文章喜欢量：likes	
+		文章排行榜：topNPost
+		其他得说明：
+			01-Cookie相关的函数 
+				https://blog.csdn.net/somehow1002/article/details/78511541（Author：somehow1002）
+			02-visitors相关的函数 
+				https://blog.csdn.net/u013553529/article/details/63357382（Author：爱博客大伯）
+				https://notes.doublemine.me/2015-10-21-为NexT主题添加文章阅读量统计功能.html（Author：夏末）
+			03-topNPost相关的函数
+				https://hoxis.github.io/hexo-next-read-rank.html（Author：hoxis）
+			04-likes相关的函数，
+				参考了01 & 02进行简单的设计与实现
+-->
+
+
+	
+
+  
+
+	<!--
+	时间：2018-10-3
+	描述：
+		插件名称：hexo-generator-search-zip
+		插件来源: https://github.com/SuperKieran/hexo-generator-search-zip
+		代码参考：https://github.com/SuperKieran/TKL/blob/master/layout/_partial/search.ejs(Include: js & css)	
+-->
+<div class="popup search-popup local-search-popup scrollbar" >
+	<div class="local-search-container">
+		<span class="popup-btn-close">
+      		ESC
+   		</span>
+		<div class="local-search-header">
+			<div class="input-prompt">				
+			</div>
+			<input autocomplete="off" placeholder="Search..." type="text" id="local-search-input">
+		</div>
+		<div class="local-search-body">
+			<div id="local-search-output"></div>
+		</div>
+		<div class="local-search-footer">
+			<div class="topN-post">				
+				
+								
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script src="/plugin/search/ziploader.js"></script>
+<script src="/js/search.js"></script>
+
+
+<script type="text/javascript">
+	var search_path = 'search.json',
+		zip_Path = '/search.zip',
+		version_Path = '/searchVersion.txt',
+		input_Trigger = 'auto',
+		top_N = '2';
+
+	themeLocalSearch({
+		search_path, 
+		zip_Path, 
+		version_Path, 
+		input_Trigger, 
+		top_N
+	});
+</script>
+
+
+
+<script src="/plugin/chinese/chinese.js"></script>
+<script src="/plugin/imagelazyloader/yall.min.js"></script>
+<script src="/plugin/imageloaded/imagesloaded.pkgd.min.js"></script>
+<script src="/plugin/nicescroll/jquery.nicescroll.js"></script>
+<script src="/plugin/resizediv/resizediv.js"></script>
+<script src="/js/main.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+	</body>	
+</html>
