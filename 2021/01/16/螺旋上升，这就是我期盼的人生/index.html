@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <title>
     
-      GPT技术初探 | life-extension&#39;s blogs
+      螺旋上升，这就是我期盼的人生 | life-extension&#39;s blogs
     
   </title>
   <meta name="author" content="痛并快乐着">
@@ -101,7 +101,7 @@
 	<!-- Page title -->
 	<p>
 		
-			「GPT技术初探」
+			「螺旋上升，这就是我期盼的人生」
 		
 	</p>
 
@@ -228,27 +228,14 @@
 		插件作者：KELEN
 		插件来源: https://github.com/KELEN/katelog
 -->
-
-	
-		<div class="layout-toc">
-			<div id="layout-toc">
-				<div class="k-catelog-list" id="catelog-list" data-title="Catalog"></div>
-			</div>
-		</div>
-
-		
-<script src="/plugin/toc/katelog.min.js"></script>
-
-
-		
 	 
 
 <div class="layout-post">
 	<div id="layout-post">
 		<div class="article-title">
 			
-	<a href="/2020/05/27/GPT%E6%8A%80%E6%9C%AF%E5%88%9D%E6%8E%A2/" itemprop="url">
-		GPT技术初探
+	<a href="/2021/01/16/%E8%9E%BA%E6%97%8B%E4%B8%8A%E5%8D%87%EF%BC%8C%E8%BF%99%E5%B0%B1%E6%98%AF%E6%88%91%E6%9C%9F%E7%9B%BC%E7%9A%84%E4%BA%BA%E7%94%9F/" itemprop="url">
+		螺旋上升，这就是我期盼的人生
 	</a>
 
 		</div>
@@ -264,9 +251,9 @@
 
 	Updated on
 
-	<a href="/2020/05/27/GPT%E6%8A%80%E6%9C%AF%E5%88%9D%E6%8E%A2/" itemprop="url">
-		<time datetime="2020-05-27T09:26:53.000Z" itemprop="dateUpdated">
-	  		2020-05-28
+	<a href="/2021/01/16/%E8%9E%BA%E6%97%8B%E4%B8%8A%E5%8D%87%EF%BC%8C%E8%BF%99%E5%B0%B1%E6%98%AF%E6%88%91%E6%9C%9F%E7%9B%BC%E7%9A%84%E4%BA%BA%E7%94%9F/" itemprop="url">
+		<time datetime="2021-01-16T05:35:47.000Z" itemprop="dateUpdated">
+	  		2021-01-16
 	  </time>
 	</a> 
 
@@ -277,8 +264,8 @@
 				
 	<i class="icon-price-tags"></i>
 	
-		<a href="/tags/study/" class=" ">
-			study
+		<a href="/tags/article/" class=" ">
+			article
 		</a>
 	
 			
@@ -291,64 +278,9 @@
 		</div>
 
 		<div class="article-content" id="article-content">
-			<h3><span id="第一部分-引入">第一部分 引入</span></h3><h4><span id="1概念">1.概念</span></h4><p>GPT：Generative Pre-Training 生成式的预训练、</p>
-<h4><span id="2工作机制">2.工作机制</span></h4><p>GPT也采用两阶段过程，第 一个阶段是利用语言模型进行预训练，第二阶段通过 Fine-tuning的模式解决下游任务。</p>
-<h4><span id="3gpt系列发布者">3.GPT系列发布者</span></h4><p>openai  说明文章请见 <a href="https://openai.com/blog/language-unsupervised/" target="_blank" rel="noopener">GPT</a> <a href="https://openai.com/blog/better-language-models/#sample1" target="_blank" rel="noopener">GPT2</a></p>
-<h3><span id="第二部分-gpt论文">第二部分 GPT论文</span></h3><p><a href="language_understanding_paper.pdf">原文链接</a></p>
-<h4><span id="1摘要">1.摘要</span></h4><h5><span id="1背景">（1）背景</span></h5><p> 大多数深度学习方法都需要大量的标注数据，在NLP领域中也是如此，但是标注数据毕竟是稀少的，大部分数据肯定还是非标注数据。</p>
-<p>标注数据<a href="http://www.woshipm.com/pd/856172.html" target="_blank" rel="noopener">参考文章</a> ： 类比机器学习，我们要教他认识一个苹果，你直接给它一张苹果的图片，它是完全不知道这是个啥玩意的。我们得先有苹果的图片，上面标注着“苹果”两个字，然后机器通过学习了大量的图片中的特征，这时候再给机器任意一张苹果的图片，它就能认出来了。 </p>
-<p>那碰到非标注数据该怎么办?<br>一种解决办法就是pre-training。 其实词向量就是一种pre-training技术，通过语言模型将文本转化为数字表示。</p>
-<h5><span id="2方案">（2）方案</span></h5><p>在优化期间使用任务感知输入转换来实现有效的传输，同时要求对模型架构进行最小的更改。</p>
-<p>解释： 论文提出的主要是一种半监督的学习方法：非监督的预训练和监督的fine-tuning。  generative pre-training主要应用于无标记文本，在fine-tuning的时候使用了task-aware的方法，并且使模型的变化最小的前提下获得有效的转化。 </p>
-<h5><span id="3效果">（3）效果</span></h5><p> 模型在常识推理（Stories Cloze Test）上获得8.9％的绝对改善，在问答（RACE）上达到5.7％，在文本蕴涵（MultiNLI）上达到1.5％。 </p>
-<h4><span id="2related-work">2.Related Work</span></h4><h5><span id="1词嵌入及其好处">（1）词嵌入及其好处</span></h5><p>略，详见课件。</p>
-<h5><span id="2无监督学习">（2）无监督学习</span></h5><p>无监督学习是一种特殊的半监督学习，其目标是找到一个好的初始化点，而不是修改监督学习目标。可以使用语言建模目标对神经网络进行预训练，然后在监督下根据目标任务对其进行优化。</p>
-<h5><span id="3辅助训练目标">（3）辅助训练目标</span></h5><p>增加辅助的无监督训练目标是半监督学习的另一种形式。用来来改进语义角色标记。</p>
-<h4><span id="3framework">3.Framework</span></h4><p>OpenAI 的系统分为两阶段，首先研究者以无监督的方式在大型数据集上训练一个 Transformer，使用语言建模作为训练信号，然后在小得多的模型上精调解决具体任务。 </p>
-<p> <img src="https://pic4.zhimg.com/80/v2-e485cfb6b87b4fa65565c704f52f05a7_720w.jpg" alt="img"></p>
-<p>左图：Transfromer进行预训练。</p>
-<p>右图：输入转换，用于对不同任务进行fine-tuning（精确调整）。我们将所有结构化输入转换成标记序列，然后由我们的预训练模型进行处理，然后是linear+softmax层。</p>
-<h5><span id="1第一阶段-非监督预训练">（1）第一阶段： <strong>非监督预训练</strong></span></h5><p>   1）介绍</p>
-<p>模型的一般方法是用语言模型去极大化极大似然函数。 在输入的文本上使用<em>multi-head-self-attention</em>(Bert中也有用到)，之后使用包含位置信息的前馈神经网络，输出的是各个词的概率分布 。 </p>
-<p>   2）特点（和ELMO相比）</p>
-<p>首先，特征抽取器不是用的RNN，而是用的<a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Transformer</a>叠加的“自注意力机制” 构成的深度网络）。</p>
-<p>评价：Transformer的特征抽取能力要强于RNN，这个选择是很明智的。</p>
-<p>其次，GPT的预训练虽然仍然是以语言模型作为目标任务， 但是采用的是单向的语言模型。</p>
-<p>“单向”的概念：GPT只采用Context-before（上文）来进行预测。</p>
-<h5><span id="2第二阶段监督微调">（2）第二阶段：监督微调</span></h5><p>   1）介绍</p>
-<p>对前一个阶段训练出来的模型参数进行微调，以适应当前的监督型任务。 假设我们有带标签的数据集<em>C，</em> 经过我们的预训练模型在输入上的迭代之后，获得输出向量 ，然后经过线性层和softmax得到预测标签。  </p>
-<p>左图中</p>
-<p>   2）步骤</p>
-<p>首先，对于下游任务来说，需要把任务的网络结构改成和GPT的网络结构一 样。</p>
-<p>其次，利用第一步预训练好的参数初始化GPT的网络结构，把通过预训练学到的语言学知识引入到任务里来。</p>
-<p>再次，用手头的任务去训练这个网络，对网络参数进行 Fine-tuning，使得这个网络更适合解决手头的问题。</p>
-<h5><span id="3特殊任务的输入变换">（3）特殊任务的输入变换</span></h5><p>对于特定的任务比如文本分类，我们能够直接使用上面的模型，因为文本分类的标签是确定的，正好对应论文的使用场景。由于文中的模型处理的是序列化的文本，对于问答系统或文本蕴含问题就需要手动修改文本格式、问题以及答案。 </p>
-<p>   1）文本蕴含</p>
-<p>用$连接前后两个文本，即前提p和假设h。</p>
-<p>   2）相似度</p>
-<p>由于两个文本内部没有先后顺序，对此我们可以输入两个句子Text1$Text2和Text2$Text1，将结果用element-wise的方式相加起来，再放进线性输出层中。</p>
-<p>   3）问答系统和常识推理</p>
-<p>对于这类问题一般有Context、Question和Answer{a1,a2,…,an},可以组合n个问答对(Context_i,Question_i,$,ai)，获得n个输出，再将其通过linear层后softmax输出。</p>
-<h4><span id="4效果和不足之处">4.效果和不足之处</span></h4><h5><span id="1效果">（1）效果</span></h5><p>GPT的效果是非常令人惊艳的，在12个任务里，9个达到 了最好的效果，有些任务性能提升非常明显。</p>
-<h5><span id="2不足之处">（2）不足之处</span></h5><p>模型训练计算要求大： 以前许多用于NLP任务的方法都从头开始在单个GPU上训练相对较小的模型。我们的预培训步方需要8个GPU上进行1个月。</p>
-<p>通过文本学习世界的局限性和片面性：最近的工作表明，仅通过文本就很难学习某些类型的信息，而其他工作表明，模型可以学习和利用数据分布中的偏差。</p>
-<p>特征概括能力依然不足：尽管我们的方法可以提高各种任务的性能，但是当前的深度学习NLP模型仍然表现出令人惊讶和违反直觉的行为-尤其是在以系统，对抗或分布外的方式进行评估时。</p>
-<p>GPT使用单向语言模型是个不好的选择，它没有把单词的下文融合进来，这限制了其在更多应用场景的效果。比如阅读理解，在做任务的时候是可以允许同时看到上文和下 文一起做决策的，如果预训练时候不把单词的下文嵌入到 Word Embedding中，是很吃亏的，白白丢掉了很多信息。</p>
-<h4><span id="5gpt项目">5.GPT项目</span></h4><p><a href="https://github.com/openai/finetune-transformer-lm" target="_blank" rel="noopener">项目链接</a></p>
-<h3><span id="第三部分-gpt2">第三部分 GPT2</span></h3><p><a href="https://openai.com/blog/better-language-models/#sample1" target="_blank" rel="noopener">openai链接</a></p>
-<h4><span id="1gpt2模型简介">1.GPT2模型简介</span></h4><p>我们的模型称为GPT-2（是GPT的继承者），仅经过训练即可预测40GB的互联网文本中的下一个单词。由于我们担心该技术的恶意应用，因此我们不会发布经过训练的模型。作为负责任公开的一项实验，我们将发布一个供研究人员进行实验的小得多的模型以及一份技术论文。</p>
-<h4><span id="2gpt-2的训练目标">2.GPT-2的训练目标</span></h4><p>GPT-2是基于大型transformer的语言模型，具有15亿个参数，并在<u>非常高质量的</u>数据集上进行了训练800万个网页。根据文本中的所有先前单词，预测下一个单词。数据集的多样性使这个简单的目标包含了跨不同领域的许多任务的自然发生的演示。GPT-2是GPT的直接扩展，具有超过10倍的参数，并接受了超过10倍的数据量训练。</p>
-<h4><span id="3gpt-2的效果">3.GPT-2的效果</span></h4><p>GPT2显示了广泛的功能，包括生成具有空前质量的条件合成文本样本的能力，我们在模型中使用输入来填充模型并让其生成冗长的延续。此外，GPT-2优于其他在特定领域（如Wikipedia，新闻或书籍）上训练的语言模型，而无需使用这些特定于领域的训练数据集。在诸如答疑，阅读理解，总结和翻译之类的语言任务上，GPT-2开始使用原始文本来学习这些任务，而没有使用特定于任务的训练数据。尽管这些下游任务的得分远非最新，但它们表明，只要有足够的（未标记）数据和计算，这些任务就可以从无监督的技术中受益。</p>
-<h5><span id="1答疑">（1）答疑</span></h5><p><img src="/2020/05/27/GPT%E6%8A%80%E6%9C%AF%E5%88%9D%E6%8E%A2/image-20200527165249559.png" alt="image-20200527165249559"></p>
-<h5><span id="2文本填充">（2）文本填充</span></h5><p><img src="/2020/05/27/GPT%E6%8A%80%E6%9C%AF%E5%88%9D%E6%8E%A2/image-20200527165550265.png" alt="image-20200527165550265"></p>
-<h5><span id="3文章内容概括总结">（3）文章内容概括总结</span></h5><p><img src="/2020/05/27/GPT%E6%8A%80%E6%9C%AF%E5%88%9D%E6%8E%A2/image-20200527165902886.png" alt="image-20200527165902886"></p>
-<h5><span id="4翻译">（4）翻译</span></h5><p><img src="/2020/05/27/GPT%E6%8A%80%E6%9C%AF%E5%88%9D%E6%8E%A2/image-20200527165928137.png" alt="image-20200527165928137"></p>
-<h5><span id="5阅读理解">（5）阅读理解</span></h5><p><img src="/2020/05/27/GPT%E6%8A%80%E6%9C%AF%E5%88%9D%E6%8E%A2/image-20200527170248695.png" alt="image-20200527170248695"></p>
-<p><a href="language-models.pdf">4.GPT2论文</a>  </p>
-<p><a href="https://github.com/openai/gpt-2" target="_blank" rel="noopener">5.GPT2项目</a></p>
-<h3><span id="第四部分-特别鸣谢">第四部分 特别鸣谢</span></h3><p><a href="https://openai.com" target="_blank" rel="noopener">openai项目组</a></p>
-<p>李芳芳,中南大学</p>
-<p><a href="https://zhuanlan.zhihu.com/p/52775384" target="_blank" rel="noopener">蔡杰 ,北京大学:论文研读之OpenAI-Generative Pre-Training</a></p>
+			<p><font color="ff0000">  &emsp;   &emsp;</font> 还记得高中的时候，在政治课上学过一个“螺旋上升”理论，即“事物的发展，总是螺旋上升的”，而列宁也说过， “发展似乎是在重复以往的阶段，但它是以另一种方式重复，是在更高的基础上重复。” 回顾我这21年的经历，好像也是这个样子，每次进入到一个发展阶段，都只是在一个更高的起点上起起伏伏地进步着。虽然没有一步登天，但每一次都可以以垫底的成绩去到一个更高的台阶。</p>
+<p> <font color="ff0000">  &emsp;   &emsp;</font> 可能我的所有运气都用在了小升初的时候吧，以高出第一批录取线0.5分的成绩进入了一所很好的民办学校，后来又幸运地被派位去到这所民办学校对应的公办学校，在这个号称“全年级尖子生最多的普通班”上，我幸运地被老师选中为数学科代，此后成功地当了一年的数学第一名，并在初二下学期的时候拿到了总分第一。我以为一切都好起来的时候，中考的数学发挥却给我重重一击，填错答题卡导致我发挥失常，加上学校高中部的分数线出奇的高，我一度十分担心自己进不了高中部。然而最后成绩出来时，我却以2分优势压线进入了高中部，并由于在初中部的优异成绩，被分配到重点班。此后我在高一上学期期中考便获得了全班第一和年级14，文理分科以后尽管成绩有起伏，也全部稳定在年级前150。然而高考的时候语文、数学和物理纷纷发挥失常，其他科目成绩也一般，成绩直接排到了年级250，然而还是找到了一所不错的985，去到了自己想去的计算机类专业。结果大一下学期，我成为了专业第一，并在此后两年时间一直保持了下来。</p>
+<p> <font color="ff0000">  &emsp;   &emsp;</font>保研的时候，虽然中途有一些变故，专业第一也在最后以加权百分制0.01分的差距丢了，但最后还是顺利搭上了南大的末班车，去到了一个特别特别高的平台，所以我很高兴。希望在研究生期间，我能保持认真勤奋，向身边优秀的同学、老师学习，成为更加优秀的自己。</p>
 		
 		<!-- 要添加的内容 -->
 		<div>
@@ -358,7 +290,7 @@
 		</li>
 		<li class="post-copyright-link">
 		<strong>文章链接:  </strong>
-		<a href="/2020/05/27/GPT技术初探/" target="_blank" title="GPT技术初探">https://life-extension.github.io/2020/05/27/GPT技术初探/</a>
+		<a href="/2021/01/16/螺旋上升，这就是我期盼的人生/" target="_blank" title="螺旋上升，这就是我期盼的人生">https://life-extension.github.io/2021/01/16/螺旋上升，这就是我期盼的人生/</a>
 		</li>
 		<li class="post-copyright-license">
             <strong>版权声明:   </strong>
@@ -369,7 +301,7 @@
 <div>
 		<!---->			
 		</div>
-		<div id="current-post-cover" data-scr="https://pic4.zhimg.com/80/v2-e485cfb6b87b4fa65565c704f52f05a7_720w.jpg"></div>
+		<div id="current-post-cover" data-scr="/img/%E8%9E%BA%E6%97%8B%E4%B8%8A%E5%8D%87.jpg"></div>
 		<!-- relate post, comment...-->
 		<div class="investment-container">
 			<div class="investment-header">
@@ -383,12 +315,8 @@
 	<span>
 		<a id="totop-post-page">To Top</a>
 		
-			<a href="/2020/06/05/ACTF2020%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86writeup/" title="ACTF2020密码学部分writeup" rel="prev">
-				&laquo;Pre post
-			</a>
 		
-		
-			<a href="/2020/05/20/%E9%80%9A%E8%BF%87python%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E6%8F%92%E5%85%A5%E6%B7%B7%E6%B7%86%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%80%E7%A7%8D%E5%9F%BA%E6%9C%AC%E7%A4%BA%E4%BE%8B/" title="通过python脚本自动插入汇编反调试代码" rel="next">
+			<a href="/2021/01/16/%E8%87%B4%E5%8D%B3%E5%B0%86%E9%80%9D%E5%8E%BB%E7%9A%8421%E5%B2%81/" title="致即将逝去的21岁" rel="next">
 				Next post&raquo;
 			</a>
 			
@@ -406,51 +334,6 @@
 <div class="relate-post">
 	
 		<ul>
-			
-					<li>
-						<div class="relate-post-text">
-							<a class="relate-post-title" href="/2020/03/01/%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E5%9D%91%E6%B4%BC%E6%B4%BC(%E6%8C%81%E6%9B%B4%E4%B8%AD)/" title="安卓开发中遇到的坑坑洼洼">
-								安卓开发中遇到的坑坑洼洼			
-							</a>
-							<p class="relate-post-date">
-								<i class="fa fa-calendar"></i>
-								三月 1日, 2020				
-							</p>
-							<p class="relate-post-content">
-								关键词：安卓开发，软件测试，错误排查。
-大三下学期选修了十分重要的安卓开发课程，老师让我们编写编译书中的程序并完成书后的挑战练习。但是由于Android Studio的版本问题和gradle脚本以及主程序的命名与书中不同，这次编程还是...
-							</p>
-						</div>
-
-						<div class="relate-post-cover">
-							<a href="/2020/03/01/%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E5%9D%91%E6%B4%BC%E6%B4%BC(%E6%8C%81%E6%9B%B4%E4%B8%AD)/" title="安卓开发中遇到的坑坑洼洼">				
-								
-								<img class="lazy" src="/img/lazy.gif" data-src="/img/android.png" alt="安卓开发中遇到的坑坑洼洼"/>
-							</a>
-						</div>
-					</li>												
-			
-					<li>
-						<div class="relate-post-text">
-							<a class="relate-post-title" href="/2021/01/16/%E8%9E%BA%E6%97%8B%E4%B8%8A%E5%8D%87%EF%BC%8C%E8%BF%99%E5%B0%B1%E6%98%AF%E6%88%91%E6%9C%9F%E7%9B%BC%E7%9A%84%E4%BA%BA%E7%94%9F/" title="螺旋上升，这就是我期盼的人生">
-								螺旋上升，这就是我期盼的人生			
-							</a>
-							<p class="relate-post-date">
-								<i class="fa fa-calendar"></i>
-								一月 16日, 2021				
-							</p>
-							<p class="relate-post-content">
-								  &emsp;   &emsp; 还记得高中的时候，在政治课上学过一个“螺旋上升”理论，即“事物的发展，总是螺旋上升的”，而列宁也说过， “发展似乎是在重复以往的阶段，但它是以另一种方式重复，是在更高的基础上重复。” 回顾我这21年...
-							</p>
-						</div>
-
-						<div class="relate-post-cover">
-							<a href="/2021/01/16/%E8%9E%BA%E6%97%8B%E4%B8%8A%E5%8D%87%EF%BC%8C%E8%BF%99%E5%B0%B1%E6%98%AF%E6%88%91%E6%9C%9F%E7%9B%BC%E7%9A%84%E4%BA%BA%E7%94%9F/" title="螺旋上升，这就是我期盼的人生">				
-								
-								<img class="lazy" src="/img/lazy.gif" data-src="/img/螺旋上升.jpg" alt="螺旋上升，这就是我期盼的人生"/>
-							</a>
-						</div>
-					</li>												
 			
 					<li>
 						<div class="relate-post-text">
@@ -476,6 +359,52 @@
 			
 					<li>
 						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/04/07/%E5%AF%B9%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E7%9A%84%E5%85%A8%E6%96%B9%E4%BD%8D%E9%80%8F%E8%A7%86%E2%80%94%E2%80%94%E8%AF%BB%E6%9D%A8%E4%B9%89%E5%85%88%E3%80%81%E9%92%AE%E5%BF%83%E5%BF%BB%E3%80%8A%E5%AE%89%E5%85%A8%E7%AE%80%E5%8F%B2%E3%80%8B%E6%9C%89%E6%84%9F/" title="对信息安全的全方位透视——读杨义先、钮心忻《安全简史》有感">
+								对信息安全的全方位透视——读杨义先、钮心忻《安全简史》有感			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								四月 7日, 2020				
+							</p>
+							<p class="relate-post-content">
+								创作时间：2017-2018年寒假。
+《安全简史》这本书，是我们班导师推荐读的。相比这个假期看的另外一本书《数学之美》，它们显然都是科普类读物。但和《数学之美》不同，它不是只从数学角度介绍计算机方面的知识，而是从各个角度去透析信息安全...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/04/07/%E5%AF%B9%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E7%9A%84%E5%85%A8%E6%96%B9%E4%BD%8D%E9%80%8F%E8%A7%86%E2%80%94%E2%80%94%E8%AF%BB%E6%9D%A8%E4%B9%89%E5%85%88%E3%80%81%E9%92%AE%E5%BF%83%E5%BF%BB%E3%80%8A%E5%AE%89%E5%85%A8%E7%AE%80%E5%8F%B2%E3%80%8B%E6%9C%89%E6%84%9F/" title="对信息安全的全方位透视——读杨义先、钮心忻《安全简史》有感">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/book1.jpg" alt="对信息安全的全方位透视——读杨义先、钮心忻《安全简史》有感"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/02/15/about-me/" title="about me">
+								about me			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								二月 15日, 2020				
+							</p>
+							<p class="relate-post-content">
+								关键词：个人自述，todolist。
+说来惭愧，写了很多的日记，也写过几篇可以充当作业或者领稿费的小文章，也发了很多的说说和pyq，但是发博客确是第一次。在朋友们都已经创办了属于自己的公众号，博客或者专刊的时候，我却才在blog上发表...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/02/15/about-me/" title="about me">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="/img/about_me.jpg" alt="about me"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
 							<a class="relate-post-title" href="/2020/06/05/ACTF2020%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86writeup/" title="ACTF2020密码学部分writeup">
 								ACTF2020密码学部分writeup			
 							</a>
@@ -493,6 +422,30 @@
 							<a href="/2020/06/05/ACTF2020%E5%AF%86%E7%A0%81%E5%AD%A6%E9%83%A8%E5%88%86writeup/" title="ACTF2020密码学部分writeup">				
 								
 								<img class="lazy" src="/img/lazy.gif" data-src="img/ACTF2020.png" alt="ACTF2020密码学部分writeup"/>
+							</a>
+						</div>
+					</li>												
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2020/05/27/GPT%E6%8A%80%E6%9C%AF%E5%88%9D%E6%8E%A2/" title="GPT技术初探">
+								GPT技术初探			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								五月 27日, 2020				
+							</p>
+							<p class="relate-post-content">
+								第一部分 引入1.概念GPT：Generative Pre-Training 生成式的预训练、
+2.工作机制GPT也采用两阶段过程，第 一个阶段是利用语言模型进行预训练，第二阶段通过 Fine-tuning的模式解决下游任务。
+3.G...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2020/05/27/GPT%E6%8A%80%E6%9C%AF%E5%88%9D%E6%8E%A2/" title="GPT技术初探">				
+								
+								<img class="lazy" src="/img/lazy.gif" data-src="https://pic4.zhimg.com/80/v2-e485cfb6b87b4fa65565c704f52f05a7_720w.jpg" alt="GPT技术初探"/>
 							</a>
 						</div>
 					</li>												
@@ -609,29 +562,6 @@
 							<a href="/2020/04/26/2020%E6%96%B0%E5%B9%B4%E5%B0%8F%E5%8F%91%E6%98%8E/" title="2020新年原创脚本-其中的小把戏你清楚吗">				
 								
 								<img class="lazy" src="/img/lazy.gif" data-src="/img/227.jpg" alt="2020新年原创脚本-其中的小把戏你清楚吗"/>
-							</a>
-						</div>
-					</li>												
-			
-					<li>
-						<div class="relate-post-text">
-							<a class="relate-post-title" href="/2020/04/15/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E7%89%A9%E6%B5%81%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88/" title="基于CRT的物流信息安全处理方案">
-								基于CRT的物流信息安全处理方案			
-							</a>
-							<p class="relate-post-date">
-								<i class="fa fa-calendar"></i>
-								四月 15日, 2020				
-							</p>
-							<p class="relate-post-content">
-								关键词：中国剩余定理，密钥分发技术，隐私保护。
-引言在2018年11月份的时候，段老师在密码学课上讲到了密钥分发协议，我当时就觉得这个协议很有意思也很有应用前景。后来老师还很主动地分享了一下它的idea，其中一部分就是有关物流单上的信...
-							</p>
-						</div>
-
-						<div class="relate-post-cover">
-							<a href="/2020/04/15/%E5%9F%BA%E4%BA%8ECRT%E7%9A%84%E7%89%A9%E6%B5%81%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88/" title="基于CRT的物流信息安全处理方案">				
-								
-								<img class="lazy" src="/img/lazy.gif" data-src="/img/crt1.jpg" alt="基于CRT的物流信息安全处理方案"/>
 							</a>
 						</div>
 					</li>												
